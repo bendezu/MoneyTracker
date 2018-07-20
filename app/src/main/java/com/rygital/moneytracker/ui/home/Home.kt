@@ -6,7 +6,8 @@ import javax.inject.Singleton
 
 interface Home {
     interface View: MvpView {
-
+        fun showMoneyInRoubles(money: Float)
+        fun showMoneyInDollars(money: Float)
     }
 
     @Singleton
