@@ -3,4 +3,5 @@
     <string name="settings">Настройки</string>
     <string name="about">О программе</string>
     <string name="about_desc">Money Tracker - приложение для учета доходов/расходов</string>
+    <string name="dashboard_current_balance">Текущий баланс</string>
 </resources>
