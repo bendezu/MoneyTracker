@@ -6,8 +6,8 @@ import javax.inject.Inject
 class DashboardPresenter<V: Dashboard.View> @Inject constructor(): BasePresenter<V>(), Dashboard.Presenter<V> {
 
     companion object {
-        const val TEMPORARY_HARDCODED_RUB_USD_RATE: Float = 63.46431f
-        const val TEMPORARY_HARDCODED_BALANCE_IN_USD: Float = 217.69f
+        const val TEMPORARY_HARDCODED_RUB_USD_RATE: Double = 63.46431
+        const val TEMPORARY_HARDCODED_BALANCE_IN_USD: Double = 217.69
     }
 
     override fun loadData() {
