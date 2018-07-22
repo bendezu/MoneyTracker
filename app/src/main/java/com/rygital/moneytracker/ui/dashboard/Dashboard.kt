@@ -7,8 +7,8 @@ import javax.inject.Singleton
 
 interface Dashboard {
     interface View: MvpView {
-        fun showMoneyInRUB(money: Float)
-        fun showMoneyInUSD(money: Float)
+        fun showMoneyInRUB(value: Float)
+        fun showMoneyInUSD(value: Float)
     }
 
     interface Presenter<in V: View>: MvpPresenter<V> {

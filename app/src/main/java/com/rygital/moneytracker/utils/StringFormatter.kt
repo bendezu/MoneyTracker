@@ -1,3 +1,3 @@
 package com.rygital.moneytracker.utils
 
-fun formatMoney(amount: Float) = String.format("%.2f", amount)
+fun formatMoney(value: Float) = String.format("%.2f", value)

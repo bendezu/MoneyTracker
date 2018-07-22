@@ -52,12 +52,12 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
         activity?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
-    override fun showMoneyInRUB(money: Float) {
-        tvRoubles?.text = String.format("₽ %s", formatMoney(money))
+    override fun showMoneyInRUB(value: Float) {
+        tvRoubles?.text = String.format("₽ %s", formatMoney(value))
     }
 
-    override fun showMoneyInUSD(money: Float) {
-        tvDollars?.text = String.format("$ %s", formatMoney(money))
+    override fun showMoneyInUSD(value: Float) {
+        tvDollars?.text = String.format("$ %s", formatMoney(value))
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
