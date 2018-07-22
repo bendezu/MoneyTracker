@@ -8,6 +8,7 @@ import com.rygital.moneytracker.App
 import com.rygital.moneytracker.R
 import com.rygital.moneytracker.ui.base.BaseFragment
 import com.rygital.moneytracker.ui.home.OnMenuClickListener
+import com.rygital.moneytracker.utils.formatMoney
 import javax.inject.Inject
 
 class DashboardFragment: BaseFragment(), Dashboard.View {
@@ -51,11 +52,11 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
     }
 
     override fun showMoneyInRoubles(money: Float) {
-        tvRoubles?.text = String.format("₽ %.2f", money)
+        tvRoubles?.text = String.format("₽ %s", formatMoney(money))
     }
 
     override fun showMoneyInDollars(money: Float) {
-        tvDollars?.text = String.format("$ %.2f", money)
+        tvDollars?.text = String.format("$ %s", formatMoney(money))
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
