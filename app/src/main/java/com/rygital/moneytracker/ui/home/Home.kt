@@ -6,12 +6,15 @@ import javax.inject.Singleton
 
 interface Home {
     interface View: MvpView {
-        fun showMoneyInRoubles(money: Float)
-        fun showMoneyInDollars(money: Float)
+        fun showDashboardFragment()
+        fun showSettingsFragment()
+        fun showAboutFragment()
     }
 
     @Singleton
     interface Presenter<in V: View>: MvpPresenter<V> {
-
+        fun openDashboardFragment()
+        fun openSettingsFragment()
+        fun openAboutFragment()
     }
 }

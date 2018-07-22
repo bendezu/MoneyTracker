@@ -2,7 +2,8 @@ package com.rygital.moneytracker.ui.base
 
 abstract class BasePresenter<V: MvpView>: MvpPresenter<V> {
 
-    private var view: V? = null
+    protected var view: V? = null
+        private set
 
     override fun attachView(mvpView: V) {
         this.view = mvpView
@@ -11,9 +12,4 @@ abstract class BasePresenter<V: MvpView>: MvpPresenter<V> {
     override fun detachView() {
         this.view = null
     }
-
-    protected fun getView(): V? {
-        return view
-    }
-
 }

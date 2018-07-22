@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">MoneyTracker</string>
+    <string name="app_name">Money Tracker</string>
+
+    <string name="settings">Settings</string>
+
+    <string name="about">About</string>
+    <string name="about_desc">Money Tracker - application for money tracking</string>
+    <string name="about_developed_by">Developed by Anton Zinakov</string>
+    <string name="about_contact">email: ab.zinakov@yandex.ru</string>
 </resources>
