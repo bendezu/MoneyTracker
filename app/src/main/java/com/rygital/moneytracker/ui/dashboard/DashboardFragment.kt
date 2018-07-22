@@ -43,6 +43,7 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
 
         presenter.attachView(this)
         init()
+        presenter.loadData()
 
         return v
     }
@@ -51,11 +52,11 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
         activity?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
-    override fun showMoneyInRoubles(money: Float) {
+    override fun showMoneyInRUB(money: Float) {
         tvRoubles?.text = String.format("₽ %s", formatMoney(money))
     }
 
-    override fun showMoneyInDollars(money: Float) {
+    override fun showMoneyInUSD(money: Float) {
         tvDollars?.text = String.format("$ %s", formatMoney(money))
     }
 
