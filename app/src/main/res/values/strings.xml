@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name" translatable="false">Money Tracker</string>
+
+    <string name="settings">Settings</string>
+
+    <string name="about">About</string>
+    <string name="about_desc">Money Tracker - application for money tracking</string>
+    <string name="about_developed_by" translatable="false">Developed by Anton Zinakov</string>
+    <string name="about_contact" translatable="false">email: ab.zinakov@yandex.ru</string>
+    <string name="dashboard_current_balance">Current balance</string>
+</resources>
