@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="textHighEmphasis" format="float" type="dimen">0.87</item>
+    <item name="textMediumEmphasis" format="float" type="dimen">0.6</item>
+    <item name="textDisabled" format="float" type="dimen">0.38</item>
+</resources>

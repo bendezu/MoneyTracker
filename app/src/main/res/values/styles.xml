@@ -10,4 +10,33 @@
         <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 
+    <style name="Text.Large" parent="@android:style/TextAppearance.Large">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:alpha">@dimen/textHighEmphasis</item>
+    </style>
+    <style name="Text.Large.Dashboard">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+    <style name="Text.Large.Dashboard.Secondary">
+        <item name="android:alpha">@dimen/textDisabled</item>
+    </style>
+
+    <style name="Text.Medium" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:alpha">@dimen/textHighEmphasis</item>
+    </style>
+
+    <style name="Text.Small" parent="@android:style/TextAppearance.Small">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorBlack</item>
+    </style>
+    <style name="Text.Small.Secondary">
+        <item name="android:alpha">@dimen/textDisabled</item>
+    </style>
+
 </resources>

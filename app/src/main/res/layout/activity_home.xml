@@ -6,7 +6,8 @@
     android:id="@+id/coordinatorLayout"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    tools:context=".ui.home.HomeActivity">
+    tools:context=".ui.home.HomeActivity"
+    >
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
