@@ -3,21 +3,18 @@ package com.rygital.moneytracker.ui.dashboard
 import android.content.Context
 import android.os.Bundle
 import android.view.*
-import android.widget.TextView
 import com.rygital.moneytracker.App
 import com.rygital.moneytracker.R
 import com.rygital.moneytracker.ui.base.BaseFragment
 import com.rygital.moneytracker.ui.home.OnMenuClickListener
 import com.rygital.moneytracker.utils.formatMoney
+import kotlinx.android.synthetic.main.fragment_dashboard.*
 import javax.inject.Inject
 
 class DashboardFragment: BaseFragment(), Dashboard.View {
     companion object {
         const val TAG: String = "DashboardFragment"
     }
-
-    private var tvRoubles: TextView? = null
-    private var tvDollars: TextView? = null
 
     @Inject @JvmSuppressWildcards lateinit var presenter: Dashboard.Presenter<Dashboard.View>
 
@@ -38,18 +35,16 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
 
         App.instance?.applicationComponent?.inject(this)
 
-        tvRoubles = v.findViewById(R.id.tvRoubles)
-        tvDollars = v.findViewById(R.id.tvDollars)
-
         presenter.attachView(this)
-        init()
-        presenter.loadData()
 
         return v
     }
 
-    private fun init() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         activity?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        presenter.loadData()
     }
 
     override fun showMoneyInRUB(value: Double) {
@@ -77,8 +72,6 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
 
     override fun onDestroyView() {
         presenter.detachView()
-        tvRoubles = null
-        tvDollars = null
 
         super.onDestroyView()
     }

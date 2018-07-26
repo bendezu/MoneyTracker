@@ -2,10 +2,10 @@ package com.rygital.moneytracker.ui.about
 
 import android.os.Bundle
 import android.view.*
-import android.widget.TextView
 import com.rygital.moneytracker.App
 import com.rygital.moneytracker.R
 import com.rygital.moneytracker.ui.base.BaseFragment
+import kotlinx.android.synthetic.main.fragment_about.*
 import javax.inject.Inject
 
 class AboutFragment: BaseFragment(), About.View {
@@ -15,22 +15,19 @@ class AboutFragment: BaseFragment(), About.View {
 
     @Inject @JvmSuppressWildcards lateinit var presenter: About.Presenter<About.View>
 
-    var tvVersion: TextView? = null
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater.inflate(R.layout.fragment_about, container, false)
 
         App.instance?.applicationComponent?.inject(this)
 
-        tvVersion = v.findViewById(R.id.tvVersion)
-
         presenter.attachView(this)
-        init()
 
         return v
     }
 
-    private fun init() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         activity?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         tvVersion?.text = String.format("ver. %s",
@@ -38,7 +35,6 @@ class AboutFragment: BaseFragment(), About.View {
     }
 
     override fun onDestroyView() {
-        tvVersion = null
         presenter.detachView()
 
         super.onDestroyView()

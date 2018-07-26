@@ -25,12 +25,13 @@ class SettingsFragment: BaseFragment(), Settings.View {
         App.instance?.applicationComponent?.inject(this)
 
         presenter.attachView(this)
-        init()
 
         return v
     }
 
-    private fun init() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         activity?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
