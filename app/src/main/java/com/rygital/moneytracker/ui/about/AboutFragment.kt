@@ -18,7 +18,8 @@ class AboutFragment: BaseFragment(), About.View {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater.inflate(R.layout.fragment_about, container, false)
 
-        App.instance?.applicationComponent?.inject(this)
+        App.instance?.componentsHolder
+                ?.getAboutFragmentComponent()?.inject(this)
 
         presenter.attachView(this)
 
@@ -38,5 +39,6 @@ class AboutFragment: BaseFragment(), About.View {
         presenter.detachView()
 
         super.onDestroyView()
+        if (isRemoving) App.instance?.componentsHolder?.releaseAboutFragmentComponent()
     }
 }

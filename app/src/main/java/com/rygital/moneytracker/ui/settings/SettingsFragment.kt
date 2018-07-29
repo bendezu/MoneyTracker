@@ -2,10 +2,8 @@ package com.rygital.moneytracker.ui.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.rygital.moneytracker.App
 import com.rygital.moneytracker.R
 import com.rygital.moneytracker.ui.base.BaseFragment
@@ -22,7 +20,8 @@ class SettingsFragment: BaseFragment(), Settings.View {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater.inflate(R.layout.fragment_settings, container, false)
 
-        App.instance?.applicationComponent?.inject(this)
+        App.instance?.componentsHolder
+                ?.getSettingsFragmentComponent()?.inject(this)
 
         presenter.attachView(this)
 
@@ -39,5 +38,6 @@ class SettingsFragment: BaseFragment(), Settings.View {
         presenter.detachView()
 
         super.onDestroyView()
+        if (isRemoving) App.instance?.componentsHolder?.releaseSettingsFragmentComponent()
     }
 }

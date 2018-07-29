@@ -1,18 +1,19 @@
 package com.rygital.moneytracker
 
 import android.app.Application
-import com.rygital.moneytracker.injection.ApplicationComponent
-import com.rygital.moneytracker.injection.DaggerApplicationComponent
+import com.rygital.moneytracker.injection.ComponentsHolder
 
 class App: Application() {
 
-    var applicationComponent: ApplicationComponent? = null
+    var componentsHolder: ComponentsHolder? = null
         private set
 
     override fun onCreate() {
         super.onCreate()
         instance = this
-        applicationComponent = DaggerApplicationComponent.builder().build()
+
+        componentsHolder = ComponentsHolder(this)
+        componentsHolder?.init()
     }
 
     companion object {
