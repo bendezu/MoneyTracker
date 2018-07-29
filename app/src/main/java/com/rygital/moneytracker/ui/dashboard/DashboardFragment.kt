@@ -9,6 +9,7 @@ import com.rygital.moneytracker.ui.base.BaseFragment
 import com.rygital.moneytracker.ui.home.OnMenuClickListener
 import com.rygital.moneytracker.utils.formatMoney
 import kotlinx.android.synthetic.main.fragment_dashboard.*
+import java.math.BigDecimal
 import javax.inject.Inject
 
 class DashboardFragment: BaseFragment(), Dashboard.View {
@@ -48,11 +49,11 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
         presenter.loadData()
     }
 
-    override fun showMoneyInRUB(value: Double) {
+    override fun showMoneyInRUB(value: BigDecimal) {
         tvRoubles?.text = String.format("₽ %s", formatMoney(value))
     }
 
-    override fun showMoneyInUSD(value: Double) {
+    override fun showMoneyInUSD(value: BigDecimal) {
         tvDollars?.text = String.format("$ %s", formatMoney(value))
     }
 
