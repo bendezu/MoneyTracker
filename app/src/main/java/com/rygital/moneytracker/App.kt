@@ -2,6 +2,7 @@ package com.rygital.moneytracker
 
 import android.app.Application
 import com.rygital.moneytracker.injection.ComponentsHolder
+import timber.log.Timber
 
 class App: Application() {
 
@@ -14,6 +15,10 @@ class App: Application() {
 
         componentsHolder = ComponentsHolder(this)
         componentsHolder?.init()
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
 
     companion object {

@@ -1,6 +1,12 @@
 package com.rygital.moneytracker.ui.base
 
+import timber.log.Timber
+
 abstract class BasePresenter<V: MvpView>: MvpPresenter<V> {
+
+    init {
+        Timber.i("create new Presenter")
+    }
 
     protected var view: V? = null
         private set

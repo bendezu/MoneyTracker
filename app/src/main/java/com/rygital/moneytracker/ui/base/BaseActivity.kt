@@ -1,13 +1,21 @@
 package com.rygital.moneytracker.ui.base
 
+import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.TextView
+import timber.log.Timber
 
 abstract class BaseActivity: AppCompatActivity(), MvpView {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        Timber.i("Activity onCreate()")
+    }
 
     override fun showMessage(@StringRes resId: Int) {
         showMessage(getString(resId))
