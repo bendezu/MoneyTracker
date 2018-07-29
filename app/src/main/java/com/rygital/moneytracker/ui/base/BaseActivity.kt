@@ -17,6 +17,14 @@ abstract class BaseActivity: AppCompatActivity(), MvpView {
         Timber.i("Activity onCreate()")
     }
 
+    override fun setActionBarTitle(resId: Int) {
+        setActionBarTitle(getString(resId))
+    }
+
+    override fun setActionBarTitle(message: String) {
+        supportActionBar?.title = message
+    }
+
     override fun showMessage(@StringRes resId: Int) {
         showMessage(getString(resId))
     }

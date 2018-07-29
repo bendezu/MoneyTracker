@@ -31,7 +31,7 @@ class SettingsFragment: BaseFragment(), Settings.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activity?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setActionBarTitle(R.string.settings)
     }
 
     override fun onDestroyView() {

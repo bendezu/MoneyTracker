@@ -45,7 +45,7 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activity?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        setActionBarTitle(R.string.app_name)
         presenter.loadData()
     }
 

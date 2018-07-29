@@ -29,7 +29,7 @@ class AboutFragment: BaseFragment(), About.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activity?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setActionBarTitle(R.string.about)
 
         tvVersion?.text = String.format("ver. %s",
                 context?.packageManager?.getPackageInfo(context?.packageName, 0)?.versionName)

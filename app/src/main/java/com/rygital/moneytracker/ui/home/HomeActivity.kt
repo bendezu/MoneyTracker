@@ -37,6 +37,13 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
 
     private fun init() {
         setSupportActionBar(toolbar)
+        supportFragmentManager.addOnBackStackChangedListener({ displayBackButton() })
+        displayBackButton()
+    }
+
+    private fun displayBackButton() {
+        val showBackButton: Boolean = supportFragmentManager.backStackEntryCount > 0
+        supportActionBar?.setDisplayHomeAsUpEnabled(showBackButton)
     }
 
     override fun showDashboardFragment() {
