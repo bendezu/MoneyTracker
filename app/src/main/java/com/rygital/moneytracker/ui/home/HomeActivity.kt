@@ -3,6 +3,7 @@ package com.rygital.moneytracker.ui.home
 import android.os.Bundle
 import com.rygital.moneytracker.App
 import com.rygital.moneytracker.R
+import com.rygital.moneytracker.injection.components.activity.HomeActivityComponent
 import com.rygital.moneytracker.ui.about.AboutFragment
 import com.rygital.moneytracker.ui.base.BaseActivity
 import com.rygital.moneytracker.ui.base.BaseFragment
@@ -22,7 +23,10 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        App.instance?.applicationComponent?.inject(this)
+
+        (App.getApp(this).componentsHolder?.getComponent(javaClass.kotlin) as HomeActivityComponent)
+                .inject(this)
+
         setContentView(R.layout.activity_home)
 
         presenter.attachView(this)
@@ -71,5 +75,7 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
     override fun onDestroy() {
         presenter.detachView()
         super.onDestroy()
+
+        if (isFinishing) App.getApp(this).componentsHolder?.releaseComponent(javaClass.kotlin)
     }
 }

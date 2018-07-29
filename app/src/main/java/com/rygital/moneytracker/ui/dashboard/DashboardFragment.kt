@@ -2,9 +2,11 @@ package com.rygital.moneytracker.ui.dashboard
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import com.rygital.moneytracker.App
 import com.rygital.moneytracker.R
+import com.rygital.moneytracker.injection.components.fragment.DashboardFragmentComponent
 import com.rygital.moneytracker.ui.base.BaseFragment
 import com.rygital.moneytracker.ui.home.OnMenuClickListener
 import com.rygital.moneytracker.utils.formatMoney
@@ -33,7 +35,8 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater.inflate(R.layout.fragment_dashboard, container, false)
 
-        App.instance?.applicationComponent?.inject(this)
+        (App.getApp(context!!).componentsHolder?.getComponent(javaClass.kotlin) as DashboardFragmentComponent)
+                .inject(this)
 
         presenter.attachView(this)
 
@@ -74,5 +77,7 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
         presenter.detachView()
 
         super.onDestroyView()
+
+        if (isRemoving) App.getApp(context!!).componentsHolder?.releaseComponent(javaClass.kotlin)
     }
 }
