@@ -14,6 +14,9 @@ import java.io.File
 class ComponentsHolder(private val context: Context) {
 
     private var applicationComponent: ApplicationComponent? = null
+
+//    TODO I'll make good realisation using HashMap
+//    TODO Temporary solution because I got problems with Kotlin and Dagger 2
     private var homeActivityComponent: HomeActivityComponent? = null
     private var dashboardFragmentComponent: DashboardFragmentComponent? = null
     private var settingsFragmentComponent: SettingsFragmentComponent? = null
