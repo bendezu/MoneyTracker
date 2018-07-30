@@ -2,6 +2,7 @@ package com.rygital.moneytracker.utils.calculator
 
 import com.rygital.moneytracker.data.model.*
 import java.math.BigDecimal
+import java.math.RoundingMode
 import javax.inject.Inject
 
 class FinanceCalculator @Inject constructor(private var usdBasedRates: UsdBasedRates) {
@@ -31,7 +32,7 @@ class FinanceCalculator @Inject constructor(private var usdBasedRates: UsdBasedR
 
     fun getSum(transactions: List<Transaction>, currency: Currency): BigDecimal {
         val filteredTransactions: List<Transaction> = transactions.filter { it.currency == currency }
-        return getSum(filteredTransactions) / usdBasedRates.getRateByCurrency(currency)
+        return getSum(filteredTransactions).divide(usdBasedRates.getRateByCurrency(currency), 2, RoundingMode.HALF_UP)
     }
 
     private fun getSum(transactions: List<Transaction>): BigDecimal {

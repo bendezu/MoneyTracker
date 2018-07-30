@@ -27,32 +27,32 @@ class FinanceCalculatorTest {
 
     @Test
     fun testSumOnAccount() {
-        assertEquals(BigDecimal("0"), financeCalculator?.getSumOnAccount(transactions, Account(1, "", "")))
+        assertEquals(BigDecimal("0.00"), financeCalculator?.getSumOnAccount(transactions, Account(1, "", "")))
     }
 
     @Test
     fun testTotalExpenses() {
-        assertEquals(BigDecimal("200"), financeCalculator?.getTotalExpenses(transactions))
+        assertEquals(BigDecimal("200.00"), financeCalculator?.getTotalExpenses(transactions))
     }
 
     @Test
     fun testExpensesByCategory() {
-        assertEquals(BigDecimal("100"), financeCalculator?.getExpensesByCategory(transactions, Category(2, "", BigDecimal.ZERO)))
+        assertEquals(BigDecimal("100.00"), financeCalculator?.getExpensesByCategory(transactions, Category(2, "", BigDecimal.ZERO)))
     }
 
     @Test
     fun testTotalSum() {
-        assertEquals(BigDecimal("400"), financeCalculator?.getTotalSum(transactions))
+        assertEquals(BigDecimal("400.00"), financeCalculator?.getTotalSum(transactions))
     }
 
     @Test
     fun testUSDSum() {
-        assertEquals(BigDecimal("200"), financeCalculator?.getSum(transactions, Currency.USD))
+        assertEquals(BigDecimal("200.00"), financeCalculator?.getSum(transactions, Currency.USD))
     }
 
     @Test
     fun testRubSumInUSD() {
-        assertEquals(BigDecimal("200"), financeCalculator?.getSum(transactions, Currency.RUB))
+        assertEquals(BigDecimal("200.00"), financeCalculator?.getSum(transactions, Currency.RUB))
     }
 
     @Test
