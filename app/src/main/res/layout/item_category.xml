@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:layout_editor_absoluteY="25dp">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cvTag"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        app:cardBackgroundColor="@color/azure"
+        app:cardCornerRadius="7dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvCategoryTitle"
+        app:layout_constraintEnd_toStartOf="@+id/tvCategoryTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvCategoryTitle" />
+
+    <TextView
+        android:id="@+id/tvCategoryTitle"
+        style="@style/Text.Small"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/categories"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tvTotal"
+        app:layout_constraintStart_toEndOf="@+id/cvTag"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTotal"
+        style="@style/Text.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvCategoryTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvCategoryTitle"
+        app:layout_constraintTop_toTopOf="@+id/tvCategoryTitle" />
+</android.support.constraint.ConstraintLayout>

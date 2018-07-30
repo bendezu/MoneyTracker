@@ -3,6 +3,7 @@ package com.rygital.moneytracker.injection.modules
 import com.rygital.moneytracker.injection.scopes.FragmentScope
 import com.rygital.moneytracker.ui.about.About
 import com.rygital.moneytracker.ui.about.AboutPresenter
+import com.rygital.moneytracker.ui.dashboard.CategoriesAdapter
 import com.rygital.moneytracker.ui.dashboard.Dashboard
 import com.rygital.moneytracker.ui.dashboard.DashboardPresenter
 import com.rygital.moneytracker.ui.settings.Settings
@@ -12,6 +13,11 @@ import dagger.Provides
 
 @Module
 class FragmentModule {
+
+    @Provides
+    @FragmentScope
+    fun provideCategoriesAdapter(presenter: DashboardPresenter<Dashboard.View>): CategoriesAdapter
+            = CategoriesAdapter(presenter)
 
     @Provides
     @FragmentScope

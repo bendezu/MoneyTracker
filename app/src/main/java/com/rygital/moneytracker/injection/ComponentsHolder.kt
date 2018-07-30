@@ -8,6 +8,7 @@ import com.rygital.moneytracker.injection.components.fragment.AboutFragmentCompo
 import com.rygital.moneytracker.injection.components.fragment.DashboardFragmentComponent
 import com.rygital.moneytracker.injection.components.fragment.SettingsFragmentComponent
 import com.rygital.moneytracker.injection.modules.ApplicationModule
+import java.io.File
 
 class ComponentsHolder(private val context: Context) {
 
@@ -19,7 +20,7 @@ class ComponentsHolder(private val context: Context) {
 
     fun init() {
         applicationComponent = DaggerApplicationComponent.builder()
-                .applicationModule(ApplicationModule(context))
+                .applicationModule(ApplicationModule(context, File(context.cacheDir, "responses")))
                 .build()
     }
 
