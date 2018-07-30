@@ -1,6 +1,7 @@
 package com.rygital.moneytracker.injection.modules
 
 import android.content.Context
+import com.rygital.moneytracker.injection.BuilderKey
 import com.rygital.moneytracker.injection.base.ComponentBuilder
 import com.rygital.moneytracker.injection.components.activity.HomeActivityComponent
 import com.rygital.moneytracker.injection.components.fragment.AboutFragmentComponent
@@ -16,7 +17,8 @@ import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 import javax.inject.Singleton
 
-@Module
+@Module(subcomponents = [ HomeActivityComponent::class, AboutFragmentComponent::class,
+    DashboardFragmentComponent::class, SettingsFragmentComponent::class ])
 class ApplicationModule(private val context: Context) {
 
     @Singleton
@@ -27,23 +29,23 @@ class ApplicationModule(private val context: Context) {
     @IntoMap
     @ClassKey(HomeActivity::class)
     fun provideHomeActivityBuilder(builder: HomeActivityComponent.Builder)
-            : ComponentBuilder<HomeActivityComponent, ActivityModule> = builder
+            : ComponentBuilder<*, *> = builder
 
     @Provides
     @IntoMap
     @ClassKey(DashboardFragment::class)
     fun provideDashboardFragmentBuilder(builder: DashboardFragmentComponent.Builder)
-            : ComponentBuilder<DashboardFragmentComponent, FragmentModule> = builder
+            : ComponentBuilder<*, *> = builder
 
     @Provides
     @IntoMap
     @ClassKey(SettingsFragment::class)
     fun provideSettingsFragmentBuilder(builder: SettingsFragmentComponent.Builder)
-            : ComponentBuilder<SettingsFragmentComponent, FragmentModule> = builder
+            : ComponentBuilder<*, *> = builder
 
     @Provides
     @IntoMap
     @ClassKey(AboutFragment::class)
     fun provideAboutFragmentBuilder(builder: AboutFragmentComponent.Builder)
-            : ComponentBuilder<AboutFragmentComponent, FragmentModule> = builder
+            : ComponentBuilder<*, *> = builder
 }

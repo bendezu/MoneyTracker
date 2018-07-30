@@ -24,7 +24,7 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        (App.getApp(this).componentsHolder?.getComponent(javaClass.kotlin) as HomeActivityComponent)
+        (App.getApp(this).componentsHolder?.getComponent(javaClass) as HomeActivityComponent)
                 .inject(this)
 
         setContentView(R.layout.activity_home)
@@ -76,6 +76,6 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
         presenter.detachView()
         super.onDestroy()
 
-        if (isFinishing) App.getApp(this).componentsHolder?.releaseComponent(javaClass.kotlin)
+        if (isFinishing) App.getApp(this).componentsHolder?.releaseComponent(javaClass)
     }
 }

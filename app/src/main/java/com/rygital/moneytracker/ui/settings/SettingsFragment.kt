@@ -21,7 +21,7 @@ class SettingsFragment: BaseFragment(), Settings.View {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater.inflate(R.layout.fragment_settings, container, false)
 
-        (App.getApp(context!!).componentsHolder?.getComponent(javaClass.kotlin) as SettingsFragmentComponent)
+        (App.getApp(context!!).componentsHolder?.getComponent(javaClass) as SettingsFragmentComponent)
                 .inject(this)
 
         presenter.attachView(this)
@@ -39,6 +39,6 @@ class SettingsFragment: BaseFragment(), Settings.View {
         presenter.detachView()
 
         super.onDestroyView()
-        if (isRemoving) App.getApp(context!!).componentsHolder?.releaseComponent(javaClass.kotlin)
+        if (isRemoving) App.getApp(context!!).componentsHolder?.releaseComponent(javaClass)
     }
 }

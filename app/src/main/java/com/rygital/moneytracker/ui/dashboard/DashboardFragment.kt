@@ -35,7 +35,7 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater.inflate(R.layout.fragment_dashboard, container, false)
 
-        (App.getApp(context!!).componentsHolder?.getComponent(javaClass.kotlin) as DashboardFragmentComponent)
+        (App.getApp(context!!).componentsHolder?.getComponent(javaClass) as DashboardFragmentComponent)
                 .inject(this)
 
         presenter.attachView(this)
@@ -78,6 +78,6 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
 
         super.onDestroyView()
 
-        if (isRemoving) App.getApp(context!!).componentsHolder?.releaseComponent(javaClass.kotlin)
+        if (isRemoving) App.getApp(context!!).componentsHolder?.releaseComponent(javaClass)
     }
 }
