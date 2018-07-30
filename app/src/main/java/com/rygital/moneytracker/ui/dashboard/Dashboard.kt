@@ -11,6 +11,9 @@ interface Dashboard {
         fun showMoneyInRUB(value: BigDecimal)
         fun showMoneyInUSD(value: BigDecimal)
 
+        fun showCashSum(value: BigDecimal)
+        fun showBackCardSum(value: BigDecimal)
+
         fun showCategories(categoryList: List<Category>, totalExpenses: BigDecimal)
     }
 

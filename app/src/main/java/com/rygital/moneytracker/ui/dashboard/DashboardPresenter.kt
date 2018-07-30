@@ -2,6 +2,7 @@ package com.rygital.moneytracker.ui.dashboard
 
 import com.rygital.moneytracker.R
 import com.rygital.moneytracker.data.local.DatabaseHelper
+import com.rygital.moneytracker.data.model.Account
 import com.rygital.moneytracker.data.model.Category
 import com.rygital.moneytracker.data.model.UsdBasedRates
 import com.rygital.moneytracker.data.model.Transaction
@@ -11,7 +12,7 @@ import com.rygital.moneytracker.utils.calculator.FinanceCalculator
 import com.rygital.moneytracker.utils.rx.SchedulerProvider
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.Function3
+import io.reactivex.functions.Function4
 import io.reactivex.observers.DisposableObserver
 import timber.log.Timber
 import java.math.BigDecimal
@@ -27,9 +28,11 @@ class DashboardPresenter<V: Dashboard.View> @Inject constructor(private val data
     override fun loadData() {
         compositeDisposable.add(Observable
                 .zip(currencyRatesManager.getRates(), databaseHelper.getTransactions(), databaseHelper.getCategories(),
-                        Function3 { usdBasedRates: UsdBasedRates,
+                        databaseHelper.getAccounts(),
+                        Function4 { usdBasedRates: UsdBasedRates,
                                     transactions: List<Transaction>,
-                                    categories: List<Category> ->
+                                    categories: List<Category>,
+                                    accounts: List<Account> ->
                             val financeCalculator = FinanceCalculator(usdBasedRates)
                             for (category in categories)
                                 category.fact = financeCalculator.getExpensesByCategory(transactions, category)
@@ -39,7 +42,12 @@ class DashboardPresenter<V: Dashboard.View> @Inject constructor(private val data
                             val totalSumInUSD: BigDecimal = financeCalculator.getTotalSum(transactions)
                             val totalSumInRub: BigDecimal = totalSumInUSD.multiply(usdBasedRates.rub)
 
-                            DashboardViewState(totalSumInUSD, totalSumInRub, categories, totalExpenses)
+                            val cashSum: BigDecimal = financeCalculator.getSumOnAccount(transactions, accounts[0])
+                            val bankCardSum: BigDecimal = financeCalculator.getSumOnAccount(transactions, accounts[1])
+
+                            DashboardViewState(totalSumInUSD, totalSumInRub,
+                                    cashSum, bankCardSum,
+                                    categories, totalExpenses)
                         })
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
@@ -50,6 +58,9 @@ class DashboardPresenter<V: Dashboard.View> @Inject constructor(private val data
                     override fun onNext(dashboardViewState: DashboardViewState) {
                         view?.showMoneyInUSD(dashboardViewState.totalSumInUSD)
                         view?.showMoneyInRUB(dashboardViewState.totalSumInRub)
+
+                        view?.showCashSum(dashboardViewState.cashSum)
+                        view?.showBackCardSum(dashboardViewState.bankCardSum)
 
                         view?.showCategories(dashboardViewState.categories, dashboardViewState.totalExpenses)
                     }

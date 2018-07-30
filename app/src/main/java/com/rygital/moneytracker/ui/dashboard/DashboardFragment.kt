@@ -76,6 +76,14 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
         tvDollars?.text = String.format("$ %s", formatMoney(value))
     }
 
+    override fun showCashSum(value: BigDecimal) {
+        tvCashSum.text = String.format("$ %s", formatMoney(value))
+    }
+
+    override fun showBackCardSum(value: BigDecimal) {
+        tvBankCardSum.text = String.format("$ %s", formatMoney(value))
+    }
+
     override fun showCategories(categoryList: List<Category>, totalExpenses: BigDecimal) {
         adapter.categoryList = categoryList
         drawPieChart(categoryList, totalExpenses)
@@ -86,7 +94,7 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
         val entries: MutableList<PieEntry> = mutableListOf()
 
         for (category in categoryList)
-            entries.add(PieEntry(category.plan.toFloat(), category.title))
+            entries.add(PieEntry(category.fact.toFloat(), category.title))
 
         val pieDataSet = PieDataSet(entries, "")
         pieDataSet.setDrawValues(false)

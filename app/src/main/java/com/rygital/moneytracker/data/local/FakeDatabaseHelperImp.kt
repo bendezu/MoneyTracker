@@ -21,12 +21,14 @@ class FakeDatabaseHelperImp @Inject constructor(): DatabaseHelper {
     )
 
     private val transactions: MutableList<Transaction> = mutableListOf(
+            Transaction(TransactionType.DEBIT, BigDecimal("1243.0"), Currency.USD, 0, 0, Calendar.getInstance().time),
+            Transaction(TransactionType.DEBIT, BigDecimal("2000.0"), Currency.USD, 1, 0, Calendar.getInstance().time),
             Transaction(TransactionType.CREDIT, BigDecimal("200.0"), Currency.USD, 0, 0, Calendar.getInstance().time),
             Transaction(TransactionType.CREDIT, BigDecimal("200.0"), Currency.USD, 0, 1, Calendar.getInstance().time),
             Transaction(TransactionType.CREDIT, BigDecimal("200.0"), Currency.USD, 0, 1, Calendar.getInstance().time),
-            Transaction(TransactionType.CREDIT, BigDecimal("200.0"), Currency.USD, 1, 2, Calendar.getInstance().time),
+            Transaction(TransactionType.CREDIT, BigDecimal("200.0"), Currency.EUR, 1, 2, Calendar.getInstance().time),
             Transaction(TransactionType.CREDIT, BigDecimal("550.0"), Currency.USD, 1, 2, Calendar.getInstance().time),
-            Transaction(TransactionType.CREDIT, BigDecimal("550.0"), Currency.USD, 1, 2, Calendar.getInstance().time),
+            Transaction(TransactionType.CREDIT, BigDecimal("5150.0"), Currency.RUB, 1, 2, Calendar.getInstance().time),
             Transaction(TransactionType.CREDIT, BigDecimal("100.0"), Currency.USD, 0, 3, Calendar.getInstance().time),
             Transaction(TransactionType.CREDIT, BigDecimal("100.0"), Currency.USD, 0, 3, Calendar.getInstance().time),
             Transaction(TransactionType.CREDIT, BigDecimal("100.0"), Currency.USD, 1, 1, Calendar.getInstance().time),

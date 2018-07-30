@@ -16,4 +16,6 @@
     <string name="add_transaction">Add a transaction</string>
     <string name="save">Save</string>
     <string name="incorrect_value">Incorrect value</string>
+    <string name="bank_card">Bank Card</string>
+    <string name="cash">Cash</string>
 </resources>
