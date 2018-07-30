@@ -8,6 +8,8 @@ import com.rygital.moneytracker.ui.dashboard.Dashboard
 import com.rygital.moneytracker.ui.dashboard.DashboardPresenter
 import com.rygital.moneytracker.ui.settings.Settings
 import com.rygital.moneytracker.ui.settings.SettingsPresenter
+import com.rygital.moneytracker.ui.transaction.AddTransaction
+import com.rygital.moneytracker.ui.transaction.AddTransactionPresenter
 import dagger.Module
 import dagger.Provides
 
@@ -33,4 +35,9 @@ class FragmentModule {
     @FragmentScope
     fun provideAboutPresenter(presenter: AboutPresenter<About.View>): About.Presenter<About.View>
             = presenter
+
+    @Provides
+    @FragmentScope
+    fun provideAddTransactionPresenter(presenter: AddTransactionPresenter<AddTransaction.View>)
+            : AddTransaction.Presenter<AddTransaction.View> = presenter
 }

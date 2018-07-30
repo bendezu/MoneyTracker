@@ -5,6 +5,7 @@ import com.rygital.moneytracker.injection.components.ApplicationComponent
 import com.rygital.moneytracker.injection.components.DaggerApplicationComponent
 import com.rygital.moneytracker.injection.components.activity.HomeActivityComponent
 import com.rygital.moneytracker.injection.components.fragment.AboutFragmentComponent
+import com.rygital.moneytracker.injection.components.fragment.AddTransactionFragmentComponent
 import com.rygital.moneytracker.injection.components.fragment.DashboardFragmentComponent
 import com.rygital.moneytracker.injection.components.fragment.SettingsFragmentComponent
 import com.rygital.moneytracker.injection.modules.ApplicationModule
@@ -17,6 +18,7 @@ class ComponentsHolder(private val context: Context) {
     private var dashboardFragmentComponent: DashboardFragmentComponent? = null
     private var settingsFragmentComponent: SettingsFragmentComponent? = null
     private var aboutFragmentComponent: AboutFragmentComponent? = null
+    private var addTransactionFragmentComponent: AddTransactionFragmentComponent? = null
 
     fun init() {
         applicationComponent = DaggerApplicationComponent.builder()
@@ -48,6 +50,12 @@ class ComponentsHolder(private val context: Context) {
         return aboutFragmentComponent
     }
 
+    fun getAddTransactionFragmentComponent(): AddTransactionFragmentComponent? {
+        if (addTransactionFragmentComponent == null)
+            addTransactionFragmentComponent = applicationComponent?.createAddTransactionFragmentComponent()
+        return addTransactionFragmentComponent
+    }
+
     fun releaseHomeActivityComponent() {
         homeActivityComponent = null
     }
@@ -62,5 +70,9 @@ class ComponentsHolder(private val context: Context) {
 
     fun releaseAboutFragmentComponent() {
         aboutFragmentComponent = null
+    }
+
+    fun releaseAddTransactionFragmentComponent() {
+        addTransactionFragmentComponent = null
     }
 }

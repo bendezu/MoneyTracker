@@ -20,8 +20,6 @@ import com.github.mikephil.charting.data.PieEntry
 import android.support.v7.widget.DividerItemDecoration
 
 
-
-
 class DashboardFragment: BaseFragment(), Dashboard.View {
     companion object {
         const val TAG: String = "DashboardFragment"
@@ -57,6 +55,8 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
         super.onViewCreated(view, savedInstanceState)
 
         setActionBarTitle(R.string.app_name)
+
+        iBtnAddTransaction.setOnClickListener({ onMenuClickListener?.openAddTransactionScreen() })
 
         val llm = LinearLayoutManager(context)
         rvCategories.layoutManager = llm
@@ -103,6 +103,7 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
         pieChart.isRotationEnabled = false
         pieChart.setEntryLabelTextSize(14f)
         pieChart.centerText = String.format("$ %s", formatMoney(totalExpenses))
+        pieChart.notifyDataSetChanged()
         pieChart.invalidate()
     }
 

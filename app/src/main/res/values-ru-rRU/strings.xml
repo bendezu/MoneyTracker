@@ -8,4 +8,9 @@
     <string name="categories">Категории</string>
     <string name="error_loadings_rates">Ошибка во время загрузки курса валют!</string>
     <string name="no_network_connection">Нет соединения с интернетом</string>
+    <string name="expenses">Расходы</string>
+    <string name="enter_sum">Введите сумму</string>
+    <string name="add_transaction">Добавить транзакцию</string>
+    <string name="save">Сохранить</string>
+    <string name="incorrect_value">Некорректное число</string>
 </resources>

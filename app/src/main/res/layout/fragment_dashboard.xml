@@ -105,14 +105,14 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:text="@string/categories"
-                    app:layout_constraintEnd_toStartOf="@+id/imageButton"
+                    android:text="@string/expenses"
+                    app:layout_constraintEnd_toStartOf="@+id/iBtnAddTransaction"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/pieChart" />
 
                 <ImageButton
-                    android:id="@+id/imageButton"
-                    style="@style/Text.Large.Dashboard.Secondary"
+                    android:id="@+id/iBtnAddTransaction"
+                    style="@style/Text.Large.Dashboard"
                     android:layout_width="0dp"
                     android:layout_height="44dp"
                     android:layout_marginEnd="8dp"
@@ -123,7 +123,7 @@
                     app:layout_constraintDimensionRatio="w,1:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvCategories"
-                    app:srcCompat="@drawable/ic_settings_black_24dp"
+                    app:srcCompat="@drawable/ic_add_black_24dp"
                     tools:ignore="ContentDescription" />
 
                 <android.support.v7.widget.RecyclerView

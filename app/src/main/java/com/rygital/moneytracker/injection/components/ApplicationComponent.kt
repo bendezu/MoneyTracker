@@ -2,6 +2,7 @@ package com.rygital.moneytracker.injection.components
 
 import com.rygital.moneytracker.injection.components.activity.HomeActivityComponent
 import com.rygital.moneytracker.injection.components.fragment.AboutFragmentComponent
+import com.rygital.moneytracker.injection.components.fragment.AddTransactionFragmentComponent
 import com.rygital.moneytracker.injection.components.fragment.DashboardFragmentComponent
 import com.rygital.moneytracker.injection.components.fragment.SettingsFragmentComponent
 import com.rygital.moneytracker.injection.modules.ApplicationModule
@@ -16,4 +17,5 @@ interface ApplicationComponent {
     fun createDashboardFragmentComponent(): DashboardFragmentComponent
     fun createSettingsFragmentComponent(): SettingsFragmentComponent
     fun createAboutFragmentComponent(): AboutFragmentComponent
+    fun createAddTransactionFragmentComponent(): AddTransactionFragmentComponent
 }
