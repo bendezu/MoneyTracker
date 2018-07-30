@@ -2,15 +2,23 @@ package com.rygital.moneytracker.ui.dashboard
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
+import android.support.v7.widget.LinearLayoutManager
 import android.view.*
 import com.rygital.moneytracker.App
 import com.rygital.moneytracker.R
+import com.rygital.moneytracker.data.model.Category
 import com.rygital.moneytracker.ui.base.BaseFragment
 import com.rygital.moneytracker.ui.home.OnMenuClickListener
 import com.rygital.moneytracker.utils.formatMoney
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import java.math.BigDecimal
 import javax.inject.Inject
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import android.support.v7.widget.DividerItemDecoration
+
 
 class DashboardFragment: BaseFragment(), Dashboard.View {
     companion object {
@@ -18,6 +26,7 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
     }
 
     @Inject @JvmSuppressWildcards lateinit var presenter: Dashboard.Presenter<Dashboard.View>
+    @Inject @JvmSuppressWildcards lateinit var adapter: CategoriesAdapter
 
     private var onMenuClickListener: OnMenuClickListener? = null
 
@@ -46,6 +55,16 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
         super.onViewCreated(view, savedInstanceState)
 
         setActionBarTitle(R.string.app_name)
+
+        iBtnAddTransaction.setOnClickListener({ onMenuClickListener?.openAddTransactionScreen() })
+
+        val llm = LinearLayoutManager(context)
+        rvCategories.layoutManager = llm
+        rvCategories.addItemDecoration(DividerItemDecoration(rvCategories.context, llm.orientation))
+        rvCategories.setHasFixedSize(true)
+        rvCategories.isNestedScrollingEnabled = false
+        rvCategories.adapter = adapter
+
         presenter.loadData()
     }
 
@@ -55,6 +74,45 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
 
     override fun showMoneyInUSD(value: BigDecimal) {
         tvDollars?.text = String.format("$ %s", formatMoney(value))
+    }
+
+    override fun showCashSum(value: BigDecimal) {
+        tvCashSum.text = String.format("$ %s", formatMoney(value))
+    }
+
+    override fun showBackCardSum(value: BigDecimal) {
+        tvBankCardSum.text = String.format("$ %s", formatMoney(value))
+    }
+
+    override fun showCategories(categoryList: List<Category>, totalExpenses: BigDecimal) {
+        adapter.categoryList = categoryList
+        drawPieChart(categoryList, totalExpenses)
+    }
+
+    private fun drawPieChart(categoryList: List<Category>, totalExpenses: BigDecimal) {
+
+        val entries: MutableList<PieEntry> = mutableListOf()
+
+        for (category in categoryList)
+            entries.add(PieEntry(category.fact.toFloat(), category.title))
+
+        val pieDataSet = PieDataSet(entries, "")
+        pieDataSet.setDrawValues(false)
+
+        if (context != null)
+            pieDataSet.colors = categoryList.map { it -> ContextCompat.getColor(context!!, it.color) }
+
+        pieChart.data = PieData(pieDataSet)
+        pieChart.legend.isEnabled = false
+        pieChart.description = null
+        pieChart.setDrawEntryLabels(false)
+        pieChart.setCenterTextSize(22f)
+        pieChart.holeRadius = 80f
+        pieChart.isRotationEnabled = false
+        pieChart.setEntryLabelTextSize(14f)
+        pieChart.centerText = String.format("$ %s", formatMoney(totalExpenses))
+        pieChart.notifyDataSetChanged()
+        pieChart.invalidate()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
