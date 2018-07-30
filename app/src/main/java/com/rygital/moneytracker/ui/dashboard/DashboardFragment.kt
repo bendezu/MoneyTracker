@@ -18,6 +18,7 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import android.support.v7.widget.DividerItemDecoration
+import com.rygital.moneytracker.injection.components.fragment.DashboardFragmentComponent
 
 
 class DashboardFragment: BaseFragment(), Dashboard.View {
@@ -43,8 +44,8 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater.inflate(R.layout.fragment_dashboard, container, false)
 
-        App.instance?.componentsHolder
-                ?.getDashboardFragmentComponent()?.inject(this)
+        (App.instance?.componentsHolder?.getComponent(javaClass) as DashboardFragmentComponent)
+                .inject(this)
 
         presenter.attachView(this)
 
@@ -134,6 +135,6 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
         presenter.detachView()
 
         super.onDestroyView()
-        if (isRemoving) App.instance?.componentsHolder?.releaseDashboardFragmentComponent()
+        if (isRemoving) App.instance?.componentsHolder?.releaseComponent(javaClass)
     }
 }

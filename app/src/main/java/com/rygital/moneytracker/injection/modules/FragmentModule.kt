@@ -1,5 +1,6 @@
 package com.rygital.moneytracker.injection.modules
 
+import com.rygital.moneytracker.injection.base.MyModule
 import com.rygital.moneytracker.injection.scopes.FragmentScope
 import com.rygital.moneytracker.ui.about.About
 import com.rygital.moneytracker.ui.about.AboutPresenter
@@ -14,7 +15,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class FragmentModule {
+class FragmentModule: MyModule {
 
     @Provides
     @FragmentScope

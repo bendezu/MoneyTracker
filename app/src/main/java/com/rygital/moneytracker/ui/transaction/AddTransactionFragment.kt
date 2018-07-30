@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter
 import com.rygital.moneytracker.App
 import com.rygital.moneytracker.R
 import com.rygital.moneytracker.data.model.Currency
+import com.rygital.moneytracker.injection.components.fragment.AddTransactionFragmentComponent
 import com.rygital.moneytracker.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_add_transaction.*
 import javax.inject.Inject
@@ -20,8 +21,8 @@ class AddTransactionFragment: BaseFragment(), AddTransaction.View, View.OnClickL
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater.inflate(R.layout.fragment_add_transaction, container, false)
 
-        App.instance?.componentsHolder
-                ?.getAddTransactionFragmentComponent()?.inject(this)
+        (App.instance?.componentsHolder?.getComponent(javaClass) as AddTransactionFragmentComponent)
+                .inject(this)
 
         presenter.attachView(this)
 
@@ -75,6 +76,6 @@ class AddTransactionFragment: BaseFragment(), AddTransaction.View, View.OnClickL
         presenter.detachView()
 
         super.onDestroyView()
-        if (isRemoving) App.instance?.componentsHolder?.releaseAddTransactionFragmentComponent()
+        if (isRemoving) App.instance?.componentsHolder?.releaseComponent(javaClass)
     }
 }

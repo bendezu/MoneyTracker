@@ -6,10 +6,11 @@ import com.rygital.moneytracker.injection.base.MyComponent
 import com.rygital.moneytracker.injection.components.ApplicationComponent
 import com.rygital.moneytracker.injection.components.DaggerApplicationComponent
 import com.rygital.moneytracker.injection.modules.ApplicationModule
+import java.io.File
 import javax.inject.Inject
 import javax.inject.Provider
 
-class ComponentsHolder(private val context: Context) {
+class ComponentsHolder(private val context: Context, private val cacheFile: File) {
 
     private var applicationComponent: ApplicationComponent? = null
 
@@ -18,7 +19,7 @@ class ComponentsHolder(private val context: Context) {
 
     fun init() {
         applicationComponent = DaggerApplicationComponent.builder()
-                .applicationModule(ApplicationModule(context)).build()
+                .applicationModule(ApplicationModule(context, cacheFile)).build()
         applicationComponent?.injectComponentsHolder(this)
     }
 

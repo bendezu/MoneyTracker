@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import com.rygital.moneytracker.App
 import com.rygital.moneytracker.R
+import com.rygital.moneytracker.injection.components.fragment.AboutFragmentComponent
 import com.rygital.moneytracker.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_about.*
 import javax.inject.Inject
@@ -18,8 +19,8 @@ class AboutFragment: BaseFragment(), About.View {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater.inflate(R.layout.fragment_about, container, false)
 
-        App.instance?.componentsHolder
-                ?.getAboutFragmentComponent()?.inject(this)
+        (App.instance?.componentsHolder?.getComponent(javaClass) as AboutFragmentComponent)
+                .inject(this)
 
         presenter.attachView(this)
 
@@ -39,6 +40,6 @@ class AboutFragment: BaseFragment(), About.View {
         presenter.detachView()
 
         super.onDestroyView()
-        if (isRemoving) App.instance?.componentsHolder?.releaseAboutFragmentComponent()
+        if (isRemoving) App.instance?.componentsHolder?.releaseComponent(javaClass)
     }
 }

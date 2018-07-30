@@ -3,6 +3,7 @@ package com.rygital.moneytracker
 import android.app.Application
 import com.rygital.moneytracker.injection.ComponentsHolder
 import timber.log.Timber
+import java.io.File
 
 class App: Application() {
 
@@ -13,7 +14,7 @@ class App: Application() {
         super.onCreate()
         instance = this
 
-        componentsHolder = ComponentsHolder(this)
+        componentsHolder = ComponentsHolder(this, File(cacheDir, "responses"))
         componentsHolder?.init()
 
         if (BuildConfig.DEBUG) {
