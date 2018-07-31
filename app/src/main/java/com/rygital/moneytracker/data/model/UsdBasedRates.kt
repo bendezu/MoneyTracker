@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.math.BigDecimal
 
-class UsdBasedRates(@SerializedName("RUB")
+data class UsdBasedRates(@SerializedName("RUB")
                     @Expose
                     val rub: BigDecimal,
                     @SerializedName("EUR")
