@@ -14,7 +14,7 @@ class ComponentsHolder(private val context: Context, private val cacheFile: File
 
     private var applicationComponent: ApplicationComponent? = null
 
-    @Inject lateinit var builders: MutableMap<Class<*>, @JvmSuppressWildcards Provider<ComponentBuilder<*, *>>>
+    @Inject lateinit var builders: MutableMap<Class<*>, Provider<ComponentBuilder<*, *>>>
     private var components: MutableMap<Class<*>, MyComponent<*>?> = HashMap()
 
     fun init() {
