@@ -1,5 +1,6 @@
 package com.rygital.moneytracker.utils.calculator
 
+import com.rygital.moneytracker.API_KEY
 import com.rygital.moneytracker.data.model.UsdBasedRates
 import com.rygital.moneytracker.data.remote.CurrencyApi
 import io.reactivex.Observable
@@ -28,7 +29,7 @@ class CurrencyRatesManager @Inject constructor(private val currencyApi: Currency
     }
 
     private fun loadRates(): Observable<UsdBasedRates> {
-        return currencyApi.getCurrencyRates("ce9f17c314c840ef8b5d8fd6d472bc4c")
+        return currencyApi.getCurrencyRates(API_KEY)
                 .doOnNext({it ->
                     lastUpdateTime = it.timestamp
                     usdBasedRates = it.usdBasedRates

@@ -23,10 +23,8 @@ class DashboardPresenter<V: Dashboard.View> @Inject constructor(private val data
                                                                 private val schedulerProvider: SchedulerProvider)
     : BasePresenter<V>(), Dashboard.Presenter<V> {
 
-    private var compositeDisposable: CompositeDisposable = CompositeDisposable()
-
     override fun loadData() {
-        compositeDisposable.add(Observable
+        addDisposable(Observable
                 .zip(currencyRatesManager.getRates(), databaseHelper.getTransactions(), databaseHelper.getCategories(),
                         databaseHelper.getAccounts(),
                         Function4 { usdBasedRates: UsdBasedRates,
@@ -71,10 +69,5 @@ class DashboardPresenter<V: Dashboard.View> @Inject constructor(private val data
                         e.printStackTrace()
                     }
                 }))
-    }
-
-    override fun detachView() {
-        compositeDisposable.clear()
-        super.detachView()
     }
 }

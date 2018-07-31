@@ -1,5 +1,6 @@
 package com.rygital.moneytracker.data.remote
 
+import com.rygital.moneytracker.ENDPOINT
 import com.rygital.moneytracker.data.model.RateResponse
 import io.reactivex.Observable
 import okhttp3.Cache
@@ -12,10 +13,6 @@ import retrofit2.http.Query
 import java.io.File
 
 interface CurrencyApi {
-    companion object {
-        private const val ENDPOINT: String = "https://openexchangerates.org/api/"
-    }
-
     @GET("latest.json")
     fun getCurrencyRates(@Query("app_id") appId: String): Observable<RateResponse>
 

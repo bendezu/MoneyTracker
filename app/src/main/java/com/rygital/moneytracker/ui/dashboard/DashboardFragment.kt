@@ -27,7 +27,7 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
     }
 
     @Inject @JvmSuppressWildcards lateinit var presenter: Dashboard.Presenter<Dashboard.View>
-    @Inject @JvmSuppressWildcards lateinit var adapter: CategoriesAdapter
+    @Inject lateinit var adapter: CategoriesAdapter
 
     private var onMenuClickListener: OnMenuClickListener? = null
 
