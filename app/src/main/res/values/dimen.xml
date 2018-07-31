@@ -4,4 +4,7 @@
     <item name="textMediumEmphasis" format="float" type="dimen">0.6</item>
     <item name="textSecondary" format="float" type="dimen">0.5</item>
     <item name="textDisabled" format="float" type="dimen">0.38</item>
+
+    <item name="offset" type="dimen">16dp</item>
+    <item name="half_offset" type="dimen">8dp</item>
 </resources>
