@@ -7,7 +7,6 @@ import com.rygital.moneytracker.data.model.Currency
 import com.rygital.moneytracker.ui.base.BasePresenter
 import com.rygital.moneytracker.utils.rx.SchedulerProvider
 import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.observers.DisposableObserver
 import timber.log.Timber
@@ -19,13 +18,11 @@ class AddTransactionPresenter<V: AddTransaction.View> @Inject constructor(privat
                                                                           private val schedulerProvider: SchedulerProvider)
     : BasePresenter<V>(), AddTransaction.Presenter<V> {
 
-    private val compositeDisposable = CompositeDisposable()
-
     private var accounts: List<Account> = listOf()
     private var categories: List<Category> = listOf()
 
     override fun initNewTransaction() {
-        compositeDisposable.add(
+        addDisposable(
                 Observable
                         .zip(databaseHelper.getAccounts(), databaseHelper.getCategories(),
                                 BiFunction { accounts: List<Account>, categories: List<Category> ->
@@ -76,10 +73,5 @@ class AddTransactionPresenter<V: AddTransaction.View> @Inject constructor(privat
 
         databaseHelper.addTransaction(transaction)
         view?.close()
-    }
-
-    override fun detachView() {
-        compositeDisposable.clear()
-        super.detachView()
     }
 }
