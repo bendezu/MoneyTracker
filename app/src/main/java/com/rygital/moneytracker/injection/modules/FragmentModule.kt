@@ -19,8 +19,7 @@ class FragmentModule: MyModule {
 
     @Provides
     @FragmentScope
-    fun provideCategoriesAdapter(presenter: DashboardPresenter<Dashboard.View>): CategoriesAdapter
-            = CategoriesAdapter(presenter)
+    fun provideCategoriesAdapter(): CategoriesAdapter = CategoriesAdapter()
 
     @Provides
     @FragmentScope
