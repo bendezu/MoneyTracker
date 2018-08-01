@@ -1,37 +1,49 @@
 package com.rygital.moneytracker.utils.calculator
 
-import com.rygital.moneytracker.data.model.Currency
-import com.rygital.moneytracker.data.model.Transaction
-import com.rygital.moneytracker.data.model.TransactionType
+import com.rygital.moneytracker.data.model.*
+import java.math.BigDecimal
+import java.math.RoundingMode
+import javax.inject.Inject
 
-class FinanceCalculator {
-    companion object {
-        const val TEMPORARY_HARDCODED_RUB_USD_RATE: Double = 63.46431
+class FinanceCalculator @Inject constructor(private var usdBasedRates: UsdBasedRates) {
 
-        fun getTotalSum(transactions: List<Transaction>): Double {
-            return getUSDSum(transactions) + getRUBSumInUSD(transactions)
+    fun getSumOnAccount(transactions: List<Transaction>, account: Account): BigDecimal {
+        return getTotalSum(transactions.filter { it.accountId == account.id })
+    }
+
+    fun getTotalExpenses(transactions: List<Transaction>): BigDecimal {
+        return getTotalSum(transactions.filter { it.transactionType == TransactionType.CREDIT }).abs()
+    }
+
+    fun getExpensesByCategory(transactions: List<Transaction>, category: Category): BigDecimal {
+        return getTotalSum(transactions
+                .filter { it.transactionType == TransactionType.CREDIT && it.categoryId == category.id })
+                .abs()
+    }
+
+    fun getTotalSum(transactions: List<Transaction>): BigDecimal {
+        var sum = BigDecimal.ZERO
+        for (currency in Currency.values()) {
+            sum += getSum(transactions, currency)
         }
 
-        fun getUSDSum(transactions: List<Transaction>): Double {
-            val usdTransactions: List<Transaction> = transactions.filter { it.currency == Currency.USD }
-            return getSum(usdTransactions)
+        return sum
+    }
+
+    fun getSum(transactions: List<Transaction>, currency: Currency): BigDecimal {
+        val filteredTransactions: List<Transaction> = transactions.filter { it.currency == currency }
+        return getSum(filteredTransactions).divide(usdBasedRates.getRateByCurrency(currency), 2, RoundingMode.HALF_UP)
+    }
+
+    private fun getSum(transactions: List<Transaction>): BigDecimal {
+        var sum: BigDecimal = BigDecimal.ZERO
+        for (transaction in transactions) {
+            if (transaction.transactionType == TransactionType.DEBIT)
+                sum += transaction.value
+            else
+                sum -= transaction.value
         }
 
-        fun getRUBSumInUSD(transactions: List<Transaction>): Double {
-            val rubTransactions: List<Transaction> = transactions.filter { it.currency == Currency.RUB }
-            return getSum(rubTransactions) / TEMPORARY_HARDCODED_RUB_USD_RATE
-        }
-
-        private fun getSum(transactions: List<Transaction>) : Double {
-            var sum = 0.0
-            for (transaction in transactions) {
-                if (transaction.transactionType == TransactionType.DEBIT)
-                    sum += transaction.value
-                else
-                    sum -= transaction.value
-            }
-
-            return sum
-        }
+        return sum
     }
 }

@@ -7,5 +7,15 @@
     <string name="about_desc">Money Tracker - application for money tracking</string>
     <string name="about_developed_by" translatable="false">Developed by Anton Zinakov</string>
     <string name="about_contact" translatable="false">email: ab.zinakov@yandex.ru</string>
-    <string name="dashboard_current_balance">Current balance</string>
+    <string name="dashboard_total_balance">Total balance</string>
+    <string name="categories">Categories</string>
+    <string name="error_loadings_rates">Error while loading usdBasedRates!</string>
+    <string name="no_network_connection">No network connection</string>
+    <string name="expenses">Expenses</string>
+    <string name="enter_sum">Enter sum</string>
+    <string name="add_transaction">Add a transaction</string>
+    <string name="save">Save</string>
+    <string name="incorrect_value">Incorrect value</string>
+    <string name="bank_card">Bank Card</string>
+    <string name="cash">Cash</string>
 </resources>

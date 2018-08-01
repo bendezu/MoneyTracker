@@ -1,3 +1,12 @@
 package com.rygital.moneytracker.data.model
 
-data class Transaction(val transactionType: TransactionType, val value: Double, val currency: Currency)
+import java.math.BigDecimal
+import java.util.*
+
+data class Transaction(val transactionType: TransactionType,
+                       val value: BigDecimal,
+                       val currency: Currency,
+                       val accountId: Long,
+                       var categoryId: Long,
+                       var dateTime: Date,
+                       var comment: String = "")

@@ -1,42 +1,65 @@
 package com.rygital.moneytracker.finance
 
+import com.rygital.moneytracker.data.model.*
 import com.rygital.moneytracker.data.model.Currency
-import com.rygital.moneytracker.data.model.Transaction
-import com.rygital.moneytracker.data.model.TransactionType
 import com.rygital.moneytracker.utils.calculator.FinanceCalculator
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Test
+import java.math.BigDecimal
+import java.util.*
 
 class FinanceCalculatorTest {
-    private val delta: Double = 0.001
+    private var financeCalculator: FinanceCalculator? = null
+    private val rates = UsdBasedRates(BigDecimal("60"), BigDecimal("1.15"))
 
     private val transactions: List<Transaction> = listOf(
-            Transaction(TransactionType.DEBIT, 200.0, Currency.USD),
-            Transaction(TransactionType.CREDIT, 100.0, Currency.USD),
-            Transaction(TransactionType.CREDIT, 100 * FinanceCalculator.TEMPORARY_HARDCODED_RUB_USD_RATE, Currency.RUB),
-            Transaction(TransactionType.DEBIT, 300 * FinanceCalculator.TEMPORARY_HARDCODED_RUB_USD_RATE, Currency.RUB),
-            Transaction(TransactionType.DEBIT, 100.0, Currency.USD))
+            Transaction(TransactionType.DEBIT, BigDecimal("200"), Currency.USD, 1, 0, Calendar.getInstance().time),
+            Transaction(TransactionType.CREDIT, BigDecimal("100"), Currency.USD, 1, 1, Calendar.getInstance().time),
+            Transaction(TransactionType.CREDIT, rates.rub.multiply(BigDecimal("100")), Currency.RUB, 1, 2, Calendar.getInstance().time),
+            Transaction(TransactionType.DEBIT, rates.rub.multiply(BigDecimal("300")), Currency.RUB, 0, 0, Calendar.getInstance().time),
+            Transaction(TransactionType.DEBIT, BigDecimal("100"), Currency.USD, 0, 0, Calendar.getInstance().time))
+
+    @Before
+    fun beforeTests() {
+        financeCalculator = FinanceCalculator(rates)
+    }
+
+    @Test
+    fun testSumOnAccount() {
+        assertEquals(BigDecimal("0.00"), financeCalculator?.getSumOnAccount(transactions, Account(1, "", "")))
+    }
+
+    @Test
+    fun testTotalExpenses() {
+        assertEquals(BigDecimal("200.00"), financeCalculator?.getTotalExpenses(transactions))
+    }
+
+    @Test
+    fun testExpensesByCategory() {
+        assertEquals(BigDecimal("100.00"), financeCalculator?.getExpensesByCategory(transactions, Category(2, "", BigDecimal.ZERO)))
+    }
 
     @Test
     fun testTotalSum() {
-        assertEquals(400.0, FinanceCalculator.getTotalSum(transactions), delta)
+        assertEquals(BigDecimal("400.00"), financeCalculator?.getTotalSum(transactions))
     }
 
     @Test
     fun testUSDSum() {
-        assertEquals(200.0, FinanceCalculator.getUSDSum(transactions), delta)
+        assertEquals(BigDecimal("200.00"), financeCalculator?.getSum(transactions, Currency.USD))
     }
 
     @Test
     fun testRubSumInUSD() {
-        assertEquals(200.0, FinanceCalculator.getRUBSumInUSD(transactions), delta)
+        assertEquals(BigDecimal("200.00"), financeCalculator?.getSum(transactions, Currency.RUB))
     }
 
     @Test
     fun testSumming() {
         assertEquals(
-                FinanceCalculator.getUSDSum(transactions) + FinanceCalculator.getRUBSumInUSD(transactions),
-                FinanceCalculator.getTotalSum(transactions),
-                delta)
+                financeCalculator?.getSum(transactions, Currency.USD)
+                        ?.add(financeCalculator?.getSum(transactions, Currency.RUB)),
+                financeCalculator?.getTotalSum(transactions))
     }
 }
