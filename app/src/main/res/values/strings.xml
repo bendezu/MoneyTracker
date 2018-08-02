@@ -5,7 +5,7 @@
 
     <string name="about">About</string>
     <string name="about_desc">Money Tracker - application for money tracking</string>
-    <string name="about_developed_by" translatable="false">Developed by Anton Zinakov</string>
+    <string name="about_developed_by" translatable="false">Developed by Anton Zinakov &amp; Vlad Bendezu</string>
     <string name="about_contact" translatable="false">email: ab.zinakov@yandex.ru</string>
     <string name="dashboard_total_balance">Total balance</string>
     <string name="categories">Categories</string>
@@ -18,4 +18,6 @@
     <string name="incorrect_value">Incorrect value</string>
     <string name="bank_card">Bank Card</string>
     <string name="cash">Cash</string>
+    <string name="primary_currency">Primary currency</string>
+    <string name="secondary_currency">Secondary currency</string>
 </resources>

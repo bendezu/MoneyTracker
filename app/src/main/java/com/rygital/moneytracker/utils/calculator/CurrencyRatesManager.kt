@@ -21,7 +21,7 @@ class CurrencyRatesManager @Inject constructor(private val currencyApi: Currency
 
         return if (usdBasedRates != null && currentTime - lastUpdateTime < 60 * 60 * 1000) {
             Timber.i("load from local storage")
-            Observable.just(usdBasedRates!!)
+            Observable.just(usdBasedRates)
         } else {
             Timber.i("load from server")
             loadRates()

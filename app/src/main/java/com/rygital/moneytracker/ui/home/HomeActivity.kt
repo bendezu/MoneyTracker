@@ -39,8 +39,7 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
     }
 
     private fun init() {
-        setSupportActionBar(toolbar)
-        supportFragmentManager.addOnBackStackChangedListener({ displayBackButton() })
+        supportFragmentManager.addOnBackStackChangedListener { displayBackButton() }
         displayBackButton()
     }
 
@@ -88,6 +87,10 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
 
     override fun openAddTransactionScreen() {
         presenter.openAddTransactionFragment()
+    }
+
+    override fun navigateBack() {
+        supportFragmentManager.popBackStack()
     }
 
     override fun onDestroy() {

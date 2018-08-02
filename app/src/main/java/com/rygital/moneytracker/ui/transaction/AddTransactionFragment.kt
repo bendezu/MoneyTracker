@@ -32,7 +32,6 @@ class AddTransactionFragment: BaseFragment(), AddTransaction.View, View.OnClickL
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setActionBarTitle(R.string.add_transaction)
         btnSave.setOnClickListener(this)
 
         presenter.initNewTransaction()

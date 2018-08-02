@@ -4,4 +4,5 @@ interface OnMenuClickListener {
     fun openAboutScreen()
     fun openSettingsScreen()
     fun openAddTransactionScreen()
+    fun navigateBack()
 }

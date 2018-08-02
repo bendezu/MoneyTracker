@@ -29,7 +29,7 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
     @Inject @JvmSuppressWildcards lateinit var presenter: Dashboard.Presenter<Dashboard.View>
     @Inject lateinit var adapter: CategoriesAdapter
 
-    private var onMenuClickListener: OnMenuClickListener? = null
+    private lateinit var onMenuClickListener: OnMenuClickListener
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -55,9 +55,8 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setActionBarTitle(R.string.app_name)
-
-        iBtnAddTransaction.setOnClickListener({ onMenuClickListener?.openAddTransactionScreen() })
+        iBtnAddTransaction.setOnClickListener { onMenuClickListener?.openAddTransactionScreen() }
+        settings.setOnClickListener { onMenuClickListener?.openSettingsScreen() }
 
         val llm = LinearLayoutManager(context)
         rvCategories.layoutManager = llm
@@ -70,11 +69,11 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
     }
 
     override fun showMoneyInRUB(value: BigDecimal) {
-        tvRoubles?.text = String.format("₽ %s", formatMoney(value))
+        secondaryBalance?.text = String.format("₽ %s", formatMoney(value))
     }
 
     override fun showMoneyInUSD(value: BigDecimal) {
-        tvDollars?.text = String.format("$ %s", formatMoney(value))
+        primaryBalance?.text = String.format("$ %s", formatMoney(value))
     }
 
     override fun showCashSum(value: BigDecimal) {

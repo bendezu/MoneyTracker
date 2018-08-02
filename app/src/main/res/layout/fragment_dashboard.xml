@@ -1,84 +1,256 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/app_bar_height">
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="@color/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/cardView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/half_offset"
-            android:layout_marginLeft="@dimen/half_offset"
-            android:layout_marginRight="@dimen/half_offset"
-            android:layout_marginStart="@dimen/half_offset"
-            android:layout_marginTop="@dimen/half_offset"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/half_offset"
+                app:layout_collapseMode="parallax">
 
-            <android.support.constraint.ConstraintLayout
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/offset"
+                    android:text="@string/dashboard_total_balance"
+                    android:textSize="24sp"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    android:id="@+id/primaryBalance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/half_offset"
+                    tools:text="$ 1234.56"
+                    android:textSize="40sp"
+                    android:textColor="@color/white"
+                    android:fontFamily="sans-serif-bold"/>
+
+                <TextView
+                    android:id="@+id/secondaryBalance"
+                    style="@style/Text.Large.Dashboard.Secondary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/offset"
+                    tools:text="$ 1234.56"
+                    android:textSize="24sp"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/settings"
+                android:layout_width="@dimen/toolbar_button_size"
+                android:layout_height="@dimen/toolbar_button_size"
+                android:padding="@dimen/toolbar_button_padding"
+                android:layout_gravity="end"
+                app:srcCompat="@drawable/ic_settings"
+                android:background="@drawable/ripple_accent"/>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/accounts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.CardView
+                android:id="@+id/cardView2"
+                android:layout_width="180dp"
+                android:layout_height="132dp"
+                android:layout_marginEnd="@dimen/half_offset"
+                android:layout_marginStart="@dimen/half_offset">
+
+                    <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                android:id="@+id/icCash"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="36dp"
+                android:layout_marginEnd="36dp"
+                android:layout_marginLeft="36dp"
+                android:layout_marginRight="36dp"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="36dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_monetization_on_black_24dp"
+                tools:ignore="ContentDescription" />
+
+                <TextView
+                android:id="@+id/tvCashSum"
+                style="@style/Text.Small.Secondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintEnd_toEndOf="@+id/icCash"
+                app:layout_constraintStart_toStartOf="@+id/icCash"
+                app:layout_constraintTop_toBottomOf="@+id/icCash" />
+
+                <TextView
+                android:id="@+id/textView11"
+                style="@style/Text.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginEnd="@dimen/half_offset"
+                android:layout_marginLeft="@dimen/half_offset"
+                android:layout_marginRight="@dimen/half_offset"
+                android:layout_marginStart="@dimen/half_offset"
+                android:text="@string/cash"
+                app:layout_constraintBottom_toTopOf="@+id/icCash"
+                app:layout_constraintEnd_toEndOf="@+id/icCash"
+                app:layout_constraintStart_toStartOf="@+id/icCash" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                android:id="@+id/cardView4"
+                android:layout_width="180dp"
+                android:layout_height="132dp"
+                android:layout_marginEnd="@dimen/half_offset"
+                android:layout_marginStart="@dimen/half_offset">
+
+                    <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/textView2"
-                    style="@style/Text.Large.Dashboard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/offset"
-                    android:layout_marginLeft="@dimen/offset"
-                    android:layout_marginRight="@dimen/offset"
-                    android:layout_marginStart="@dimen/offset"
-                    android:layout_marginTop="@dimen/offset"
-                    android:text="@string/dashboard_total_balance"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                android:id="@+id/textView7"
+                style="@style/Text.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_marginEnd="@dimen/half_offset"
+                android:layout_marginLeft="@dimen/half_offset"
+                android:layout_marginRight="@dimen/half_offset"
+                android:layout_marginStart="@dimen/half_offset"
+                android:text="@string/bank_card"
+                app:layout_constraintBottom_toTopOf="@+id/ivBankCard"
+                app:layout_constraintEnd_toEndOf="@+id/ivBankCard"
+                app:layout_constraintStart_toStartOf="@+id/ivBankCard" />
+
+                <ImageView
+                android:id="@+id/ivBankCard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_credit_card_black_24dp"
+                tools:ignore="ContentDescription" />
 
                 <TextView
-                    android:id="@+id/tvDollars"
-                    style="@style/Text.Large.Dashboard"
-                    android:layout_width="0dp"
-                    android:layout_marginBottom="@dimen/offset"
-                    android:layout_marginEnd="@dimen/half_offset"
-                    android:layout_marginLeft="@dimen/offset"
-                    android:layout_marginRight="@dimen/half_offset"
-                    android:layout_marginStart="@dimen/offset"
-                    android:layout_marginTop="@dimen/half_offset"
-                    android:layout_weight="1"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/tvRoubles"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                android:id="@+id/tvBankCardSum"
+                style="@style/Text.Small.Secondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                app:layout_constraintEnd_toEndOf="@+id/ivBankCard"
+                app:layout_constraintStart_toStartOf="@+id/ivBankCard"
+                app:layout_constraintTop_toBottomOf="@+id/ivBankCard" />
 
-                <TextView
-                    android:id="@+id/tvRoubles"
-                    style="@style/Text.Large.Dashboard.Secondary"
-                    android:layout_width="0dp"
-                    android:layout_marginBottom="@dimen/offset"
-                    android:layout_marginEnd="@dimen/offset"
-                    android:layout_marginLeft="@dimen/half_offset"
-                    android:layout_marginRight="@dimen/offset"
-                    android:layout_marginStart="@dimen/half_offset"
-                    android:layout_marginTop="@dimen/half_offset"
-                    android:layout_weight="1"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tvDollars"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
-            </android.support.constraint.ConstraintLayout>
+                </android.support.constraint.ConstraintLayout>
 
-        </android.support.v7.widget.CardView>
+                </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.CardView
+            </LinearLayout>
+
+            <android.support.v7.widget.CardView
             android:id="@+id/cardView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/half_offset"
+            android:layout_marginEnd="@dimen/half_offset"
+            android:layout_marginLeft="@dimen/half_offset"
+            android:layout_marginRight="@dimen/half_offset"
+            android:layout_marginStart="@dimen/half_offset"
+            android:layout_marginTop="@dimen/half_offset">
+
+            <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+            android:id="@+id/tvCategories"
+            style="@style/Text.Large.Dashboard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/half_offset"
+            android:layout_marginLeft="@dimen/offset"
+            android:layout_marginRight="@dimen/half_offset"
+            android:layout_marginStart="@dimen/offset"
+            android:layout_marginTop="@dimen/half_offset"
+            android:text="@string/expenses"
+            app:layout_constraintEnd_toStartOf="@+id/iBtnAddTransaction"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pieChart"/>
+
+            <ImageButton
+            android:id="@+id/iBtnAddTransaction"
+            style="@style/Text.Large.Dashboard"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="@dimen/half_offset"
+            android:layout_marginRight="@dimen/half_offset"
+            android:layout_marginTop="4dp"
+            android:background="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/tvCategories"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvCategories"
+            app:srcCompat="@drawable/ic_add_black_24dp"
+            tools:ignore="ContentDescription" />
+
+            <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvCategories"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/half_offset"
@@ -86,205 +258,333 @@
             android:layout_marginLeft="@dimen/half_offset"
             android:layout_marginRight="@dimen/half_offset"
             android:layout_marginStart="@dimen/half_offset"
-            android:layout_marginTop="@dimen/half_offset"
+            android:layout_marginTop="@dimen/offset"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView2">
+            app:layout_constraintTop_toBottomOf="@+id/tvCategories" />
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/tvCategories"
-                    style="@style/Text.Large.Dashboard"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/half_offset"
-                    android:layout_marginLeft="@dimen/offset"
-                    android:layout_marginRight="@dimen/half_offset"
-                    android:layout_marginStart="@dimen/offset"
-                    android:layout_marginTop="@dimen/half_offset"
-                    android:text="@string/expenses"
-                    app:layout_constraintEnd_toStartOf="@+id/iBtnAddTransaction"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/pieChart" />
-
-                <ImageButton
-                    android:id="@+id/iBtnAddTransaction"
-                    style="@style/Text.Large.Dashboard"
-                    android:layout_width="0dp"
-                    android:layout_height="44dp"
-                    android:layout_marginEnd="@dimen/half_offset"
-                    android:layout_marginRight="@dimen/half_offset"
-                    android:layout_marginTop="4dp"
-                    android:background="@android:color/white"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvCategories"
-                    app:layout_constraintDimensionRatio="w,1:1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvCategories"
-                    app:srcCompat="@drawable/ic_add_black_24dp"
-                    tools:ignore="ContentDescription" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvCategories"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/half_offset"
-                    android:layout_marginEnd="@dimen/half_offset"
-                    android:layout_marginLeft="@dimen/half_offset"
-                    android:layout_marginRight="@dimen/half_offset"
-                    android:layout_marginStart="@dimen/half_offset"
-                    android:layout_marginTop="@dimen/offset"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvCategories" />
-
-                <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/pieChart"
-                    android:layout_width="0dp"
-                    android:layout_height="200dp"
-                    android:layout_marginBottom="@dimen/half_offset"
-                    android:layout_marginTop="@dimen/half_offset"
-                    app:layout_constraintBottom_toTopOf="@+id/tvCategories"
-                    app:layout_constraintDimensionRatio="h,1:1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="spread">
-
-                </com.github.mikephil.charting.charts.PieChart>
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/cardView2"
+            <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChart"
             android:layout_width="0dp"
-            android:layout_height="132dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginLeft="@dimen/half_offset"
-            android:layout_marginRight="4dp"
-            android:layout_marginStart="@dimen/half_offset"
+            android:layout_height="200dp"
+            android:layout_marginBottom="@dimen/half_offset"
             android:layout_marginTop="@dimen/half_offset"
-            app:layout_constraintEnd_toStartOf="@+id/cardView4"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView" >
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/icCash"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="36dp"
-                    android:layout_marginEnd="36dp"
-                    android:layout_marginLeft="36dp"
-                    android:layout_marginRight="36dp"
-                    android:layout_marginStart="36dp"
-                    android:layout_marginTop="36dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_monetization_on_black_24dp"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:id="@+id/tvCashSum"
-                    style="@style/Text.Small.Secondary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_marginTop="4dp"
-                    app:layout_constraintEnd_toEndOf="@+id/icCash"
-                    app:layout_constraintStart_toStartOf="@+id/icCash"
-                    app:layout_constraintTop_toBottomOf="@+id/icCash" />
-
-                <TextView
-                    android:id="@+id/textView11"
-                    style="@style/Text.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="15dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginEnd="@dimen/half_offset"
-                    android:layout_marginLeft="@dimen/half_offset"
-                    android:layout_marginRight="@dimen/half_offset"
-                    android:layout_marginStart="@dimen/half_offset"
-                    android:text="@string/cash"
-                    app:layout_constraintBottom_toTopOf="@+id/icCash"
-                    app:layout_constraintEnd_toEndOf="@+id/icCash"
-                    app:layout_constraintStart_toStartOf="@+id/icCash" />
-
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/cardView4"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="@dimen/half_offset"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="@dimen/half_offset"
-            android:layout_marginStart="4dp"
-            app:layout_constraintBottom_toBottomOf="@+id/cardView2"
+            app:layout_constraintBottom_toTopOf="@+id/tvCategories"
+            app:layout_constraintDimensionRatio="h,1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/cardView2"
-            app:layout_constraintTop_toTopOf="@+id/cardView2" >
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread">
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/textView7"
-                    style="@style/Text.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="15dp"
-                    android:layout_marginEnd="@dimen/half_offset"
-                    android:layout_marginLeft="@dimen/half_offset"
-                    android:layout_marginRight="@dimen/half_offset"
-                    android:layout_marginStart="@dimen/half_offset"
-                    android:text="@string/bank_card"
-                    app:layout_constraintBottom_toTopOf="@+id/ivBankCard"
-                    app:layout_constraintEnd_toEndOf="@+id/ivBankCard"
-                    app:layout_constraintStart_toStartOf="@+id/ivBankCard" />
-
-                <ImageView
-                    android:id="@+id/ivBankCard"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="32dp"
-                    android:layout_marginEnd="32dp"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginRight="32dp"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="32dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_credit_card_black_24dp"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:id="@+id/tvBankCardSum"
-                    style="@style/Text.Small.Secondary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginRight="4dp"
-                    app:layout_constraintEnd_toEndOf="@+id/ivBankCard"
-                    app:layout_constraintStart_toStartOf="@+id/ivBankCard"
-                    app:layout_constraintTop_toBottomOf="@+id/ivBankCard" />
-
+            </com.github.mikephil.charting.charts.PieChart>
             </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
-    </android.support.constraint.ConstraintLayout>
-</ScrollView>
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end"
+        app:srcCompat="@drawable/ic_attach_money" />
+
+</android.support.design.widget.CoordinatorLayout>
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:id="@+id/scrollView"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+
+    <!--<android.support.constraint.ConstraintLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+
+        <!---->
+
+        <!--<android.support.v7.widget.CardView-->
+            <!--android:id="@+id/cardView"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginEnd="@dimen/half_offset"-->
+            <!--android:layout_marginLeft="@dimen/half_offset"-->
+            <!--android:layout_marginRight="@dimen/half_offset"-->
+            <!--android:layout_marginStart="@dimen/half_offset"-->
+            <!--android:layout_marginTop="@dimen/half_offset"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toTopOf="parent">-->
+
+            <!--<android.support.constraint.ConstraintLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/textView2"-->
+                    <!--style="@style/Text.Large.Dashboard"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginEnd="@dimen/offset"-->
+                    <!--android:layout_marginLeft="@dimen/offset"-->
+                    <!--android:layout_marginRight="@dimen/offset"-->
+                    <!--android:layout_marginStart="@dimen/offset"-->
+                    <!--android:layout_marginTop="@dimen/offset"-->
+                    <!--android:text="@string/dashboard_total_balance"-->
+                    <!--app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--app:layout_constraintStart_toStartOf="parent"-->
+                    <!--app:layout_constraintTop_toTopOf="parent" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/tvDollars"-->
+                    <!--style="@style/Text.Large.Dashboard"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_marginBottom="@dimen/offset"-->
+                    <!--android:layout_marginEnd="@dimen/half_offset"-->
+                    <!--android:layout_marginLeft="@dimen/offset"-->
+                    <!--android:layout_marginRight="@dimen/half_offset"-->
+                    <!--android:layout_marginStart="@dimen/offset"-->
+                    <!--android:layout_marginTop="@dimen/half_offset"-->
+                    <!--android:layout_weight="1"-->
+                    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                    <!--app:layout_constraintEnd_toStartOf="@+id/tvRoubles"-->
+                    <!--app:layout_constraintStart_toStartOf="parent"-->
+                    <!--app:layout_constraintTop_toBottomOf="@+id/textView2" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/tvRoubles"-->
+                    <!--style="@style/Text.Large.Dashboard.Secondary"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_marginBottom="@dimen/offset"-->
+                    <!--android:layout_marginEnd="@dimen/offset"-->
+                    <!--android:layout_marginLeft="@dimen/half_offset"-->
+                    <!--android:layout_marginRight="@dimen/offset"-->
+                    <!--android:layout_marginStart="@dimen/half_offset"-->
+                    <!--android:layout_marginTop="@dimen/half_offset"-->
+                    <!--android:layout_weight="1"-->
+                    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                    <!--app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--app:layout_constraintStart_toEndOf="@+id/tvDollars"-->
+                    <!--app:layout_constraintTop_toBottomOf="@+id/textView2" />-->
+            <!--</android.support.constraint.ConstraintLayout>-->
+
+        <!--</android.support.v7.widget.CardView>-->
+
+        <!--<android.support.v7.widget.CardView-->
+            <!--android:id="@+id/cardView3"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="@dimen/half_offset"-->
+            <!--android:layout_marginEnd="@dimen/half_offset"-->
+            <!--android:layout_marginLeft="@dimen/half_offset"-->
+            <!--android:layout_marginRight="@dimen/half_offset"-->
+            <!--android:layout_marginStart="@dimen/half_offset"-->
+            <!--android:layout_marginTop="@dimen/half_offset"-->
+            <!--app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/cardView2">-->
+
+            <!--<android.support.constraint.ConstraintLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/tvCategories"-->
+                    <!--style="@style/Text.Large.Dashboard"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginEnd="@dimen/half_offset"-->
+                    <!--android:layout_marginLeft="@dimen/offset"-->
+                    <!--android:layout_marginRight="@dimen/half_offset"-->
+                    <!--android:layout_marginStart="@dimen/offset"-->
+                    <!--android:layout_marginTop="@dimen/half_offset"-->
+                    <!--android:text="@string/expenses"-->
+                    <!--app:layout_constraintEnd_toStartOf="@+id/iBtnAddTransaction"-->
+                    <!--app:layout_constraintStart_toStartOf="parent"-->
+                    <!--app:layout_constraintTop_toBottomOf="@+id/pieChart" />-->
+
+                <!--<ImageButton-->
+                    <!--android:id="@+id/iBtnAddTransaction"-->
+                    <!--style="@style/Text.Large.Dashboard"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="44dp"-->
+                    <!--android:layout_marginEnd="@dimen/half_offset"-->
+                    <!--android:layout_marginRight="@dimen/half_offset"-->
+                    <!--android:layout_marginTop="4dp"-->
+                    <!--android:background="@android:color/white"-->
+                    <!--app:layout_constraintBottom_toBottomOf="@+id/tvCategories"-->
+                    <!--app:layout_constraintDimensionRatio="w,1:1"-->
+                    <!--app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--app:layout_constraintTop_toTopOf="@+id/tvCategories"-->
+                    <!--app:srcCompat="@drawable/ic_add_black_24dp"-->
+                    <!--tools:ignore="ContentDescription" />-->
+
+                <!--<android.support.v7.widget.RecyclerView-->
+                    <!--android:id="@+id/rvCategories"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginBottom="@dimen/half_offset"-->
+                    <!--android:layout_marginEnd="@dimen/half_offset"-->
+                    <!--android:layout_marginLeft="@dimen/half_offset"-->
+                    <!--android:layout_marginRight="@dimen/half_offset"-->
+                    <!--android:layout_marginStart="@dimen/half_offset"-->
+                    <!--android:layout_marginTop="@dimen/offset"-->
+                    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                    <!--app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--app:layout_constraintStart_toStartOf="parent"-->
+                    <!--app:layout_constraintTop_toBottomOf="@+id/tvCategories" />-->
+
+                <!--<com.github.mikephil.charting.charts.PieChart-->
+                    <!--android:id="@+id/pieChart"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="200dp"-->
+                    <!--android:layout_marginBottom="@dimen/half_offset"-->
+                    <!--android:layout_marginTop="@dimen/half_offset"-->
+                    <!--app:layout_constraintBottom_toTopOf="@+id/tvCategories"-->
+                    <!--app:layout_constraintDimensionRatio="h,1:1"-->
+                    <!--app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--app:layout_constraintStart_toStartOf="parent"-->
+                    <!--app:layout_constraintTop_toTopOf="parent"-->
+                    <!--app:layout_constraintVertical_chainStyle="spread">-->
+
+                <!--</com.github.mikephil.charting.charts.PieChart>-->
+            <!--</android.support.constraint.ConstraintLayout>-->
+        <!--</android.support.v7.widget.CardView>-->
+
+        <!--<android.support.v7.widget.CardView-->
+            <!--android:id="@+id/cardView2"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="132dp"-->
+            <!--android:layout_marginEnd="4dp"-->
+            <!--android:layout_marginLeft="@dimen/half_offset"-->
+            <!--android:layout_marginRight="4dp"-->
+            <!--android:layout_marginStart="@dimen/half_offset"-->
+            <!--android:layout_marginTop="@dimen/half_offset"-->
+            <!--app:layout_constraintEnd_toStartOf="@+id/cardView4"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/cardView" >-->
+
+            <!--<android.support.constraint.ConstraintLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/icCash"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_marginBottom="36dp"-->
+                    <!--android:layout_marginEnd="36dp"-->
+                    <!--android:layout_marginLeft="36dp"-->
+                    <!--android:layout_marginRight="36dp"-->
+                    <!--android:layout_marginStart="36dp"-->
+                    <!--android:layout_marginTop="36dp"-->
+                    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                    <!--app:layout_constraintDimensionRatio="1:1"-->
+                    <!--app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--app:layout_constraintStart_toStartOf="parent"-->
+                    <!--app:layout_constraintTop_toTopOf="parent"-->
+                    <!--app:srcCompat="@drawable/ic_monetization_on_black_24dp"-->
+                    <!--tools:ignore="ContentDescription" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/tvCashSum"-->
+                    <!--style="@style/Text.Small.Secondary"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginEnd="4dp"-->
+                    <!--android:layout_marginRight="4dp"-->
+                    <!--android:layout_marginTop="4dp"-->
+                    <!--app:layout_constraintEnd_toEndOf="@+id/icCash"-->
+                    <!--app:layout_constraintStart_toStartOf="@+id/icCash"-->
+                    <!--app:layout_constraintTop_toBottomOf="@+id/icCash" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/textView11"-->
+                    <!--style="@style/Text.Small"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="15dp"-->
+                    <!--android:layout_marginBottom="4dp"-->
+                    <!--android:layout_marginEnd="@dimen/half_offset"-->
+                    <!--android:layout_marginLeft="@dimen/half_offset"-->
+                    <!--android:layout_marginRight="@dimen/half_offset"-->
+                    <!--android:layout_marginStart="@dimen/half_offset"-->
+                    <!--android:text="@string/cash"-->
+                    <!--app:layout_constraintBottom_toTopOf="@+id/icCash"-->
+                    <!--app:layout_constraintEnd_toEndOf="@+id/icCash"-->
+                    <!--app:layout_constraintStart_toStartOf="@+id/icCash" />-->
+
+            <!--</android.support.constraint.ConstraintLayout>-->
+        <!--</android.support.v7.widget.CardView>-->
+
+        <!--<android.support.v7.widget.CardView-->
+            <!--android:id="@+id/cardView4"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_marginEnd="@dimen/half_offset"-->
+            <!--android:layout_marginLeft="4dp"-->
+            <!--android:layout_marginRight="@dimen/half_offset"-->
+            <!--android:layout_marginStart="4dp"-->
+            <!--app:layout_constraintBottom_toBottomOf="@+id/cardView2"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintStart_toEndOf="@+id/cardView2"-->
+            <!--app:layout_constraintTop_toTopOf="@+id/cardView2" >-->
+
+            <!--<android.support.constraint.ConstraintLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/textView7"-->
+                    <!--style="@style/Text.Small"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="15dp"-->
+                    <!--android:layout_marginEnd="@dimen/half_offset"-->
+                    <!--android:layout_marginLeft="@dimen/half_offset"-->
+                    <!--android:layout_marginRight="@dimen/half_offset"-->
+                    <!--android:layout_marginStart="@dimen/half_offset"-->
+                    <!--android:text="@string/bank_card"-->
+                    <!--app:layout_constraintBottom_toTopOf="@+id/ivBankCard"-->
+                    <!--app:layout_constraintEnd_toEndOf="@+id/ivBankCard"-->
+                    <!--app:layout_constraintStart_toStartOf="@+id/ivBankCard" />-->
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/ivBankCard"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_marginBottom="32dp"-->
+                    <!--android:layout_marginEnd="32dp"-->
+                    <!--android:layout_marginLeft="32dp"-->
+                    <!--android:layout_marginRight="32dp"-->
+                    <!--android:layout_marginStart="32dp"-->
+                    <!--android:layout_marginTop="32dp"-->
+                    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                    <!--app:layout_constraintDimensionRatio="1:1"-->
+                    <!--app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--app:layout_constraintStart_toStartOf="parent"-->
+                    <!--app:layout_constraintTop_toTopOf="parent"-->
+                    <!--app:srcCompat="@drawable/ic_credit_card_black_24dp"-->
+                    <!--tools:ignore="ContentDescription" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/tvBankCardSum"-->
+                    <!--style="@style/Text.Small.Secondary"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginEnd="4dp"-->
+                    <!--android:layout_marginRight="4dp"-->
+                    <!--app:layout_constraintEnd_toEndOf="@+id/ivBankCard"-->
+                    <!--app:layout_constraintStart_toStartOf="@+id/ivBankCard"-->
+                    <!--app:layout_constraintTop_toBottomOf="@+id/ivBankCard" />-->
+
+            <!--</android.support.constraint.ConstraintLayout>-->
+        <!--</android.support.v7.widget.CardView>-->
+    <!--</android.support.constraint.ConstraintLayout>-->
+<!--</ScrollView>-->
