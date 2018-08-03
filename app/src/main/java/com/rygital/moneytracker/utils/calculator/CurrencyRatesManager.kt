@@ -30,10 +30,10 @@ class CurrencyRatesManager @Inject constructor(private val currencyApi: Currency
 
     private fun loadRates(): Observable<UsdBasedRates> {
         return currencyApi.getCurrencyRates(API_KEY)
-                .doOnNext({it ->
+                .doOnNext { it ->
                     lastUpdateTime = it.timestamp
                     usdBasedRates = it.usdBasedRates
-                })
+                }
                 .flatMap { Observable.just(it.usdBasedRates) }
     }
 }

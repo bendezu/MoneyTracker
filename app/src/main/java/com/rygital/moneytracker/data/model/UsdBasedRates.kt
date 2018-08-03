@@ -18,4 +18,12 @@ data class UsdBasedRates(@SerializedName("RUB")
             else -> BigDecimal.ONE
         }
     }
+
+    fun getRateByCurrency(currency: String): BigDecimal {
+        return when(currency) {
+            "RUB" -> rub
+            "EUR" -> eur
+            else -> BigDecimal.ONE
+        }
+    }
 }
