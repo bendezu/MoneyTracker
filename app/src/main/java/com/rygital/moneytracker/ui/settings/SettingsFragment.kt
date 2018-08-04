@@ -9,7 +9,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.rygital.moneytracker.App
 import com.rygital.moneytracker.R
-import com.rygital.moneytracker.data.model.Currency
+import com.rygital.moneytracker.data.model.database.Currency
 import com.rygital.moneytracker.injection.components.fragment.SettingsFragmentComponent
 import com.rygital.moneytracker.ui.base.BaseFragment
 import com.rygital.moneytracker.ui.home.OnMenuClickListener
@@ -69,12 +69,12 @@ class SettingsFragment: BaseFragment(), Settings.View {
     }
 
     override fun initPrimaryCurrencySpinner(list: List<Currency>, initial: Int) {
-        primaryCurrencySpinner.adapter = getAdapter(list)
+        primaryCurrencySpinner.adapter = getAdapter(list.map { it.label })
         primaryCurrencySpinner.setSelection(initial)
     }
 
     override fun initSecondaryCurrencySpinner(list: List<Currency>, initial: Int) {
-        secondaryCurrencySpinner.adapter = getAdapter(list)
+        secondaryCurrencySpinner.adapter = getAdapter(list.map { it.label })
         secondaryCurrencySpinner.setSelection(initial)
     }
 

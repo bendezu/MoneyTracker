@@ -18,6 +18,8 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import android.support.v7.widget.DividerItemDecoration
+import android.widget.Toast
+import com.rygital.moneytracker.data.model.database.FinanceDatabase
 import com.rygital.moneytracker.injection.components.fragment.DashboardFragmentComponent
 
 
@@ -55,8 +57,8 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        iBtnAddTransaction.setOnClickListener { onMenuClickListener?.openAddTransactionScreen() }
-        settings.setOnClickListener { onMenuClickListener?.openSettingsScreen() }
+        addTransaction.setOnClickListener { onMenuClickListener.openAddTransactionScreen() }
+        settings.setOnClickListener { onMenuClickListener.openSettingsScreen() }
 
         val llm = LinearLayoutManager(context)
         rvCategories.layoutManager = llm
@@ -68,39 +70,36 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
         presenter.loadData()
     }
 
-    override fun showMoneyInRUB(value: BigDecimal) {
-        secondaryBalance?.text = String.format("₽ %s", formatMoney(value))
+    override fun showPrimaryTotalBalance(value: BigDecimal, symbol: Char) {
+        secondaryBalance?.text = "$symbol ${formatMoney(value)}"
     }
 
-    override fun showMoneyInUSD(value: BigDecimal) {
-        primaryBalance?.text = String.format("$ %s", formatMoney(value))
+    override fun showSecondaryTotalBalance(value: BigDecimal, symbol: Char) {
+        primaryBalance?.text = "$symbol ${formatMoney(value)}"
     }
 
-    override fun showCashSum(value: BigDecimal) {
-        tvCashSum.text = String.format("$ %s", formatMoney(value))
+    override fun showAccounts(data: List<AccountPagerItem>) {
+        accountPager.adapter = AccountPagerAdapter(data, context)
+        tabDots.setupWithViewPager(accountPager, true);
     }
 
-    override fun showBackCardSum(value: BigDecimal) {
-        tvBankCardSum.text = String.format("$ %s", formatMoney(value))
-    }
-
-    override fun showCategories(categoryList: List<Category>, totalExpenses: BigDecimal) {
+    override fun showCategories(categoryList: List<ChartItem>, totalExpenses: BigDecimal, symbol: Char) {
         adapter.categoryList = categoryList
-        drawPieChart(categoryList, totalExpenses)
+        drawPieChart(categoryList, totalExpenses, symbol)
     }
 
-    private fun drawPieChart(categoryList: List<Category>, totalExpenses: BigDecimal) {
+    private fun drawPieChart(categoryList: List<ChartItem>, totalExpenses: BigDecimal, symbol: Char) {
 
         val entries: MutableList<PieEntry> = mutableListOf()
 
         for (category in categoryList)
-            entries.add(PieEntry(category.fact.toFloat(), category.title))
+            entries.add(PieEntry(category.amount.toFloat(), category.label))
 
         val pieDataSet = PieDataSet(entries, "")
         pieDataSet.setDrawValues(false)
 
         if (context != null)
-            pieDataSet.colors = categoryList.map { it -> ContextCompat.getColor(context!!, it.color) }
+            pieDataSet.colors = categoryList.map { it -> ContextCompat.getColor(context!!, it.colorRes) }
 
         pieChart.data = PieData(pieDataSet)
         pieChart.legend.isEnabled = false
@@ -110,23 +109,21 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
         pieChart.holeRadius = 80f
         pieChart.isRotationEnabled = false
         pieChart.setEntryLabelTextSize(14f)
-        pieChart.centerText = String.format("$ %s", formatMoney(totalExpenses))
+        pieChart.centerText = "$symbol ${formatMoney(totalExpenses)}"
         pieChart.notifyDataSetChanged()
         pieChart.invalidate()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.main, menu)
-
         return super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.selSettings -> onMenuClickListener?.openSettingsScreen()
-            R.id.selAbout -> onMenuClickListener?.openAboutScreen()
+            R.id.selSettings -> onMenuClickListener.openSettingsScreen()
+            R.id.selAbout -> onMenuClickListener.openAboutScreen()
         }
-
         return false
     }
 

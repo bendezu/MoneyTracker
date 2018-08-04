@@ -12,11 +12,14 @@ interface CurrencyDao {
     @Query("SELECT * FROM currency ORDER BY id")
     fun getAll(): List<Currency>
 
+    @Query("SELECT * FROM currency ORDER BY id")
+    fun getAllRx(): Single<List<Currency>>
+
     @Query("SELECT * FROM currency WHERE label = :label")
     fun findByLabel(label: String) : Currency?
 
     @Query("SELECT * FROM currency WHERE id = :id")
-    fun findById(id: Long) : Currency?
+    fun findById(id: Long) : Currency
 
     @Update
     fun updateCurrencies(currencies: List<Currency>)
@@ -66,6 +69,8 @@ interface TransactionDao {
 
     @Insert(onConflict = REPLACE)
     fun insert(transaction: Transaction)
+    @Insert(onConflict = REPLACE)
+    fun insertAll(transactions: Array<Transaction>)
 
     @Delete
     fun delete(transaction: Transaction)
@@ -73,8 +78,8 @@ interface TransactionDao {
     @Query("""
         SELECT tr.id, tr.type, tr.amount, cu.label AS currencyLabel,
             cu.symbol AS currencySymbol, cu.rate_to_usd AS currencyRate,
-            ca.label AS categoryLabel, ca.color AS categoryColor,
-            ac.label AS accountLabel, ac.icon AS accountIcon, tr.date
+            ca.id AS categoryId, ca.label AS categoryLabel, ca.color AS categoryColor,
+            ac.id AS accountId, ac.label AS accountLabel, ac.icon AS accountIcon, tr.date
         FROM `transaction` AS tr
             JOIN currency AS cu ON tr.currency_id = cu.id
             JOIN category AS ca ON tr.category_id = ca.id
@@ -89,9 +94,11 @@ data class DetailedTransaction(
         var currencyLabel: String,
         var currencySymbol: Char,
         var currencyRate : Double,
-        var categoryLabel: String,
+        var categoryId: Long,
+        var categoryLabel: Int,
         var categoryColor: Int,
-        var accountLabel: String,
+        var accountId: Long,
+        var accountLabel: Int,
         var accountIcon: Int,
         var date: Date
 )

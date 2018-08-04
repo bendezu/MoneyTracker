@@ -18,7 +18,7 @@ data class Currency(
     @PrimaryKey var id: Long,
     @ColumnInfo(name = "label") var label: String,
     @ColumnInfo(name = "symbol") var symbol: Char,
-    @ColumnInfo(name = "rate_to_usd") var rateToUsd: Double?
+    @ColumnInfo(name = "rate_to_usd") var rateToUsd: Double
 )
 
 
@@ -44,11 +44,11 @@ data class Account(
     ForeignKey(entity = Account::class, parentColumns = arrayOf("id"), childColumns = arrayOf("account_id"))
 ))
 data class Transaction(
-        @PrimaryKey(autoGenerate = true) var id: Long = 0,
         @ColumnInfo(name = "type") var type: Int,
         @ColumnInfo(name = "amount") var amount: BigDecimal,
         @ColumnInfo(name = "currency_id") var currencyId: Long,
         @ColumnInfo(name = "category_id") var categoryId: Long,
         @ColumnInfo(name = "account_id") var accountId: Long,
-        @ColumnInfo(name = "date") var date: Date
+        @ColumnInfo(name = "date") var date: Date,
+        @PrimaryKey(autoGenerate = true) var id: Long = 0
 )

@@ -9,6 +9,7 @@ import android.content.Context
 import com.rygital.moneytracker.INITIAL_ACCOUNTS
 import com.rygital.moneytracker.INITIAL_CATEGORIES
 import com.rygital.moneytracker.INITIAL_CURRENCIES
+import com.rygital.moneytracker.INITIAL_TRANSACTIONS
 import java.util.concurrent.Executors
 
 @Database(entities = [(Currency::class), (Category::class), (Account::class), (Transaction::class)],
@@ -44,6 +45,7 @@ abstract class FinanceDatabase: RoomDatabase() {
                                 database?.currencyDao()?.insertAll(INITIAL_CURRENCIES)
                                 database?.categoryDao()?.insertAll(INITIAL_CATEGORIES)
                                 database?.accountDao()?.insertAll(INITIAL_ACCOUNTS)
+                                database?.transactionDao()?.insertAll(INITIAL_TRANSACTIONS)
                             }
                         }
                     })
