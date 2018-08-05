@@ -1,6 +1,10 @@
 package com.rygital.moneytracker.ui.transaction
 
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
 import android.content.Context
+import android.os.PersistableBundle
 import com.rygital.moneytracker.*
 import com.rygital.moneytracker.data.model.database.*
 import com.rygital.moneytracker.data.model.database.Currency
@@ -11,6 +15,7 @@ import io.reactivex.functions.Function3
 import timber.log.Timber
 import java.math.BigDecimal
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.concurrent.thread
 
@@ -78,4 +83,40 @@ class AddTransactionPresenter<V: AddTransaction.View> @Inject constructor(privat
 
     }
 
+    override fun addPeriodicTransaction(isIncome: Boolean, amount: String, currencyId: Int, categoryId: Int, accountId: Int,
+                                        interval: Int, intervalId: Int) {
+        val type = if (isIncome) INCOME else EXPENSE
+
+        val intervalMillis = when (intervalId) {
+            0 -> { TimeUnit.DAYS.toMillis(interval.toLong()) } //Day
+            1 -> { 7*TimeUnit.DAYS.toMillis(interval.toLong()) } //Week
+            2 -> { 30*TimeUnit.DAYS.toMillis(interval.toLong()) } //Month
+            3 -> { 365*TimeUnit.DAYS.toMillis(interval.toLong()) } //Year
+            else -> throw IllegalArgumentException()
+        }
+
+        try {
+            if (BigDecimal(amount).compareTo(BigDecimal.ZERO) == 0) throw NumberFormatException()
+        } catch (e: NumberFormatException) {
+            Timber.e(e)
+            view?.showMessage(R.string.incorrect_value)
+            return
+        }
+
+        val bundle = PersistableBundle()
+        bundle.putInt(ARG_TYPE, type)
+        bundle.putString(ARG_AMOUNT, amount)
+        bundle.putInt(ARG_CURRENCY_ID, currencyId)
+        bundle.putInt(ARG_CATEGORY_ID, categoryId)
+        bundle.putInt(ARG_ACCOUNT_ID, accountId)
+
+        val jobScheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+        jobScheduler.schedule(JobInfo.Builder(ADD_TRANSACTION_JOB_ID,
+                ComponentName(context, AddTransactionJobService::class.java))
+                .setExtras(bundle)
+                .setPeriodic(intervalMillis)
+                .build())
+
+        view?.close()
+    }
 }

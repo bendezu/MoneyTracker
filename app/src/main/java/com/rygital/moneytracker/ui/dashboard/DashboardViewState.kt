@@ -1,11 +1,8 @@
 package com.rygital.moneytracker.ui.dashboard
 
-import android.net.LinkAddress
 import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
-import android.widget.HeaderViewListAdapter
-import com.rygital.moneytracker.data.model.Category
 import com.rygital.moneytracker.data.model.database.Currency
 import java.math.BigDecimal
 

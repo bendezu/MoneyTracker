@@ -37,7 +37,9 @@ dependencies {
     implementation "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
     implementation "com.android.support:design:$rootProject.supportLibraryVersion"
     implementation "com.android.support.constraint:constraint-layout:$rootProject.constraintLayoutVersion"
+
     implementation "com.github.PhilJay:MPAndroidChart:$rootProject.mpAndroidChartVersion"
+
 
     // retrofit
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
@@ -47,6 +49,8 @@ dependencies {
     // rx
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxAndroidVersion"
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxJavaVersion"
+
+    implementation "android.arch.work:work-runtime-ktx:1.0.0-alpha06"
 
     // room
     implementation "android.arch.persistence.room:runtime:$roomVersion"

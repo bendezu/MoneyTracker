@@ -2,6 +2,7 @@ package com.rygital.moneytracker.data.model.database
 
 import android.arch.persistence.room.*
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
+import io.reactivex.Flowable
 import io.reactivex.Single
 import java.math.BigDecimal
 import java.util.*
@@ -88,7 +89,7 @@ interface TransactionDao {
             JOIN currency AS cu ON tr.currency_id = cu.id
             JOIN category AS ca ON tr.category_id = ca.id
             JOIN account AS ac ON tr.account_id = ac.id""")
-    fun getDetailedTransactions(): Single<List<DetailedTransaction>>
+    fun getDetailedTransactions(): Flowable<List<DetailedTransaction>>
 }
 
 data class DetailedTransaction(

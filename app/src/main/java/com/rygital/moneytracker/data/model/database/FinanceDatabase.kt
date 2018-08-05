@@ -25,16 +25,17 @@ abstract class FinanceDatabase: RoomDatabase() {
     companion object {
         private var INSTANCE: FinanceDatabase? = null
 
-        fun getInstance(context: Context): FinanceDatabase? {
+         fun getInstance(context: Context): FinanceDatabase? {
             if (INSTANCE == null) {
                 synchronized(Database::class) {
-                    INSTANCE = buildDatabase(context)
+                    if (INSTANCE == null)
+                        INSTANCE = buildDatabase(context)
                 }
             }
             return INSTANCE
         }
 
-        private fun buildDatabase(context: Context) : FinanceDatabase? =
+        private fun buildDatabase(context: Context) : FinanceDatabase =
                 Room.databaseBuilder(context.applicationContext,
                     FinanceDatabase::class.java, "finance.db")
                     .addCallback(object : Callback() {
@@ -45,6 +46,8 @@ abstract class FinanceDatabase: RoomDatabase() {
                                 database?.currencyDao()?.insertAll(INITIAL_CURRENCIES)
                                 database?.categoryDao()?.insertAll(INITIAL_CATEGORIES)
                                 database?.accountDao()?.insertAll(INITIAL_ACCOUNTS)
+
+                                //Add transactions for testing
                                 database?.transactionDao()?.insertAll(INITIAL_TRANSACTIONS)
                             }
                         }

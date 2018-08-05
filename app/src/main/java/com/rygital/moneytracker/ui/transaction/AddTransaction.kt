@@ -17,5 +17,7 @@ interface AddTransaction {
     interface Presenter<in V: View>: MvpPresenter<V> {
         fun initNewTransaction()
         fun addNewTransaction(isIncome: Boolean, amount: String, currencyId: Int, categoryId: Int, accountId: Int)
+        fun addPeriodicTransaction(isIncome: Boolean, amount: String, currencyId: Int, categoryId: Int, accountId: Int,
+                                   interval: Int, intervalId: Int)
     }
 }

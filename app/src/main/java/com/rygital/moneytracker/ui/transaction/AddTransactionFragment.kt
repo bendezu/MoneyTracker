@@ -3,9 +3,13 @@ package com.rygital.moneytracker.ui.transaction
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.CompoundButton
 import com.rygital.moneytracker.App
+import com.rygital.moneytracker.INTERVALS
 import com.rygital.moneytracker.R
 import com.rygital.moneytracker.injection.components.fragment.AddTransactionFragmentComponent
 import com.rygital.moneytracker.ui.base.BaseFragment
@@ -46,7 +50,11 @@ class AddTransactionFragment: BaseFragment(), AddTransaction.View, View.OnClickL
         super.onViewCreated(view, savedInstanceState)
 
         btnSave.setOnClickListener(this)
-
+        repeatSwitch.setOnCheckedChangeListener{ compoundButton: CompoundButton, isChecked: Boolean ->
+            if (isChecked) repeatGroup.visibility = VISIBLE
+            else repeatGroup.visibility = GONE
+        }
+        intervalSpinner.adapter = getAdapter(INTERVALS.map { getString(it) })
         presenter.initNewTransaction()
     }
 
@@ -73,12 +81,23 @@ class AddTransactionFragment: BaseFragment(), AddTransaction.View, View.OnClickL
     override fun onClick(v: View) {
         when (v.id) {
             R.id.btnSave -> {
-                presenter.addNewTransaction(
-                        toggleButton.isChecked,
-                        etSum.text.toString(),
-                        spinnerCurrency.selectedItemPosition,
-                        spinnerCategory.selectedItemPosition,
-                        spinnerAccount.selectedItemPosition)
+                if (repeatSwitch.isChecked) {
+                    presenter.addPeriodicTransaction(
+                            toggleButton.isChecked,
+                            etSum.text.toString(),
+                            spinnerCurrency.selectedItemPosition,
+                            spinnerCategory.selectedItemPosition,
+                            spinnerAccount.selectedItemPosition,
+                            intervalSpinner.selectedItemPosition,
+                            intervalEditText.text.toString().toInt())
+                } else {
+                    presenter.addNewTransaction(
+                            toggleButton.isChecked,
+                            etSum.text.toString(),
+                            spinnerCurrency.selectedItemPosition,
+                            spinnerCategory.selectedItemPosition,
+                            spinnerAccount.selectedItemPosition)
+                }
             }
         }
     }

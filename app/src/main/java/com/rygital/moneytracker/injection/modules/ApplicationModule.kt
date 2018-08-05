@@ -1,8 +1,6 @@
 package com.rygital.moneytracker.injection.modules
 
 import android.content.Context
-import com.rygital.moneytracker.data.local.DatabaseHelper
-import com.rygital.moneytracker.data.local.FakeDatabaseHelperImp
 import com.rygital.moneytracker.data.remote.CurrencyApi
 import com.rygital.moneytracker.injection.base.ComponentBuilder
 import com.rygital.moneytracker.injection.components.activity.HomeActivityComponent
@@ -36,10 +34,6 @@ class ApplicationModule(private val context: Context,
     @Provides
     @Singleton
     fun provideCurrencyApi(): CurrencyApi = CurrencyApi.Creator.createSlaApi(cacheFile)
-
-    @Provides
-    @Singleton
-    fun provideDatabaseHelper(databaseHelper: FakeDatabaseHelperImp): DatabaseHelper = databaseHelper
 
     @Provides
     fun provideSchedulerProvider(): SchedulerProvider = SchedulerProviderImp()

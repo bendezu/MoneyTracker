@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.work.WorkManager
 import com.rygital.moneytracker.App
 import com.rygital.moneytracker.R
 import com.rygital.moneytracker.data.model.database.Currency
@@ -66,6 +67,8 @@ class SettingsFragment: BaseFragment(), Settings.View {
 
         toolbar.setNavigationOnClickListener { onMenuClickListener.navigateBack() }
         about.setOnClickListener { onMenuClickListener.openAboutScreen() }
+
+        deleteRepeatable.setOnClickListener { WorkManager.getInstance().cancelUniqueWork("work1") }
     }
 
     override fun initPrimaryCurrencySpinner(list: List<Currency>, initial: Int) {
@@ -83,6 +86,8 @@ class SettingsFragment: BaseFragment(), Settings.View {
         dataAdapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         return dataAdapterCategory
     }
+
+
 
     override fun onDestroyView() {
         presenter.detachView()

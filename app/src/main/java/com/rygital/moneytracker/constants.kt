@@ -17,6 +17,13 @@ const val PREF_KEY_SECONDARY_CURRENCY = "secondary_currency"
 const val EXPENSE = 0
 const val INCOME = 1
 
+val INTERVALS = arrayOf(
+        R.string.day,
+        R.string.week,
+        R.string.month,
+        R.string.year
+)
+
 val INITIAL_CURRENCIES = arrayOf(
         Currency(0, "USD", '$', 1.0),
         Currency(1,"EUR", '\u20AC',0.86),

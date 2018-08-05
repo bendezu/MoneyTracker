@@ -4,7 +4,6 @@ import android.content.Context
 import com.rygital.moneytracker.PREF_KEY_PRIMARY_CURRENCY
 import com.rygital.moneytracker.PREF_KEY_SECONDARY_CURRENCY
 import com.rygital.moneytracker.PREF_NAME
-import com.rygital.moneytracker.data.model.Currency
 import com.rygital.moneytracker.data.model.database.FinanceDatabase
 import com.rygital.moneytracker.ui.base.BasePresenter
 import com.rygital.moneytracker.utils.rx.SchedulerProvider
