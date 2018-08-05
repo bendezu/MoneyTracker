@@ -1,4 +1,6 @@
 package com.rygital.moneytracker.ui.transaction
 
 class AddTransactionViewState(val accounts: List<String>,
-                              val categories: List<String>)
+                              val categories: List<String>,
+                              val currencies: List<String>,
+                              val initialCurrency: Int)

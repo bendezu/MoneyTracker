@@ -1,11 +1,12 @@
 package com.rygital.moneytracker.ui.transaction
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import com.rygital.moneytracker.App
 import com.rygital.moneytracker.R
-import com.rygital.moneytracker.data.model.Currency
 import com.rygital.moneytracker.injection.components.fragment.AddTransactionFragmentComponent
 import com.rygital.moneytracker.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_add_transaction.*
@@ -14,12 +15,24 @@ import javax.inject.Inject
 class AddTransactionFragment: BaseFragment(), AddTransaction.View, View.OnClickListener {
     companion object {
         const val TAG: String = "AddTransactionFragment"
+        const val ARG_ACCOUNT_ID = "account_id_argument"
+
+        fun newInstance(accountId: Int): AddTransactionFragment {
+            return AddTransactionFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ARG_ACCOUNT_ID, accountId)
+                }
+            }
+        }
     }
 
     @Inject @JvmSuppressWildcards lateinit var presenter: AddTransaction.Presenter<AddTransaction.View>
+    private var initialAccount: Int? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater.inflate(R.layout.fragment_add_transaction, container, false)
+
+        initialAccount = arguments?.getInt(ARG_ACCOUNT_ID)
 
         (App.instance?.componentsHolder?.getComponent(javaClass) as AddTransactionFragmentComponent)
                 .inject(this)
@@ -39,14 +52,16 @@ class AddTransactionFragment: BaseFragment(), AddTransaction.View, View.OnClickL
 
     override fun setAccountAdapter(list: List<String>) {
         spinnerAccount.adapter = getAdapter(list)
+        spinnerAccount.setSelection(initialAccount ?: 0)
     }
 
     override fun setCategoryAdapter(list: List<String>) {
         spinnerCategory.adapter = getAdapter(list)
     }
 
-    override fun setCurrencyAdapter(list: List<Currency>) {
+    override fun setCurrencyAdapter(list: List<String>, initial: Int) {
         spinnerCurrency.adapter = getAdapter(list)
+        spinnerCurrency.setSelection(initial)
     }
 
     private fun<T> getAdapter(list: List<T>): ArrayAdapter<T> {
@@ -55,14 +70,15 @@ class AddTransactionFragment: BaseFragment(), AddTransaction.View, View.OnClickL
         return dataAdapterCategory
     }
 
-    override fun onClick(v: View?) {
-        when (v?.id) {
+    override fun onClick(v: View) {
+        when (v.id) {
             R.id.btnSave -> {
                 presenter.addNewTransaction(
-                        spinnerAccount.selectedItemPosition,
+                        toggleButton.isChecked,
+                        etSum.text.toString(),
+                        spinnerCurrency.selectedItemPosition,
                         spinnerCategory.selectedItemPosition,
-                        spinnerCurrency.selectedItem as Currency,
-                        etSum.text.toString())
+                        spinnerAccount.selectedItemPosition)
             }
         }
     }
@@ -77,4 +93,5 @@ class AddTransactionFragment: BaseFragment(), AddTransaction.View, View.OnClickL
         super.onDestroyView()
         if (isRemoving) App.instance?.componentsHolder?.releaseComponent(javaClass)
     }
+
 }

@@ -126,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/offset"
                     android:layout_marginTop="@dimen/half_offset"
-                    android:text="@string/expenses"
+                    android:text="@string/total_expenses"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/pieChart" />
 

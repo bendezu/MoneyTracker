@@ -13,9 +13,11 @@
     <string name="error_loadings_rates">Error while loading usdBasedRates!</string>
     <string name="no_network_connection">No network connection</string>
 
-    <string name="expenses">Expenses</string>
+    <string name="total_expenses">Total Expenses</string>
 
     <string name="enter_sum">Enter sum</string>
+    <string name="expense">Expense</string>
+    <string name="income">Income</string>
     <string name="add_transaction">Add transaction</string>
     <string name="save">Save</string>
     <string name="incorrect_value">Incorrect value</string>
@@ -30,4 +32,6 @@
 
     <string name="primary_currency">Primary currency</string>
     <string name="secondary_currency">Secondary currency</string>
+    <string name="repeat_transaction">Repeat Transaction</string>
+
 </resources>

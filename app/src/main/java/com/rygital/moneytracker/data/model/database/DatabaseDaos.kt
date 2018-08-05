@@ -33,6 +33,8 @@ interface CategoryDao {
 
     @Query("SELECT * FROM category ORDER BY id")
     fun getAll(): List<Category>
+    @Query("SELECT * FROM category ORDER BY id")
+    fun getAllRx(): Single<List<Category>>
 
     @Query("SELECT * FROM category WHERE label = :label")
     fun findByLabel(label: String) : Category?
@@ -50,6 +52,8 @@ interface AccountDao {
 
     @Query("SELECT * FROM account ORDER BY id")
     fun getAll(): List<Account>
+    @Query("SELECT * FROM account ORDER BY id")
+    fun getAllRx(): Single<List<Account>>
 
     @Query("SELECT * FROM account WHERE label = :label")
     fun findByLabel(label: String) : Account?

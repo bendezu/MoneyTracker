@@ -3,24 +3,21 @@ package com.rygital.moneytracker.ui.dashboard
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import com.rygital.moneytracker.App
 import com.rygital.moneytracker.R
-import com.rygital.moneytracker.data.model.Category
+import com.rygital.moneytracker.injection.components.fragment.DashboardFragmentComponent
 import com.rygital.moneytracker.ui.base.BaseFragment
 import com.rygital.moneytracker.ui.home.OnMenuClickListener
 import com.rygital.moneytracker.utils.formatMoney
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import java.math.BigDecimal
 import javax.inject.Inject
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
-import android.support.v7.widget.DividerItemDecoration
-import android.widget.Toast
-import com.rygital.moneytracker.data.model.database.FinanceDatabase
-import com.rygital.moneytracker.injection.components.fragment.DashboardFragmentComponent
 
 
 class DashboardFragment: BaseFragment(), Dashboard.View {
@@ -57,7 +54,7 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        addTransaction.setOnClickListener { onMenuClickListener.openAddTransactionScreen() }
+        addTransaction.setOnClickListener { onMenuClickListener.openAddTransactionScreen(accountPager.currentItem) }
         settings.setOnClickListener { onMenuClickListener.openSettingsScreen() }
 
         val llm = LinearLayoutManager(context)

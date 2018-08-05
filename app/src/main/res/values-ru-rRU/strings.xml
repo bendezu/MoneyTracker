@@ -8,11 +8,14 @@
     <string name="categories">Категории</string>
     <string name="error_loadings_rates">Ошибка во время загрузки курса валют!</string>
     <string name="no_network_connection">Нет соединения с интернетом</string>
-    <string name="expenses">Расходы</string>
+    <string name="total_expenses">Расходы</string>
     <string name="enter_sum">Введите сумму</string>
     <string name="add_transaction">Добавить транзакцию</string>
     <string name="save">Сохранить</string>
     <string name="incorrect_value">Некорректное число</string>
     <string name="bank_card">Банковкая карта</string>
     <string name="cash">Наличные</string>
+    <string name="expense">Расход</string>
+    <string name="income">Доход</string>
+    <string name="repeat_transaction">Повторять транзакцию</string>
 </resources>
