@@ -19,7 +19,8 @@ import javax.inject.Inject
 
 class DashboardPresenter<V : Dashboard.View> @Inject constructor(private val currencyRatesManager: CurrencyRatesManager,
                                                                  private val schedulerProvider: SchedulerProvider,
-                                                                 private val context: Context)
+                                                                 private val context: Context,
+                                                                 private val database: FinanceDatabase)
     : BasePresenter<V>(), Dashboard.Presenter<V> {
 
     override fun loadData() {
@@ -31,14 +32,10 @@ class DashboardPresenter<V : Dashboard.View> @Inject constructor(private val cur
                     }
 
                     override fun onNext(rates: UsdBasedRates) {
-                        val currencyDao = FinanceDatabase.getInstance(context)?.currencyDao()
-                        if (currencyDao != null) {
-                            val currencies = currencyDao.getAll()
-                            currencies.forEach { it.rateToUsd = rates.getRateByCurrency(it.label).toDouble() }
-                            currencyDao.updateCurrencies(currencies)
-                        } else {
-                            Timber.e("Can't load database")
-                        }
+                        val currencyDao = database.currencyDao()
+                        val currencies = currencyDao.getAll()
+                        currencies.forEach { it.rateToUsd = rates.getRateByCurrency(it.label).toDouble() }
+                        currencyDao.updateCurrencies(currencies)
                     }
 
                     override fun onError(e: Throwable) {
@@ -49,61 +46,57 @@ class DashboardPresenter<V : Dashboard.View> @Inject constructor(private val cur
                     }
 
                     fun loadFromDatabase() {
-                        val database = FinanceDatabase.getInstance(context)
-                        if (database != null) {
-                            addDisposable(database.transactionDao().getDetailedTransactions()
-                                    .map {
-                                        val preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-                                        val primaryCurrencyId = preferences.getInt(PREF_KEY_PRIMARY_CURRENCY, 0)
-                                        val secondaryCurrencyId = preferences.getInt(PREF_KEY_SECONDARY_CURRENCY, 0)
-                                        val primaryCurrency = database.currencyDao().findById(primaryCurrencyId.toLong())
-                                        val secondaryCurrency = database.currencyDao().findById(secondaryCurrencyId.toLong())
 
-                                        val accountsData = getAccountsData(it, primaryCurrency, secondaryCurrency)
+                        addDisposable(database.transactionDao().getDetailedTransactions()
+                                .map {
+                                    val preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                                    val primaryCurrencyId = preferences.getInt(PREF_KEY_PRIMARY_CURRENCY, 0)
+                                    val secondaryCurrencyId = preferences.getInt(PREF_KEY_SECONDARY_CURRENCY, 0)
+                                    val primaryCurrency = database.currencyDao().findById(primaryCurrencyId.toLong())
+                                    val secondaryCurrency = database.currencyDao().findById(secondaryCurrencyId.toLong())
 
-                                        var totalPrimarySum = BigDecimal.ZERO
-                                        accountsData.forEach { totalPrimarySum += it.primaryBalance }
+                                    val accountsData = getAccountsData(it, primaryCurrency, secondaryCurrency)
 
-                                        var totalSecondarySum = BigDecimal.ZERO
-                                        accountsData.forEach { totalSecondarySum += it.secondaryBalance }
+                                    var totalPrimarySum = BigDecimal.ZERO
+                                    accountsData.forEach { totalPrimarySum += it.primaryBalance }
 
-                                        val chartData = getChartData(it, primaryCurrency)
+                                    var totalSecondarySum = BigDecimal.ZERO
+                                    accountsData.forEach { totalSecondarySum += it.secondaryBalance }
 
-                                        var totalExpenses = BigDecimal.ZERO
-                                        chartData.forEach { totalExpenses += it.amount }
+                                    val chartData = getChartData(it, primaryCurrency)
 
-                                        DashboardViewState(
-                                                totalPrimarySum,
-                                                totalSecondarySum,
-                                                accountsData,
-                                                totalExpenses,
-                                                chartData,
-                                                primaryCurrency,
-                                                secondaryCurrency)
-                                    }
-                                    .subscribeOn(schedulerProvider.io())
-                                    .observeOn(schedulerProvider.ui())
-                                    .subscribe({ viewState ->
+                                    var totalExpenses = BigDecimal.ZERO
+                                    chartData.forEach { totalExpenses += it.amount }
 
-                                        view?.showPrimaryTotalBalance(viewState.totalSecondarySum,
-                                                viewState.secondaryCurrency.symbol)
+                                    DashboardViewState(
+                                            totalPrimarySum,
+                                            totalSecondarySum,
+                                            accountsData,
+                                            totalExpenses,
+                                            chartData,
+                                            primaryCurrency,
+                                            secondaryCurrency)
+                                }
+                                .subscribeOn(schedulerProvider.io())
+                                .observeOn(schedulerProvider.ui())
+                                .subscribe({ viewState ->
 
-                                        view?.showSecondaryTotalBalance(viewState.totalPrimarySum,
-                                                viewState.primaryCurrency.symbol)
+                                    view?.showPrimaryTotalBalance(viewState.totalSecondarySum,
+                                            viewState.secondaryCurrency.symbol)
 
-                                        view?.showAccounts(viewState.accountPagerData)
+                                    view?.showSecondaryTotalBalance(viewState.totalPrimarySum,
+                                            viewState.primaryCurrency.symbol)
 
-                                        view?.showCategories(viewState.chartData, viewState.totalExpenses,
-                                                viewState.primaryCurrency.symbol)
+                                    view?.showAccounts(viewState.accountPagerData)
 
-                                    }, { err ->
-                                        view?.showMessage(R.string.error_loadings_rates)
-                                        Timber.e(err)
-                                        err.printStackTrace()
-                                    }))
-                        } else {
-                            Timber.e("Can't load database")
-                        }
+                                    view?.showCategories(viewState.chartData, viewState.totalExpenses,
+                                            viewState.primaryCurrency.symbol)
+
+                                }, { err ->
+                                    view?.showMessage(R.string.error_loadings_rates)
+                                    Timber.e(err)
+                                    err.printStackTrace()
+                                }))
                     }
 
                 })

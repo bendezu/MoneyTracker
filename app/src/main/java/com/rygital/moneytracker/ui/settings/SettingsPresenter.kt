@@ -11,7 +11,9 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class SettingsPresenter<V: Settings.View> @Inject constructor(private val context: Context,
-                                                              private val schedulerProvider: SchedulerProvider): BasePresenter<V>(), Settings.Presenter<V> {
+                                                              private val schedulerProvider: SchedulerProvider,
+                                                              private val database: FinanceDatabase)
+    : BasePresenter<V>(), Settings.Presenter<V> {
 
     override fun initSpinners() {
 
@@ -20,18 +22,13 @@ class SettingsPresenter<V: Settings.View> @Inject constructor(private val contex
         val secondaryCurrencyId = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
                 .getInt(PREF_KEY_SECONDARY_CURRENCY, 0)
 
-        val database = FinanceDatabase.getInstance(context)
-        if (database != null) {
-            addDisposable(database.currencyDao().getAllRx()
-                    .subscribeOn(schedulerProvider.io())
-                    .observeOn(schedulerProvider.ui())
-                    .subscribe{ currencies ->
-                        view?.initPrimaryCurrencySpinner(currencies, primaryCurrencyId)
-                        view?.initSecondaryCurrencySpinner(currencies, secondaryCurrencyId)
-                    })
-        } else {
-            Timber.e("Can't load database")
-        }
+        addDisposable(database.currencyDao().getAllRx()
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe{ currencies ->
+                    view?.initPrimaryCurrencySpinner(currencies, primaryCurrencyId)
+                    view?.initSecondaryCurrencySpinner(currencies, secondaryCurrencyId)
+                })
     }
 
     override fun savePrimaryCurrency(currencyId: Int) {

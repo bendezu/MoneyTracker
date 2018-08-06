@@ -74,10 +74,4 @@
 
     </FrameLayout>
 
-    <Button
-        android:id="@+id/deleteRepeatable"
-        android:text="delete repeatable transaction"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
 </LinearLayout>

@@ -25,14 +25,14 @@ abstract class FinanceDatabase: RoomDatabase() {
     companion object {
         private var INSTANCE: FinanceDatabase? = null
 
-         fun getInstance(context: Context): FinanceDatabase? {
+         fun getInstance(context: Context): FinanceDatabase {
             if (INSTANCE == null) {
                 synchronized(Database::class) {
                     if (INSTANCE == null)
                         INSTANCE = buildDatabase(context)
                 }
             }
-            return INSTANCE
+            return INSTANCE!!
         }
 
         private fun buildDatabase(context: Context) : FinanceDatabase =
@@ -43,12 +43,12 @@ abstract class FinanceDatabase: RoomDatabase() {
                             super.onCreate(db)
                             Executors.newSingleThreadScheduledExecutor().execute {
                                 val database = getInstance(context)
-                                database?.currencyDao()?.insertAll(INITIAL_CURRENCIES)
-                                database?.categoryDao()?.insertAll(INITIAL_CATEGORIES)
-                                database?.accountDao()?.insertAll(INITIAL_ACCOUNTS)
+                                database.currencyDao().insertAll(INITIAL_CURRENCIES)
+                                database.categoryDao().insertAll(INITIAL_CATEGORIES)
+                                database.accountDao().insertAll(INITIAL_ACCOUNTS)
 
                                 //Add transactions for testing
-                                database?.transactionDao()?.insertAll(INITIAL_TRANSACTIONS)
+                                database.transactionDao().insertAll(INITIAL_TRANSACTIONS)
                             }
                         }
                     })

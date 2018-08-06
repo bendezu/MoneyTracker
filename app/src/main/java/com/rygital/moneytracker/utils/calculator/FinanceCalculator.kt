@@ -9,49 +9,6 @@ import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
 
-//class FinanceCalculator @Inject constructor(private var usdBasedRates: UsdBasedRates) {
-//
-//    fun getSumOnAccount(transactions: List<Transaction>, account: Account): BigDecimal {
-//        return getTotalSum(transactions.filter { it.accountId == account.id })
-//    }
-//
-//    fun getTotalExpenses(transactions: List<Transaction>): BigDecimal {
-//        return getTotalSum(transactions.filter { it.transactionType == TransactionType.CREDIT }).abs()
-//    }
-//
-//    fun getExpensesByCategory(transactions: List<Transaction>, category: Category): BigDecimal {
-//        return getTotalSum(transactions
-//                .filter { it.transactionType == TransactionType.CREDIT && it.categoryId == category.id })
-//                .abs()
-//    }
-//
-//    fun getTotalSum(transactions: List<Transaction>): BigDecimal {
-//        var sum = BigDecimal.ZERO
-//        for (currency in Currency.values()) {
-//            sum += getSum(transactions, currency)
-//        }
-//
-//        return sum
-//    }
-//
-//    fun getSum(transactions: List<Transaction>, currency: Currency): BigDecimal {
-//        val filteredTransactions: List<Transaction> = transactions.filter { it.currency == currency }
-//        return getSum(filteredTransactions).divide(usdBasedRates.getRateByCurrency(currency), 2, RoundingMode.HALF_UP)
-//    }
-//
-//    private fun getSum(transactions: List<Transaction>): BigDecimal {
-//        var sum: BigDecimal = BigDecimal.ZERO
-//        for (transaction in transactions) {
-//            if (transaction.transactionType == TransactionType.DEBIT)
-//                sum += transaction.value
-//            else
-//                sum -= transaction.value
-//        }
-//
-//        return sum
-//    }
-//}
-
 fun getAccountsData(transactions: List<DetailedTransaction>,
                     primaryCurrency: Currency, secondaryCurrency: Currency): List<AccountPagerItem> {
     return transactions.groupBy { it.accountId }.entries.sortedBy { it.key }.map { it.value }.map {
@@ -87,7 +44,7 @@ fun getChartData(transactions: List<DetailedTransaction>, primaryCurrency: Curre
     }.sortedByDescending { it.amount }
 }
 
-fun buildChartData(transactions: List<DetailedTransaction>, primaryCurrency: Currency): ChartItem {
+private fun buildChartData(transactions: List<DetailedTransaction>, primaryCurrency: Currency): ChartItem {
     val label = transactions[0].categoryLabel
     val colorRes = transactions[0].categoryColor
     var usdSum = BigDecimal.ZERO

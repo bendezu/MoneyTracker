@@ -1,6 +1,7 @@
 package com.rygital.moneytracker.injection.modules
 
 import android.content.Context
+import com.rygital.moneytracker.data.model.database.FinanceDatabase
 import com.rygital.moneytracker.data.remote.CurrencyApi
 import com.rygital.moneytracker.injection.base.ComponentBuilder
 import com.rygital.moneytracker.injection.components.activity.HomeActivityComponent
@@ -30,6 +31,10 @@ class ApplicationModule(private val context: Context,
     @Singleton
     @Provides
     fun provideContext(): Context = context
+
+    @Provides
+    @Singleton
+    fun provideFinanceDatabase(context: Context) = FinanceDatabase.getInstance(context)
 
     @Provides
     @Singleton
