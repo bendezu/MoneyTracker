@@ -1,77 +1,112 @@
 package com.rygital.moneytracker.ui.transaction
 
-import com.rygital.moneytracker.R
-import com.rygital.moneytracker.data.local.DatabaseHelper
-import com.rygital.moneytracker.data.model.*
-import com.rygital.moneytracker.data.model.Currency
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
+import android.content.Context
+import android.os.PersistableBundle
+import com.rygital.moneytracker.*
+import com.rygital.moneytracker.data.model.database.*
+import com.rygital.moneytracker.data.model.database.Currency
 import com.rygital.moneytracker.ui.base.BasePresenter
 import com.rygital.moneytracker.utils.rx.SchedulerProvider
 import io.reactivex.Observable
-import io.reactivex.functions.BiFunction
-import io.reactivex.observers.DisposableObserver
+import io.reactivex.functions.Function3
 import timber.log.Timber
 import java.math.BigDecimal
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.concurrent.thread
 
-class AddTransactionPresenter<V: AddTransaction.View> @Inject constructor(private val databaseHelper: DatabaseHelper,
-                                                                          private val schedulerProvider: SchedulerProvider)
+class AddTransactionPresenter<V: AddTransaction.View> @Inject constructor(private val schedulerProvider: SchedulerProvider,
+                                                                          private val context: Context,
+                                                                          private val database: FinanceDatabase)
     : BasePresenter<V>(), AddTransaction.Presenter<V> {
 
-    private var accounts: List<Account> = listOf()
-    private var categories: List<Category> = listOf()
-
     override fun initNewTransaction() {
-        addDisposable(
-                Observable
-                        .zip(databaseHelper.getAccounts(), databaseHelper.getCategories(),
-                                BiFunction { accounts: List<Account>, categories: List<Category> ->
-                                    this.accounts = accounts
-                                    this.categories = categories
-                                    AddTransactionViewState(
-                                            accounts.map { it.title },
-                                            categories.map { it.title })
-                                })
-                        .subscribeOn(schedulerProvider.io())
-                        .observeOn(schedulerProvider.ui())
-                        .subscribeWith(object: DisposableObserver<AddTransactionViewState>() {
-                            override fun onComplete() {
 
-                            }
+        addDisposable(Observable.zip(
+                database.currencyDao().getAllRx().toObservable(),
+                database.accountDao().getAllRx().toObservable(),
+                database.categoryDao().getAllRx().toObservable(),
+                Function3 { currencies: List<Currency>, accounts: List<Account>, categories: List<Category> ->
+                    val preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                    val primaryCurrencyId = preferences.getInt(PREF_KEY_PRIMARY_CURRENCY, 0)
+                    AddTransactionViewState(accounts.map { context.getString(it.label) },
+                        categories.map { context.getString(it.label) },
+                        currencies.map { it.label }, primaryCurrencyId)
+            })
+            .subscribeOn(schedulerProvider.io())
+            .observeOn(schedulerProvider.ui())
+            .subscribe({viewState: AddTransactionViewState ->
 
-                            override fun onNext(viewState: AddTransactionViewState) {
-                                view?.setAccountAdapter(viewState.accounts)
-                                view?.setCategoryAdapter(viewState.categories)
-                                view?.setCurrencyAdapter(Currency.values().toList())
-                            }
+                view?.setAccountAdapter(viewState.accounts)
+                view?.setCategoryAdapter(viewState.categories)
+                view?.setCurrencyAdapter(viewState.currencies, viewState.initialCurrency)
 
-                            override fun onError(e: Throwable) {
-                                Timber.e(e)
-                                e.printStackTrace()
-                            }
-                        })
+            }, {e: Throwable ->
+                Timber.e(e)
+                e.printStackTrace()
+            })
         )
+
     }
 
-    override fun addNewTransaction(accountPos: Int, categoryPos: Int, currency: Currency, value: String) {
-        val bigDecimalValue: BigDecimal = try {
-            if (BigDecimal(value).compareTo(BigDecimal.ZERO) == 0) throw NumberFormatException()
-            else BigDecimal(value)
+    override fun addNewTransaction(isIncome: Boolean, amount: String, currencyId: Int, categoryId: Int, accountId: Int) {
+
+        val bigDecimalAmount: BigDecimal = try {
+            if (BigDecimal(amount).compareTo(BigDecimal.ZERO) == 0) throw NumberFormatException()
+            else BigDecimal(amount)
         } catch (e: NumberFormatException) {
             view?.showMessage(R.string.incorrect_value)
             return
         }
 
-        val transaction = Transaction(
-                TransactionType.CREDIT,
-                bigDecimalValue,
-                currency,
-                accounts[accountPos].id,
-                categories[categoryPos].id,
-                Calendar.getInstance().time
-        )
+        val type = if (isIncome) INCOME else EXPENSE
 
-        databaseHelper.addTransaction(transaction)
+        val transaction = Transaction(type, bigDecimalAmount,
+                currencyId.toLong(), categoryId.toLong(), accountId.toLong(), Date())
+
+        thread {  database.transactionDao().insert(transaction) }
+        view?.close()
+
+    }
+
+    override fun addPeriodicTransaction(isIncome: Boolean, amount: String, currencyId: Int, categoryId: Int, accountId: Int,
+                                        interval: Int, intervalId: Int) {
+        val type = if (isIncome) INCOME else EXPENSE
+
+        val intervalMillis = when (intervalId) {
+            0 -> { TimeUnit.DAYS.toMillis(interval.toLong()) } //Day
+            1 -> { 7*TimeUnit.DAYS.toMillis(interval.toLong()) } //Week
+            2 -> { 30*TimeUnit.DAYS.toMillis(interval.toLong()) } //Month
+            3 -> { 365*TimeUnit.DAYS.toMillis(interval.toLong()) } //Year
+            else -> throw IllegalArgumentException()
+        }
+
+        try {
+            if (BigDecimal(amount).compareTo(BigDecimal.ZERO) == 0) throw NumberFormatException()
+        } catch (e: NumberFormatException) {
+            Timber.e(e)
+            view?.showMessage(R.string.incorrect_value)
+            return
+        }
+
+        val bundle = PersistableBundle()
+        bundle.putInt(ARG_TYPE, type)
+        bundle.putString(ARG_AMOUNT, amount)
+        bundle.putInt(ARG_CURRENCY_ID, currencyId)
+        bundle.putInt(ARG_CATEGORY_ID, categoryId)
+        bundle.putInt(ARG_ACCOUNT_ID, accountId)
+
+        val jobScheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+        jobScheduler.schedule(JobInfo.Builder(ADD_TRANSACTION_JOB_ID,
+                ComponentName(context, AddTransactionJobService::class.java))
+                .setExtras(bundle)
+                .setPeriodic(intervalMillis)
+                .build())
+
         view?.close()
     }
 }

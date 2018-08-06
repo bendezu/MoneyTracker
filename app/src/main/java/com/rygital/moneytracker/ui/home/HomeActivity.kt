@@ -10,7 +10,6 @@ import com.rygital.moneytracker.ui.base.BaseFragment
 import com.rygital.moneytracker.ui.dashboard.DashboardFragment
 import com.rygital.moneytracker.ui.settings.SettingsFragment
 import com.rygital.moneytracker.ui.transaction.AddTransactionFragment
-import kotlinx.android.synthetic.main.activity_home.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -39,8 +38,7 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
     }
 
     private fun init() {
-        setSupportActionBar(toolbar)
-        supportFragmentManager.addOnBackStackChangedListener({ displayBackButton() })
+        supportFragmentManager.addOnBackStackChangedListener { displayBackButton() }
         displayBackButton()
     }
 
@@ -65,9 +63,9 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
         changeFragment(AboutFragment(), AboutFragment.TAG, ABOUT_TRANSACTION)
     }
 
-    override fun showAddTransactionFragment() {
+    override fun showAddTransactionFragment(accountId: Int) {
         Timber.i("transaction fragment")
-        changeFragment(AddTransactionFragment(), AddTransactionFragment.TAG, ADD_TRANSACTION_TRANSACTION)
+        changeFragment(AddTransactionFragment.newInstance(accountId), AddTransactionFragment.TAG, ADD_TRANSACTION_TRANSACTION)
     }
 
     private fun changeFragment(fragment: BaseFragment, tag: String, transactionName: String) {
@@ -86,8 +84,12 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
         presenter.openSettingsFragment()
     }
 
-    override fun openAddTransactionScreen() {
-        presenter.openAddTransactionFragment()
+    override fun openAddTransactionScreen(accountId: Int) {
+        presenter.openAddTransactionFragment(accountId)
+    }
+
+    override fun navigateBack() {
+        supportFragmentManager.popBackStack()
     }
 
     override fun onDestroy() {

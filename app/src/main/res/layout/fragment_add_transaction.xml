@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -25,11 +26,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/offset"
-        android:layout_marginRight="@dimen/offset"
-        android:layout_marginTop="@dimen/half_offset"
+        android:layout_marginTop="16dp"
         android:text="@string/save"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etSum" />
+        app:layout_constraintTop_toBottomOf="@+id/intervalSpinner" />
 
     <Spinner
         android:id="@+id/spinnerAccount"
@@ -69,4 +70,75 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerCategory" />
+
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/white"
+        android:textOff="@string/expense"
+        android:textOn="@string/income"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etSum" />
+
+    <Switch
+        android:id="@+id/repeatSwitch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/repeat_transaction"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toggleButton" />
+
+    <android.support.constraint.Group
+        android:id="@+id/repeatGroup"
+        tools:visibility="visible"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="repeatText,intervalEditText,intervalSpinner"/>
+
+    <TextView
+        android:id="@+id/repeatText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/every"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/intervalEditText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/intervalEditText" />
+
+    <EditText
+        android:id="@+id/intervalEditText"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:maxLength="3"
+        android:hint="@string/amount"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="@+id/intervalSpinner"
+        app:layout_constraintStart_toEndOf="@+id/repeatText"
+        app:layout_constraintTop_toTopOf="@+id/intervalSpinner" />
+
+    <Spinner
+        android:id="@+id/intervalSpinner"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/intervalEditText"
+        app:layout_constraintTop_toBottomOf="@+id/repeatSwitch" />
+
 </android.support.constraint.ConstraintLayout>

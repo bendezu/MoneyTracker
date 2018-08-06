@@ -23,14 +23,6 @@ abstract class BaseFragment: Fragment(), MvpView {
         }
     }
 
-    override fun setActionBarTitle(resId: Int) {
-        setActionBarTitle(getString(resId))
-    }
-
-    override fun setActionBarTitle(message: String) {
-        activity?.setActionBarTitle(message)
-    }
-
     override fun showMessage(@StringRes resId: Int) {
         activity?.showMessage(resId)
     }

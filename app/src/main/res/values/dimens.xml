@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="toolbar_button_size">56dp</dimen>
+    <dimen name="toolbar_button_padding">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="toolbar_elevation">4dp</dimen>
+    <dimen name="pref_item_height">56dp</dimen>
+    <dimen name="medium_text_size">18sp</dimen>
+</resources>

@@ -7,7 +7,7 @@ import timber.log.Timber
 abstract class BasePresenter<V: MvpView>: MvpPresenter<V> {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
-    protected var view: V? = null
+    var view: V? = null
         private set
 
     init {

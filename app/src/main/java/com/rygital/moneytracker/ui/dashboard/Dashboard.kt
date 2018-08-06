@@ -1,6 +1,5 @@
 package com.rygital.moneytracker.ui.dashboard
 
-import com.rygital.moneytracker.data.model.Category
 import com.rygital.moneytracker.injection.scopes.FragmentScope
 import com.rygital.moneytracker.ui.base.MvpPresenter
 import com.rygital.moneytracker.ui.base.MvpView
@@ -8,13 +7,13 @@ import java.math.BigDecimal
 
 interface Dashboard {
     interface View: MvpView {
-        fun showMoneyInRUB(value: BigDecimal)
-        fun showMoneyInUSD(value: BigDecimal)
+        fun showPrimaryTotalBalance(value: BigDecimal, symbol: Char)
+        fun showSecondaryTotalBalance(value: BigDecimal, symbol: Char)
 
-        fun showCashSum(value: BigDecimal)
-        fun showBackCardSum(value: BigDecimal)
+        fun showAccounts(data: List<AccountPagerItem>)
 
-        fun showCategories(categoryList: List<Category>, totalExpenses: BigDecimal)
+        fun showCategories(categoryList: List<ChartItem>, totalExpenses: BigDecimal, symbol: Char)
+
     }
 
     @FragmentScope

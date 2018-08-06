@@ -11,10 +11,10 @@ data class UsdBasedRates(@SerializedName("RUB")
                     @Expose
                     val eur: BigDecimal) {
 
-    fun getRateByCurrency(currency: Currency): BigDecimal {
+    fun getRateByCurrency(currency: String): BigDecimal {
         return when(currency) {
-            Currency.RUB -> rub
-            Currency.EUR -> eur
+            "RUB" -> rub
+            "EUR" -> eur
             else -> BigDecimal.ONE
         }
     }

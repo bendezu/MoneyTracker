@@ -9,7 +9,7 @@ interface Home {
         fun showDashboardFragment()
         fun showSettingsFragment()
         fun showAboutFragment()
-        fun showAddTransactionFragment()
+        fun showAddTransactionFragment(accountId: Int)
     }
 
     @ActivityScope
@@ -17,6 +17,6 @@ interface Home {
         fun openDashboardFragment()
         fun openSettingsFragment()
         fun openAboutFragment()
-        fun openAddTransactionFragment()
+        fun openAddTransactionFragment(accountId: Int)
     }
 }
