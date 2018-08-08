@@ -62,7 +62,8 @@
     <FrameLayout
         android:id="@+id/stopPeriodic"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/pref_item_height">
+        android:layout_height="@dimen/pref_item_height"
+        android:foreground="@drawable/ripple_accent">
 
         <TextView
             android:layout_width="wrap_content"
@@ -78,7 +79,8 @@
     <FrameLayout
         android:id="@+id/about"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/pref_item_height">
+        android:layout_height="@dimen/pref_item_height"
+        android:foreground="@drawable/ripple_accent">
 
         <TextView
             android:layout_width="wrap_content"

@@ -84,7 +84,7 @@ interface TransactionDao {
     fun delete(id: Long)
 
     @Query("""
-        SELECT tr.id, tr.type, tr.amount, cu.label AS currencyLabel,
+        SELECT tr.id, tr.type, tr.amount, cu.id AS currencyId, cu.label AS currencyLabel,
             cu.symbol AS currencySymbol, cu.rate_to_usd AS currencyRate,
             ca.id AS categoryId, ca.label AS categoryLabel, ca.color AS categoryColor,
             ac.id AS accountId, ac.label AS accountLabel, ac.icon AS accountIcon, tr.date
@@ -95,7 +95,7 @@ interface TransactionDao {
     fun getDetailedTransactions(): Flowable<List<DetailedTransaction>>
 
     @Query("""
-        SELECT tr.id, tr.type, tr.amount, cu.label AS currencyLabel,
+        SELECT tr.id, tr.type, tr.amount, cu.id AS currencyId, cu.label AS currencyLabel,
             cu.symbol AS currencySymbol, cu.rate_to_usd AS currencyRate,
             ca.id AS categoryId, ca.label AS categoryLabel, ca.color AS categoryColor,
             ac.id AS accountId, ac.label AS accountLabel, ac.icon AS accountIcon, tr.date
@@ -112,6 +112,7 @@ data class DetailedTransaction(
         var id: Long,
         var type: Int,
         var amount: BigDecimal,
+        var currencyId: Long,
         var currencyLabel: String,
         var currencySymbol: Char,
         var currencyRate : Double,
@@ -131,7 +132,7 @@ interface PatternDao {
     fun insert(transaction: Pattern)
 
     @Query("""
-        SELECT pa.id, pa.type, pa.amount, cu.label AS currencyLabel,
+        SELECT pa.id, pa.type, pa.amount, cu.id AS currencyId, cu.label AS currencyLabel,
             cu.symbol AS currencySymbol, cu.rate_to_usd AS currencyRate,
             ca.id AS categoryId, ca.label AS categoryLabel, ca.color AS categoryColor,
             ac.id AS accountId, ac.label AS accountLabel, ac.icon AS accountIcon, pa.date
@@ -140,6 +141,9 @@ interface PatternDao {
             JOIN category AS ca ON pa.category_id = ca.id
             JOIN account AS ac ON pa.account_id = ac.id
         ORDER BY pa.date DESC""")
-    fun getAll(accountId: Long): Flowable<List<DetailedTransaction>>
+    fun getAll(): Flowable<List<DetailedTransaction>>
+
+    @Query("DELETE FROM pattern WHERE id = :id")
+    fun delete(id: Long)
 
 }

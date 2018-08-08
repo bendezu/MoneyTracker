@@ -1,7 +1,6 @@
 package com.rygital.moneytracker.ui.dashboard
 
 import android.content.Context
-import android.support.annotation.DrawableRes
 import android.support.v4.view.PagerAdapter
 import android.view.LayoutInflater
 import android.view.View
@@ -9,17 +8,29 @@ import android.view.ViewGroup
 import com.rygital.moneytracker.R
 import com.rygital.moneytracker.utils.formatMoney
 import kotlinx.android.synthetic.main.account_item.view.*
-import java.math.BigDecimal
-import javax.inject.Inject
 
 interface AccountClickListener {
     fun onItemClicked(position: Int)
 }
 
-class AccountPagerAdapter(val data: List<AccountPagerItem>, val context: Context?,
-                          val listener: AccountClickListener) : PagerAdapter() {
+class AccountPagerAdapter(val context: Context?,
+                          private val presenter: Dashboard.Presenter<Dashboard.View>) : PagerAdapter() {
+
+    var data: List<AccountPagerItem> = ArrayList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
+
+        if (position == data.count()) {
+            val view = LayoutInflater.from(context).inflate(R.layout.new_account_item, container, false)
+            view.setOnClickListener { presenter.openAddAccountScreen() }
+            container.addView(view)
+            return view
+        }
+
         val view = LayoutInflater.from(context).inflate(R.layout.account_item, container, false)
         view.accountIcon.setImageResource(data[position].icon)
         view.accountLabel.setText(data[position].label)
@@ -28,7 +39,7 @@ class AccountPagerAdapter(val data: List<AccountPagerItem>, val context: Context
         val secondary = "${data[position].secondaryCurrencySymbol} ${formatMoney(data[position].secondaryBalance)}"
         view.accountSecondaryBalance.text = secondary
 
-        view.setOnClickListener { listener.onItemClicked(position) }
+        view.setOnClickListener { presenter.openAccountScreen(position) }
 
         container.addView(view)
         return view
@@ -36,7 +47,7 @@ class AccountPagerAdapter(val data: List<AccountPagerItem>, val context: Context
 
     override fun isViewFromObject(view: View, `object`: Any) = view === `object`
 
-    override fun getCount(): Int = data.count()
+    override fun getCount(): Int = data.count() + 1
 
     override fun getItemPosition(`object`: Any): Int {
         return POSITION_NONE

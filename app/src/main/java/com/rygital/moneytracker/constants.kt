@@ -24,6 +24,14 @@ val INTERVALS = arrayOf(
         R.string.year
 )
 
+val REPORT_INTERVALS = arrayOf(
+        R.string.day,
+        R.string.week,
+        R.string.month,
+        R.string.year,
+        R.string.all_time
+)
+
 val INITIAL_CURRENCIES = arrayOf(
         Currency(0, "USD", '$', 1.0),
         Currency(1,"EUR", '\u20AC',0.86),
@@ -34,19 +42,23 @@ val INITIAL_CATEGORIES = arrayOf(
         Category(0, R.string.car, R.color.cyan),
         Category(1, R.string.food, R.color.green),
         Category(2, R.string.clothes, R.color.red),
-        Category(3, R.string.other, R.color.violet)
+        Category(3, R.string.phone, R.color.yellow),
+        Category(4, R.string.salary, R.color.violet),
+        Category(5, R.string.other, R.color.colorBlack)
 )
 
 val INITIAL_ACCOUNTS = arrayOf(
-        Account(0, R.string.cash, R.drawable.ic_monetization),
-        Account(1, R.string.bank_card, R.drawable.ic_credit_card)
+        Account(0, R.string.cash, R.drawable.ic_cash),
+        Account(1, R.string.bank_card, R.drawable.ic_credit_card),
+        Account(2, R.string.bank, R.drawable.ic_bank)
 )
 
 val INITIAL_TRANSACTIONS = arrayOf(
-        Transaction(EXPENSE, BigDecimal(1), 1, 1, 0, Date()),
-        Transaction(INCOME, BigDecimal(2), 1, 3, 0, Date()),
-        Transaction(EXPENSE, BigDecimal(3), 1, 2, 1, Date()),
-        Transaction(EXPENSE, BigDecimal(1), 1, 1, 1, Date())
+        Transaction(EXPENSE, BigDecimal(10), 1, 1, 0, Date()),
+        Transaction(INCOME, BigDecimal(20), 1, 3, 0, Date()),
+        Transaction(EXPENSE, BigDecimal(13), 1, 2, 1, Date()),
+        Transaction(EXPENSE, BigDecimal(2), 1, 1, 1, Date()),
+        Transaction(INCOME, BigDecimal(300), 1, 4, 2, Date())
 )
 
 

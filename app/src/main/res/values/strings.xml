@@ -48,5 +48,11 @@
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="save_as_pattern">Save as pattern</string>
+    <string name="patterns">Patterns</string>
+    <string name="no_patterns_message">No patterns</string>
+    <string name="phone">Phone</string>
+    <string name="salary">Salary</string>
+    <string name="bank">Bank</string>
+    <string name="all_time">All time</string>
 
 </resources>

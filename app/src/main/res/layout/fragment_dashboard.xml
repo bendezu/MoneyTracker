@@ -136,13 +136,40 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/half_offset"
                     android:layout_marginStart="@dimen/half_offset"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/half_offset"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/pieChart" />
 
             </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Text.Large.Dashboard"
+                android:layout_marginStart="@dimen/offset"
+                android:layout_marginTop="8dp"
+                android:text="@string/patterns"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvPatterns"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/half_offset"
+                android:layout_marginStart="@dimen/half_offset"
+                android:layout_marginTop="@dimen/half_offset"
+                android:nestedScrollingEnabled="false"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+            <TextView
+                android:id="@+id/emptyPatterns"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/offset"
+                android:gravity="center_horizontal"
+                android:textSize="@dimen/medium_text_size"
+                android:text="@string/no_patterns_message"/>
 
         </LinearLayout>
 

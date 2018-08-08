@@ -1,5 +1,6 @@
 package com.rygital.moneytracker.injection.modules
 
+import android.content.Context
 import com.rygital.moneytracker.injection.base.MyModule
 import com.rygital.moneytracker.injection.scopes.FragmentScope
 import com.rygital.moneytracker.ui.about.About
@@ -7,10 +8,7 @@ import com.rygital.moneytracker.ui.about.AboutPresenter
 import com.rygital.moneytracker.ui.account.Account
 import com.rygital.moneytracker.ui.account.AccountPresenter
 import com.rygital.moneytracker.ui.account.TransactionsAdapter
-import com.rygital.moneytracker.ui.dashboard.AccountPagerItem
-import com.rygital.moneytracker.ui.dashboard.CategoriesAdapter
-import com.rygital.moneytracker.ui.dashboard.Dashboard
-import com.rygital.moneytracker.ui.dashboard.DashboardPresenter
+import com.rygital.moneytracker.ui.dashboard.*
 import com.rygital.moneytracker.ui.settings.Settings
 import com.rygital.moneytracker.ui.settings.SettingsPresenter
 import com.rygital.moneytracker.ui.transaction.AddTransaction
@@ -28,6 +26,10 @@ class FragmentModule: MyModule {
     @Provides
     @FragmentScope
     fun provideTransactionsAdapter(): TransactionsAdapter = TransactionsAdapter()
+
+    @Provides
+    @FragmentScope
+    fun providesPatternsAdapter(presenter: DashboardPresenter<Dashboard.View>) : PatternsAdapter = PatternsAdapter(presenter)
 
     @Provides
     @FragmentScope

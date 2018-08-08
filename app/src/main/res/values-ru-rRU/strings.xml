@@ -25,12 +25,18 @@
     <string name="week">Неделя</string>
     <string name="month">Месяц</string>
     <string name="year">Год</string>
+    <string name="all_time">Все время</string>
+
     <string name="stop_periodic">Остановить все периодические транзакции</string>
     <string name="stop_periodic_message">Периодические транзакции остановлены</string>
     <string name="new_transaction">Новая транзакция</string>
     <string name="add">Добавить</string>
     <string name="today">Сегодня</string>
     <string name="yesterday">Вчера</string>
-    <string name="save_as_pattern">Save as pattern</string>
+    <string name="save_as_pattern">Сохранить как шаблон</string>
+    <string name="patterns">Шаблоны</string>
+    <string name="no_patterns_message">Нет шаблонов</string>
+    <string name="phone">Телефон</string>
+    <string name="bank">Банк</string>
 
 </resources>
