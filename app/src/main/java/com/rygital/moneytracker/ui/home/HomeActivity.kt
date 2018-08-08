@@ -5,6 +5,7 @@ import com.rygital.moneytracker.App
 import com.rygital.moneytracker.R
 import com.rygital.moneytracker.injection.components.activity.HomeActivityComponent
 import com.rygital.moneytracker.ui.about.AboutFragment
+import com.rygital.moneytracker.ui.account.AccountFragment
 import com.rygital.moneytracker.ui.base.BaseActivity
 import com.rygital.moneytracker.ui.base.BaseFragment
 import com.rygital.moneytracker.ui.dashboard.DashboardFragment
@@ -16,9 +17,10 @@ import javax.inject.Inject
 class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
 
     companion object {
-        const val SETTINGS_TRANSACTION: String = "settings_transaction"
-        const val ABOUT_TRANSACTION: String = "about_transaction"
-        const val ADD_TRANSACTION_TRANSACTION: String = "add_transaction_transaction"
+        const val SETTINGS_TRANSACTION = "settings_transaction"
+        const val ABOUT_TRANSACTION = "about_transaction"
+        const val ADD_TRANSACTION_TRANSACTION = "add_transaction_transaction"
+        const val ACCOUNT_TRANSACTION = "account_transaction"
     }
 
     @Inject @JvmSuppressWildcards lateinit var presenter: Home.Presenter<Home.View>
@@ -68,6 +70,10 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
         changeFragment(AddTransactionFragment.newInstance(accountId), AddTransactionFragment.TAG, ADD_TRANSACTION_TRANSACTION)
     }
 
+    override fun showAccountFragment(accountId: Int) {
+        changeFragment(AccountFragment.newInstance(accountId), AccountFragment.TAG, ACCOUNT_TRANSACTION)
+    }
+
     private fun changeFragment(fragment: BaseFragment, tag: String, transactionName: String) {
         supportFragmentManager
                 .beginTransaction()
@@ -86,6 +92,10 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
 
     override fun openAddTransactionScreen(accountId: Int) {
         presenter.openAddTransactionFragment(accountId)
+    }
+
+    override fun openAccountScreen(accountId: Int) {
+        presenter.openAccountFragment(accountId)
     }
 
     override fun navigateBack() {

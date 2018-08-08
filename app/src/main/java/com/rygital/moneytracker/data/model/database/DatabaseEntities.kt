@@ -52,3 +52,19 @@ data class Transaction(
         @ColumnInfo(name = "date") var date: Date,
         @PrimaryKey(autoGenerate = true) var id: Long = 0
 )
+
+
+@Entity(tableName = "pattern", foreignKeys = arrayOf(
+        ForeignKey(entity = Currency::class, parentColumns = arrayOf("id"), childColumns = arrayOf("currency_id")),
+        ForeignKey(entity = Category::class, parentColumns = arrayOf("id"), childColumns = arrayOf("category_id")),
+        ForeignKey(entity = Account::class, parentColumns = arrayOf("id"), childColumns = arrayOf("account_id"))
+))
+data class Pattern (
+        @ColumnInfo(name = "type") var type: Int,
+        @ColumnInfo(name = "amount") var amount: BigDecimal,
+        @ColumnInfo(name = "currency_id") var currencyId: Long,
+        @ColumnInfo(name = "category_id") var categoryId: Long,
+        @ColumnInfo(name = "account_id") var accountId: Long,
+        @ColumnInfo(name = "date") var date: Date,
+        @PrimaryKey(autoGenerate = true) var id: Long = 0
+)

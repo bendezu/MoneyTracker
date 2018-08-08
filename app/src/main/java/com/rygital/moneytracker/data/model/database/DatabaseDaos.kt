@@ -80,6 +80,9 @@ interface TransactionDao {
     @Delete
     fun delete(transaction: Transaction)
 
+    @Query("DELETE FROM `transaction` WHERE id = :id")
+    fun delete(id: Long)
+
     @Query("""
         SELECT tr.id, tr.type, tr.amount, cu.label AS currencyLabel,
             cu.symbol AS currencySymbol, cu.rate_to_usd AS currencyRate,
@@ -90,6 +93,19 @@ interface TransactionDao {
             JOIN category AS ca ON tr.category_id = ca.id
             JOIN account AS ac ON tr.account_id = ac.id""")
     fun getDetailedTransactions(): Flowable<List<DetailedTransaction>>
+
+    @Query("""
+        SELECT tr.id, tr.type, tr.amount, cu.label AS currencyLabel,
+            cu.symbol AS currencySymbol, cu.rate_to_usd AS currencyRate,
+            ca.id AS categoryId, ca.label AS categoryLabel, ca.color AS categoryColor,
+            ac.id AS accountId, ac.label AS accountLabel, ac.icon AS accountIcon, tr.date
+        FROM `transaction` AS tr
+            JOIN currency AS cu ON tr.currency_id = cu.id
+            JOIN category AS ca ON tr.category_id = ca.id
+            JOIN account AS ac ON tr.account_id = ac.id
+        WHERE tr.account_id = :accountId
+        ORDER BY tr.date DESC""")
+    fun getDetailedTransactionsForAccount(accountId: Long): Flowable<List<DetailedTransaction>>
 }
 
 data class DetailedTransaction(
@@ -107,3 +123,23 @@ data class DetailedTransaction(
         var accountIcon: Int,
         var date: Date
 )
+
+@Dao
+interface PatternDao {
+
+    @Insert(onConflict = REPLACE)
+    fun insert(transaction: Pattern)
+
+    @Query("""
+        SELECT pa.id, pa.type, pa.amount, cu.label AS currencyLabel,
+            cu.symbol AS currencySymbol, cu.rate_to_usd AS currencyRate,
+            ca.id AS categoryId, ca.label AS categoryLabel, ca.color AS categoryColor,
+            ac.id AS accountId, ac.label AS accountLabel, ac.icon AS accountIcon, pa.date
+        FROM pattern AS pa
+            JOIN currency AS cu ON pa.currency_id = cu.id
+            JOIN category AS ca ON pa.category_id = ca.id
+            JOIN account AS ac ON pa.account_id = ac.id
+        ORDER BY pa.date DESC""")
+    fun getAll(accountId: Long): Flowable<List<DetailedTransaction>>
+
+}

@@ -20,4 +20,8 @@ class HomePresenter<V: Home.View> @Inject constructor() : BasePresenter<V>(), Ho
     override fun openAddTransactionFragment(accountId: Int) {
         view?.showAddTransactionFragment(accountId)
     }
+
+    override fun openAccountFragment(accountId: Int) {
+        view?.showAccountFragment(accountId)
+    }
 }

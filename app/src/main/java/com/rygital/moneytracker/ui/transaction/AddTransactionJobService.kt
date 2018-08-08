@@ -12,12 +12,6 @@ import kotlin.concurrent.thread
 
 const val ADD_TRANSACTION_JOB_ID = 101
 
-const val ARG_TYPE = "type"
-const val ARG_AMOUNT = "amount"
-const val ARG_CURRENCY_ID = "currency_id"
-const val ARG_CATEGORY_ID = "category_id"
-const val ARG_ACCOUNT_ID = "account_id"
-
 class AddTransactionJobService: JobService() {
     override fun onStopJob(p0: JobParameters?): Boolean {
         return false
@@ -49,7 +43,7 @@ class AddTransactionJobService: JobService() {
             val transaction = Transaction(type, bigDecimalAmount,
                     currencyId.toLong(), categoryId.toLong(), accountId.toLong(), Date())
 
-            FinanceDatabase.getInstance(applicationContext)?.transactionDao()?.insert(transaction)
+            FinanceDatabase.getInstance(applicationContext).transactionDao().insert(transaction)
 
             jobFinished(params, false)
         }

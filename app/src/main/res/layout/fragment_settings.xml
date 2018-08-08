@@ -60,6 +60,22 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/stopPeriodic"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pref_item_height">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stop_periodic"
+            android:textColor="@color/red"
+            android:textSize="@dimen/medium_text_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"/>
+
+    </FrameLayout>
+
+    <FrameLayout
         android:id="@+id/about"
         android:layout_width="match_parent"
         android:layout_height="@dimen/pref_item_height">

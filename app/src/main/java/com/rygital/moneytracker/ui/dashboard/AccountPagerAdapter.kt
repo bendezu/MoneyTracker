@@ -12,7 +12,12 @@ import kotlinx.android.synthetic.main.account_item.view.*
 import java.math.BigDecimal
 import javax.inject.Inject
 
-class AccountPagerAdapter(val data: List<AccountPagerItem>, val context: Context?) : PagerAdapter() {
+interface AccountClickListener {
+    fun onItemClicked(position: Int)
+}
+
+class AccountPagerAdapter(val data: List<AccountPagerItem>, val context: Context?,
+                          val listener: AccountClickListener) : PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = LayoutInflater.from(context).inflate(R.layout.account_item, container, false)
@@ -23,6 +28,8 @@ class AccountPagerAdapter(val data: List<AccountPagerItem>, val context: Context
         val secondary = "${data[position].secondaryCurrencySymbol} ${formatMoney(data[position].secondaryBalance)}"
         view.accountSecondaryBalance.text = secondary
 
+        view.setOnClickListener { listener.onItemClicked(position) }
+
         container.addView(view)
         return view
     }
@@ -31,4 +38,11 @@ class AccountPagerAdapter(val data: List<AccountPagerItem>, val context: Context
 
     override fun getCount(): Int = data.count()
 
+    override fun getItemPosition(`object`: Any): Int {
+        return POSITION_NONE
+    }
+
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+        container.removeView(`object` as View)
+    }
 }

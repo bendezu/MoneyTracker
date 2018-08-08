@@ -14,6 +14,7 @@ interface Dashboard {
 
         fun showCategories(categoryList: List<ChartItem>, totalExpenses: BigDecimal, symbol: Char)
 
+        fun showAccountScreen(accountId: Int)
     }
 
     @FragmentScope

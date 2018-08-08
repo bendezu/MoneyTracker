@@ -4,6 +4,10 @@ import com.rygital.moneytracker.injection.base.MyModule
 import com.rygital.moneytracker.injection.scopes.FragmentScope
 import com.rygital.moneytracker.ui.about.About
 import com.rygital.moneytracker.ui.about.AboutPresenter
+import com.rygital.moneytracker.ui.account.Account
+import com.rygital.moneytracker.ui.account.AccountPresenter
+import com.rygital.moneytracker.ui.account.TransactionsAdapter
+import com.rygital.moneytracker.ui.dashboard.AccountPagerItem
 import com.rygital.moneytracker.ui.dashboard.CategoriesAdapter
 import com.rygital.moneytracker.ui.dashboard.Dashboard
 import com.rygital.moneytracker.ui.dashboard.DashboardPresenter
@@ -20,6 +24,10 @@ class FragmentModule: MyModule {
     @Provides
     @FragmentScope
     fun provideCategoriesAdapter(): CategoriesAdapter = CategoriesAdapter()
+
+    @Provides
+    @FragmentScope
+    fun provideTransactionsAdapter(): TransactionsAdapter = TransactionsAdapter()
 
     @Provides
     @FragmentScope
@@ -40,4 +48,9 @@ class FragmentModule: MyModule {
     @FragmentScope
     fun provideAddTransactionPresenter(presenter: AddTransactionPresenter<AddTransaction.View>)
             : AddTransaction.Presenter<AddTransaction.View> = presenter
+
+    @Provides
+    @FragmentScope
+    fun provideAccountPresenter(presenter: AccountPresenter<Account.View>)
+            : Account.Presenter<Account.View> = presenter
 }

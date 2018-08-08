@@ -1,5 +1,6 @@
 package com.rygital.moneytracker.ui.transaction
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,10 +14,11 @@ import com.rygital.moneytracker.INTERVALS
 import com.rygital.moneytracker.R
 import com.rygital.moneytracker.injection.components.fragment.AddTransactionFragmentComponent
 import com.rygital.moneytracker.ui.base.BaseFragment
+import com.rygital.moneytracker.ui.home.OnMenuClickListener
 import kotlinx.android.synthetic.main.fragment_add_transaction.*
 import javax.inject.Inject
 
-class AddTransactionFragment: BaseFragment(), AddTransaction.View, View.OnClickListener {
+class AddTransactionFragment: BaseFragment(), AddTransaction.View {
     companion object {
         const val TAG: String = "AddTransactionFragment"
         const val ARG_ACCOUNT_ID = "account_id_argument"
@@ -31,7 +33,16 @@ class AddTransactionFragment: BaseFragment(), AddTransaction.View, View.OnClickL
     }
 
     @Inject @JvmSuppressWildcards lateinit var presenter: AddTransaction.Presenter<AddTransaction.View>
+    private lateinit var onMenuClickListener: OnMenuClickListener
     private var initialAccount: Int? = null
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        if (activity !is OnMenuClickListener) {
+            throw ClassCastException(context.toString() + " must implement OnMenuClickListener")
+        }
+        onMenuClickListener = activity as OnMenuClickListener
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater.inflate(R.layout.fragment_add_transaction, container, false)
@@ -49,7 +60,13 @@ class AddTransactionFragment: BaseFragment(), AddTransaction.View, View.OnClickL
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btnSave.setOnClickListener(this)
+        toolbar.inflateMenu(R.menu.add)
+        toolbar.setOnMenuItemClickListener {
+            save()
+            onMenuClickListener.navigateBack()
+            true
+        }
+        toolbar.setNavigationOnClickListener { onMenuClickListener.navigateBack() }
         repeatSwitch.setOnCheckedChangeListener{ compoundButton: CompoundButton, isChecked: Boolean ->
             if (isChecked) repeatGroup.visibility = VISIBLE
             else repeatGroup.visibility = GONE
@@ -78,27 +95,24 @@ class AddTransactionFragment: BaseFragment(), AddTransaction.View, View.OnClickL
         return dataAdapterCategory
     }
 
-    override fun onClick(v: View) {
-        when (v.id) {
-            R.id.btnSave -> {
-                if (repeatSwitch.isChecked) {
-                    presenter.addPeriodicTransaction(
-                            toggleButton.isChecked,
-                            etSum.text.toString(),
-                            spinnerCurrency.selectedItemPosition,
-                            spinnerCategory.selectedItemPosition,
-                            spinnerAccount.selectedItemPosition,
-                            intervalSpinner.selectedItemPosition,
-                            intervalEditText.text.toString().toInt())
-                } else {
-                    presenter.addNewTransaction(
-                            toggleButton.isChecked,
-                            etSum.text.toString(),
-                            spinnerCurrency.selectedItemPosition,
-                            spinnerCategory.selectedItemPosition,
-                            spinnerAccount.selectedItemPosition)
-                }
-            }
+    fun save() {
+        if (repeatSwitch.isChecked) {
+            presenter.addPeriodicTransaction(
+                    toggleButton.isChecked,
+                    etSum.text.toString(),
+                    spinnerCurrency.selectedItemPosition,
+                    spinnerCategory.selectedItemPosition,
+                    spinnerAccount.selectedItemPosition,
+                    intervalSpinner.selectedItemPosition,
+                    intervalEditText.text.toString().toInt())
+        } else {
+            presenter.addNewTransaction(
+                    toggleButton.isChecked,
+                    etSum.text.toString(),
+                    spinnerCurrency.selectedItemPosition,
+                    spinnerCategory.selectedItemPosition,
+                    spinnerAccount.selectedItemPosition,
+                    patternCheckBox.isChecked)
         }
     }
 

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.work.WorkManager
 import com.rygital.moneytracker.App
 import com.rygital.moneytracker.R
 import com.rygital.moneytracker.data.model.database.Currency
@@ -27,11 +28,9 @@ class SettingsFragment: BaseFragment(), Settings.View {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-
         if (activity !is OnMenuClickListener) {
             throw ClassCastException(context.toString() + " must implement OnMenuClickListener")
         }
-
         onMenuClickListener = activity as OnMenuClickListener
     }
 
@@ -66,6 +65,10 @@ class SettingsFragment: BaseFragment(), Settings.View {
 
         toolbar.setNavigationOnClickListener { onMenuClickListener.navigateBack() }
         about.setOnClickListener { onMenuClickListener.openAboutScreen() }
+        stopPeriodic.setOnClickListener{
+            WorkManager.getInstance().cancelAllWork()
+            showMessage(R.string.stop_periodic_message)
+        }
 
     }
 

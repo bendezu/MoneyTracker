@@ -14,6 +14,7 @@ import com.rygital.moneytracker.R
 import com.rygital.moneytracker.injection.components.fragment.DashboardFragmentComponent
 import com.rygital.moneytracker.ui.base.BaseFragment
 import com.rygital.moneytracker.ui.home.OnMenuClickListener
+import com.rygital.moneytracker.utils.dpToPx
 import com.rygital.moneytracker.utils.formatMoney
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import java.math.BigDecimal
@@ -64,6 +65,9 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
         rvCategories.isNestedScrollingEnabled = false
         rvCategories.adapter = adapter
 
+        accountPager.clipToPadding = false
+        accountPager.pageMargin = dpToPx(context!!, 12f).toInt()
+
         presenter.loadData()
     }
 
@@ -76,8 +80,9 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
     }
 
     override fun showAccounts(data: List<AccountPagerItem>) {
-        accountPager.adapter = AccountPagerAdapter(data, context)
-        tabDots.setupWithViewPager(accountPager, true);
+        accountPager.adapter = AccountPagerAdapter(data, context, presenter as AccountClickListener)
+        accountPager.adapter?.notifyDataSetChanged()
+        tabDots.setupWithViewPager(accountPager, true)
     }
 
     override fun showCategories(categoryList: List<ChartItem>, totalExpenses: BigDecimal, symbol: Char) {
@@ -112,16 +117,12 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.main, menu)
+        inflater?.inflate(R.menu.add, menu)
         return super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.selSettings -> onMenuClickListener.openSettingsScreen()
-            R.id.selAbout -> onMenuClickListener.openAboutScreen()
-        }
-        return false
+    override fun showAccountScreen(accountId: Int) {
+        onMenuClickListener.openAccountScreen(accountId)
     }
 
     override fun onDestroyView() {

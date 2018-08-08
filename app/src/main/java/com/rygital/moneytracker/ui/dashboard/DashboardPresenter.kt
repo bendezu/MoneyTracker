@@ -21,7 +21,7 @@ class DashboardPresenter<V : Dashboard.View> @Inject constructor(private val cur
                                                                  private val schedulerProvider: SchedulerProvider,
                                                                  private val context: Context,
                                                                  private val database: FinanceDatabase)
-    : BasePresenter<V>(), Dashboard.Presenter<V> {
+    : BasePresenter<V>(), Dashboard.Presenter<V>, AccountClickListener {
 
     override fun loadData() {
         addDisposable(currencyRatesManager.getRates()
@@ -101,5 +101,9 @@ class DashboardPresenter<V : Dashboard.View> @Inject constructor(private val cur
 
                 })
         )
+    }
+
+    override fun onItemClicked(position: Int) {
+        view?.showAccountScreen(position)
     }
 }
