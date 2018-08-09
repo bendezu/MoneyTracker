@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:title="@string/add_account"
+        app:titleTextColor="@color/white"
+        app:navigationIcon="@drawable/ic_close"
+        android:elevation="@dimen/toolbar_elevation"/>
+
+    <EditText
+        android:id="@+id/nameEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/account_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:textSize="@dimen/medium_text_size"
+        android:textColor="@color/colorBlack"
+        android:text="@string/select_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
+
+    <RadioGroup
+        android:id="@+id/iconGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+        <RadioButton
+            android:id="@+id/ic_account_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:textSize="30sp"
+            android:drawableStart="@drawable/ic_account_circle"/>
+
+        <RadioButton
+            android:id="@+id/ic_credit_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/half_offset"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_credit_card"/>
+
+        <RadioButton
+            android:id="@+id/ic_https"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/half_offset"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_https"/>
+
+        <RadioButton
+            android:id="@+id/ic_business_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/half_offset"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_business_center" />
+
+        <RadioButton
+            android:id="@+id/ic_cash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/half_offset"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_cash" />
+
+        <RadioButton
+            android:id="@+id/ic_bank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/half_offset"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_bank" />
+
+        <RadioButton
+            android:id="@+id/ic_monetization"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/half_offset"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_monetization" />
+    </RadioGroup>
+
+</android.support.constraint.ConstraintLayout>

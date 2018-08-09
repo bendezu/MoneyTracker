@@ -4,11 +4,12 @@ package com.rygital.moneytracker.ui.account
 import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.rygital.moneytracker.App
-
 import com.rygital.moneytracker.R
 import com.rygital.moneytracker.data.model.database.DetailedTransaction
 import com.rygital.moneytracker.injection.components.fragment.AccountFragmentComponent
@@ -16,9 +17,6 @@ import com.rygital.moneytracker.ui.base.BaseFragment
 import com.rygital.moneytracker.ui.home.OnMenuClickListener
 import kotlinx.android.synthetic.main.fragment_account.*
 import javax.inject.Inject
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
-
 
 
 class AccountFragment : BaseFragment(), Account.View {
@@ -70,19 +68,32 @@ class AccountFragment : BaseFragment(), Account.View {
         recycler.setHasFixedSize(true)
         recycler.isNestedScrollingEnabled = false
         recycler.adapter = adapter
+        checkTransactionsCount()
         ItemTouchHelper(object : SwipeToDeleteCallback(context) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
                 val transactionId = (viewHolder as TransactionsAdapter.ViewHolder).id
                 adapter.notifyItemRemoved(viewHolder.adapterPosition)
                 presenter.deleteTransaction(transactionId)
+                checkTransactionsCount()
             }
         }).attachToRecyclerView(recycler)
 
         toolbar.setNavigationOnClickListener { onMenuClickListener.navigateBack() }
     }
 
+    private fun checkTransactionsCount() {
+        if (adapter.itemCount == 0) {
+            recycler.visibility = View.GONE
+            emptyTransactions.visibility = View.VISIBLE
+        } else {
+            emptyTransactions.visibility = View.GONE
+            recycler.visibility = View.VISIBLE
+        }
+    }
+
     override fun showTransactions(transactions: List<DetailedTransaction>) {
         adapter.transactionList = transactions
+        checkTransactionsCount()
     }
 
     override fun onDestroyView() {

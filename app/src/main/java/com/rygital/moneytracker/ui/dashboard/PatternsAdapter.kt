@@ -43,7 +43,7 @@ class PatternsAdapter @Inject constructor(private val preserter: Dashboard.Prese
             id = pattern.id
             itemView.cvTag.setCardBackgroundColor(getColor(itemView.context, pattern.categoryColor))
             itemView.label.text = itemView.context.getText(pattern.categoryLabel)
-            itemView.account.text = itemView.context.getText(pattern.accountLabel)
+            itemView.account.text = pattern.accountLabel
             itemView.icon.setImageResource(pattern.accountIcon)
             val sign = if (pattern.type == EXPENSE) "-" else "+"
             itemView.amount.text = "$sign ${formatMoney(pattern.amount)} ${pattern.currencySymbol}"

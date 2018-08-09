@@ -54,5 +54,9 @@
     <string name="salary">Salary</string>
     <string name="bank">Bank</string>
     <string name="all_time">All time</string>
+    <string name="add_account">Add account</string>
+    <string name="account_name">Account name</string>
+    <string name="select_icon">Select icon</string>
+    <string name="no_transactions">No transactions</string>
 
 </resources>

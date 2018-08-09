@@ -6,6 +6,7 @@ import com.rygital.moneytracker.R
 import com.rygital.moneytracker.injection.components.activity.HomeActivityComponent
 import com.rygital.moneytracker.ui.about.AboutFragment
 import com.rygital.moneytracker.ui.account.AccountFragment
+import com.rygital.moneytracker.ui.addAccount.AddAccountFragment
 import com.rygital.moneytracker.ui.base.BaseActivity
 import com.rygital.moneytracker.ui.base.BaseFragment
 import com.rygital.moneytracker.ui.dashboard.DashboardFragment
@@ -21,6 +22,8 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
         const val ABOUT_TRANSACTION = "about_transaction"
         const val ADD_TRANSACTION_TRANSACTION = "add_transaction_transaction"
         const val ACCOUNT_TRANSACTION = "account_transaction"
+        const val ADD_ACCOUNT_TRANSACTION = "add_account_transaction"
+
     }
 
     @Inject @JvmSuppressWildcards lateinit var presenter: Home.Presenter<Home.View>
@@ -74,6 +77,10 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
         changeFragment(AccountFragment.newInstance(accountId), AccountFragment.TAG, ACCOUNT_TRANSACTION)
     }
 
+    override fun showAddAccountFragment() {
+        changeFragment(AddAccountFragment(), AddAccountFragment.TAG, ADD_ACCOUNT_TRANSACTION)
+    }
+
     private fun changeFragment(fragment: BaseFragment, tag: String, transactionName: String) {
         supportFragmentManager
                 .beginTransaction()
@@ -96,6 +103,10 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
 
     override fun openAccountScreen(accountId: Int) {
         presenter.openAccountFragment(accountId)
+    }
+
+    override fun openAddAccountScreen() {
+        presenter.openAddAccountFragment()
     }
 
     override fun navigateBack() {

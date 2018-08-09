@@ -57,15 +57,19 @@ class DashboardPresenter<V : Dashboard.View> @Inject constructor(private val cur
     }
 
     private fun calculateData() {
-        addDisposable(database.transactionDao().getDetailedTransactions()
+        addDisposable(
+                database.transactionDao().getDetailedTransactions()
                 .map {
+
+                    val accounts = database.accountDao().getAll()
+
                     val preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
                     val primaryCurrencyId = preferences.getInt(PREF_KEY_PRIMARY_CURRENCY, 0)
                     val secondaryCurrencyId = preferences.getInt(PREF_KEY_SECONDARY_CURRENCY, 0)
                     val primaryCurrency = database.currencyDao().findById(primaryCurrencyId.toLong())
                     val secondaryCurrency = database.currencyDao().findById(secondaryCurrencyId.toLong())
 
-                    val accountsData = getAccountsData(it, primaryCurrency, secondaryCurrency)
+                    val accountsData = getAccountsData(it, accounts, primaryCurrency, secondaryCurrency)
 
                     var totalPrimarySum = BigDecimal.ZERO
                     accountsData.forEach { totalPrimarySum += it.primaryBalance }

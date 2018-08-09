@@ -9,10 +9,6 @@ import com.rygital.moneytracker.R
 import com.rygital.moneytracker.utils.formatMoney
 import kotlinx.android.synthetic.main.account_item.view.*
 
-interface AccountClickListener {
-    fun onItemClicked(position: Int)
-}
-
 class AccountPagerAdapter(val context: Context?,
                           private val presenter: Dashboard.Presenter<Dashboard.View>) : PagerAdapter() {
 
@@ -33,13 +29,13 @@ class AccountPagerAdapter(val context: Context?,
 
         val view = LayoutInflater.from(context).inflate(R.layout.account_item, container, false)
         view.accountIcon.setImageResource(data[position].icon)
-        view.accountLabel.setText(data[position].label)
+        view.accountLabel.text = data[position].label
         val primary = "${data[position].primaryCurrencySymbol} ${formatMoney(data[position].primaryBalance)}"
         view.accountPrimaryBalance.text = primary
         val secondary = "${data[position].secondaryCurrencySymbol} ${formatMoney(data[position].secondaryBalance)}"
         view.accountSecondaryBalance.text = secondary
 
-        view.setOnClickListener { presenter.openAccountScreen(position) }
+        view.setOnClickListener { presenter.openAccountScreen(data[position].id.toInt()) }
 
         container.addView(view)
         return view
@@ -47,7 +43,7 @@ class AccountPagerAdapter(val context: Context?,
 
     override fun isViewFromObject(view: View, `object`: Any) = view === `object`
 
-    override fun getCount(): Int = data.count() + 1
+    override fun getCount(): Int = if (data.isEmpty()) 0 else data.count() + 1
 
     override fun getItemPosition(`object`: Any): Int {
         return POSITION_NONE

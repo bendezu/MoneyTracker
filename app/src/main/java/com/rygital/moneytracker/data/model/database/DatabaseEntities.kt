@@ -7,9 +7,7 @@ import android.arch.persistence.room.PrimaryKey
 import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
-import com.rygital.moneytracker.R
 import java.math.BigDecimal
-import java.security.acl.LastOwnerException
 import java.util.*
 
 
@@ -32,10 +30,14 @@ data class Category(
 
 @Entity(tableName = "account")
 data class Account(
-    @PrimaryKey var id: Long,
-    @ColumnInfo(name = "label") @StringRes var label: Int,
-    @ColumnInfo(name = "icon") @DrawableRes var icon: Int
-)
+    @ColumnInfo(name = "label") var label: String,
+    @ColumnInfo(name = "icon") @DrawableRes var icon: Int,
+    @PrimaryKey(autoGenerate = true) var id: Long = 0
+) {
+    override fun toString(): String {
+        return label
+    }
+}
 
 
 @Entity(tableName = "transaction", foreignKeys = arrayOf(

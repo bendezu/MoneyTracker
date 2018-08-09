@@ -1,13 +1,11 @@
 package com.rygital.moneytracker.ui.transaction
 
-import android.app.job.JobInfo
-import android.app.job.JobScheduler
-import android.content.ComponentName
 import android.content.Context
-import android.os.PersistableBundle
-import androidx.work.*
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.toWorkData
 import com.rygital.moneytracker.*
-import com.rygital.moneytracker.R
 import com.rygital.moneytracker.data.model.database.*
 import com.rygital.moneytracker.data.model.database.Currency
 import com.rygital.moneytracker.ui.base.BasePresenter
@@ -35,7 +33,7 @@ class AddTransactionPresenter<V: AddTransaction.View> @Inject constructor(privat
                 Function3 { currencies: List<Currency>, accounts: List<Account>, categories: List<Category> ->
                     val preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
                     val primaryCurrencyId = preferences.getInt(PREF_KEY_PRIMARY_CURRENCY, 0)
-                    AddTransactionViewState(accounts.map { context.getString(it.label) },
+                    AddTransactionViewState(accounts,
                         categories.map { context.getString(it.label) },
                         currencies.map { it.label }, primaryCurrencyId)
             })

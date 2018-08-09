@@ -48,17 +48,17 @@ val INITIAL_CATEGORIES = arrayOf(
 )
 
 val INITIAL_ACCOUNTS = arrayOf(
-        Account(0, R.string.cash, R.drawable.ic_cash),
-        Account(1, R.string.bank_card, R.drawable.ic_credit_card),
-        Account(2, R.string.bank, R.drawable.ic_bank)
+        Account("Cash", R.drawable.ic_cash),
+        Account("Credit card", R.drawable.ic_credit_card),
+        Account("Bank", R.drawable.ic_bank)
 )
 
 val INITIAL_TRANSACTIONS = arrayOf(
-        Transaction(EXPENSE, BigDecimal(10), 1, 1, 0, Date()),
-        Transaction(INCOME, BigDecimal(20), 1, 3, 0, Date()),
-        Transaction(EXPENSE, BigDecimal(13), 1, 2, 1, Date()),
-        Transaction(EXPENSE, BigDecimal(2), 1, 1, 1, Date()),
-        Transaction(INCOME, BigDecimal(300), 1, 4, 2, Date())
+        Transaction(EXPENSE, BigDecimal(10), 1, 1, 1, Date()),
+        Transaction(INCOME, BigDecimal(20), 1, 3, 1, Date()),
+        Transaction(EXPENSE, BigDecimal(13), 1, 2, 2, Date()),
+        Transaction(EXPENSE, BigDecimal(2), 1, 1, 2, Date()),
+        Transaction(INCOME, BigDecimal(300), 1, 4, 3, Date())
 )
 
 

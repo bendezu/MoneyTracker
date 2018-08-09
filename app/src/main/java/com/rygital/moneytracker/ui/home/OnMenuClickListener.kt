@@ -5,5 +5,6 @@ interface OnMenuClickListener {
     fun openSettingsScreen()
     fun openAddTransactionScreen(accountId: Int)
     fun openAccountScreen(accountId: Int)
+    fun openAddAccountScreen()
     fun navigateBack()
 }

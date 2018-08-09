@@ -15,8 +15,9 @@ class DashboardViewState(val totalPrimarySum: BigDecimal,
                          val secondaryCurrency: Currency)
 
 class AccountPagerItem(
+        val id: Long,
         @DrawableRes val icon: Int,
-        @StringRes val label: Int,
+        val label: String,
         val primaryBalance: BigDecimal,
         val primaryCurrencySymbol: Char,
         val secondaryBalance: BigDecimal,

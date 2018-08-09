@@ -64,6 +64,9 @@ interface AccountDao {
 
     @Insert(onConflict = REPLACE)
     fun insertAll(accounts: Array<Account>)
+
+    @Insert(onConflict = REPLACE)
+    fun insert(account: Account)
 }
 
 @Dao
@@ -120,7 +123,7 @@ data class DetailedTransaction(
         var categoryLabel: Int,
         var categoryColor: Int,
         var accountId: Long,
-        var accountLabel: Int,
+        var accountLabel: String,
         var accountIcon: Int,
         var date: Date
 )

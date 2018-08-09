@@ -11,6 +11,7 @@ interface Home {
         fun showAboutFragment()
         fun showAddTransactionFragment(accountId: Int)
         fun showAccountFragment(accountId: Int)
+        fun showAddAccountFragment()
     }
 
     @ActivityScope
@@ -20,5 +21,6 @@ interface Home {
         fun openAboutFragment()
         fun openAddTransactionFragment(accountId: Int)
         fun openAccountFragment(accountId: Int)
+        fun openAddAccountFragment()
     }
 }

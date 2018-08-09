@@ -12,6 +12,7 @@ import android.widget.CompoundButton
 import com.rygital.moneytracker.App
 import com.rygital.moneytracker.INTERVALS
 import com.rygital.moneytracker.R
+import com.rygital.moneytracker.data.model.database.Account
 import com.rygital.moneytracker.injection.components.fragment.AddTransactionFragmentComponent
 import com.rygital.moneytracker.ui.base.BaseFragment
 import com.rygital.moneytracker.ui.home.OnMenuClickListener
@@ -34,7 +35,7 @@ class AddTransactionFragment: BaseFragment(), AddTransaction.View {
 
     @Inject @JvmSuppressWildcards lateinit var presenter: AddTransaction.Presenter<AddTransaction.View>
     private lateinit var onMenuClickListener: OnMenuClickListener
-    private var initialAccount: Int? = null
+    private var initialAccount: Int = 0
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -47,7 +48,7 @@ class AddTransactionFragment: BaseFragment(), AddTransaction.View {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater.inflate(R.layout.fragment_add_transaction, container, false)
 
-        initialAccount = arguments?.getInt(ARG_ACCOUNT_ID)
+        initialAccount = arguments?.getInt(ARG_ACCOUNT_ID) ?: 0
 
         (App.instance?.componentsHolder?.getComponent(javaClass) as AddTransactionFragmentComponent)
                 .inject(this)
@@ -75,9 +76,9 @@ class AddTransactionFragment: BaseFragment(), AddTransaction.View {
         presenter.initNewTransaction()
     }
 
-    override fun setAccountAdapter(list: List<String>) {
+    override fun setAccountAdapter(list: List<Account>) {
         spinnerAccount.adapter = getAdapter(list)
-        spinnerAccount.setSelection(initialAccount ?: 0)
+        spinnerAccount.setSelection(initialAccount)
     }
 
     override fun setCategoryAdapter(list: List<String>) {
@@ -102,7 +103,7 @@ class AddTransactionFragment: BaseFragment(), AddTransaction.View {
                     etSum.text.toString(),
                     spinnerCurrency.selectedItemPosition,
                     spinnerCategory.selectedItemPosition,
-                    spinnerAccount.selectedItemPosition,
+                    (spinnerAccount.selectedItem as Account).id.toInt(),
                     intervalSpinner.selectedItemPosition,
                     intervalEditText.text.toString().toInt())
         } else {
@@ -111,7 +112,7 @@ class AddTransactionFragment: BaseFragment(), AddTransaction.View {
                     etSum.text.toString(),
                     spinnerCurrency.selectedItemPosition,
                     spinnerCategory.selectedItemPosition,
-                    spinnerAccount.selectedItemPosition,
+                    (spinnerAccount.selectedItem as Account).id.toInt(),
                     patternCheckBox.isChecked)
         }
     }

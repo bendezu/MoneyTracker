@@ -64,7 +64,10 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        addTransaction.setOnClickListener { onMenuClickListener.openAddTransactionScreen(accountPager.currentItem) }
+        addTransaction.setOnClickListener {
+            val accountPosition = if (accountPager.currentItem != accountsAdapter.data.size) accountPager.currentItem else 0
+            onMenuClickListener.openAddTransactionScreen(accountPosition)
+        }
         settings.setOnClickListener { onMenuClickListener.openSettingsScreen() }
 
         val llm = LinearLayoutManager(context)
@@ -172,7 +175,7 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
     }
 
     override fun showAddAccountScreen() {
-
+        onMenuClickListener.openAddAccountScreen()
     }
 
     override fun onDestroyView() {
