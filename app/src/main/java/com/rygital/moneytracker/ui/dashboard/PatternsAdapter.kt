@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.pattern_item.view.*
 import javax.inject.Inject
 
 @FragmentScope
-class PatternsAdapter @Inject constructor(private val preserter: Dashboard.Presenter<Dashboard.View>)
+class PatternsAdapter @Inject constructor(private val presenter: Dashboard.Presenter<Dashboard.View>)
     : RecyclerView.Adapter<PatternsAdapter.ViewHolder>() {
 
     var patternList: List<DetailedTransaction> = ArrayList()
@@ -32,7 +32,7 @@ class PatternsAdapter @Inject constructor(private val preserter: Dashboard.Prese
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(patternList[position])
-        holder.itemView.setOnClickListener { preserter.addTransaction(patternList[position]) }
+        holder.itemView.setOnClickListener { presenter.addTransaction(patternList[position]) }
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {

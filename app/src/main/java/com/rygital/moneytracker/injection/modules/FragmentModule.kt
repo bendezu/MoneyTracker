@@ -24,12 +24,12 @@ import dagger.Provides
 class FragmentModule: MyModule {
 
     @Provides
-    @FragmentScope
+    //@FragmentScope
     fun provideCategoriesAdapter(): CategoriesAdapter = CategoriesAdapter()
 
     @Provides
     @FragmentScope
-    fun provideTransactionsAdapter(): TransactionsAdapter = TransactionsAdapter()
+    fun provideTransactionsAdapter(presenter: AccountPresenter<Account.View>): TransactionsAdapter = TransactionsAdapter(presenter)
 
     @Provides
     @FragmentScope

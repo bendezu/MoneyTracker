@@ -1,12 +1,15 @@
 package com.rygital.moneytracker.ui.account
 
+import com.rygital.moneytracker.data.model.database.DetailedTransaction
 import com.rygital.moneytracker.data.model.database.FinanceDatabase
+import com.rygital.moneytracker.injection.scopes.FragmentScope
 import com.rygital.moneytracker.ui.base.BasePresenter
 import com.rygital.moneytracker.utils.rx.SchedulerProvider
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.concurrent.thread
 
+@FragmentScope
 class AccountPresenter<V: Account.View> @Inject constructor(private val schedulerProvider: SchedulerProvider,
                                                             private val database: FinanceDatabase)
     : BasePresenter<V>(), Account.Presenter<V> {
@@ -22,6 +25,10 @@ class AccountPresenter<V: Account.View> @Inject constructor(private val schedule
                     err.printStackTrace()
                 })
         )
+    }
+
+    override fun editTransaction(transaction: DetailedTransaction) {
+        view?.openEditTransactionScreen(transaction)
     }
 
     override fun deleteTransaction(transactionId: Long) {

@@ -1,6 +1,7 @@
 package com.rygital.moneytracker.ui.transaction
 
 import com.rygital.moneytracker.data.model.database.Account
+import com.rygital.moneytracker.data.model.database.Transaction
 import com.rygital.moneytracker.injection.scopes.FragmentScope
 import com.rygital.moneytracker.ui.base.MvpPresenter
 import com.rygital.moneytracker.ui.base.MvpView
@@ -21,5 +22,6 @@ interface AddTransaction {
                               saveAsPattern: Boolean)
         fun addPeriodicTransaction(isIncome: Boolean, amount: String, currencyId: Int, categoryId: Int, accountId: Int,
                                    interval: Int, intervalId: Int)
+        fun updateTransaction(transaction: Transaction)
     }
 }

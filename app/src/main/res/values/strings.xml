@@ -13,6 +13,11 @@
     <string name="error_loadings_rates">Error while loading usdBasedRates!</string>
     <string name="no_network_connection">No network connection</string>
 
+    <string name="good_morning">Good morning!</string>
+    <string name="good_day">Good day!</string>
+    <string name="good_evening">Good evening!</string>
+    <string name="good_night">Good night!</string>
+
     <string name="total_expenses">Total Expenses</string>
 
     <string name="enter_sum">Enter sum</string>
@@ -58,5 +63,7 @@
     <string name="account_name">Account name</string>
     <string name="select_icon">Select icon</string>
     <string name="no_transactions">No transactions</string>
+    <string name="total_incomes">Total Incomes</string>
+    <string name="edit">Edit</string>
 
 </resources>

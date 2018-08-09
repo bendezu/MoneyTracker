@@ -96,6 +96,10 @@ class AccountFragment : BaseFragment(), Account.View {
         checkTransactionsCount()
     }
 
+    override fun openEditTransactionScreen(transaction: DetailedTransaction) {
+        onMenuClickListener.openAddTransactionScreen(null, transaction)
+    }
+
     override fun onDestroyView() {
         presenter.detachView()
 

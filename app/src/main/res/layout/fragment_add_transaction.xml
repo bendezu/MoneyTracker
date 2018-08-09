@@ -34,7 +34,7 @@
     <Spinner
         android:id="@+id/spinnerAccount"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="@dimen/spinner_height"
         android:layout_marginEnd="@dimen/offset"
         android:layout_marginLeft="@dimen/offset"
         android:layout_marginRight="@dimen/offset"
@@ -47,7 +47,7 @@
     <Spinner
         android:id="@+id/spinnerCategory"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="@dimen/spinner_height"
         android:layout_marginEnd="@dimen/offset"
         android:layout_marginLeft="@dimen/offset"
         android:layout_marginRight="@dimen/offset"
@@ -60,7 +60,7 @@
     <Spinner
         android:id="@+id/spinnerCurrency"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="@dimen/spinner_height"
         android:layout_marginEnd="@dimen/offset"
         android:layout_marginLeft="@dimen/offset"
         android:layout_marginRight="@dimen/offset"

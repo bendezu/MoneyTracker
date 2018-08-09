@@ -13,7 +13,8 @@ interface Dashboard {
 
         fun showAccounts(data: List<AccountPagerItem>)
 
-        fun showCategories(categoryList: List<ChartItem>, totalExpenses: BigDecimal, symbol: Char)
+        fun showExpenseCategories(categoryList: List<ChartItem>, totalExpenses: BigDecimal, symbol: Char)
+        fun showIncomeCategories(categoryList: List<ChartItem>, totalExpenses: BigDecimal, symbol: Char)
 
         fun showPatterns(data: List<DetailedTransaction>)
 
@@ -33,5 +34,8 @@ interface Dashboard {
         fun openAddAccountScreen()
 
         fun deletePattern(id: Long)
+
+        fun updateExpensesChart(selectedPosition : Int)
+        fun updateIncomesChart(selectedPosition : Int)
     }
 }

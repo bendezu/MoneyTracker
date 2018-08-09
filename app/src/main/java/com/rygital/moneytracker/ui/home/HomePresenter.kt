@@ -1,5 +1,6 @@
 package com.rygital.moneytracker.ui.home
 
+import com.rygital.moneytracker.data.model.database.DetailedTransaction
 import com.rygital.moneytracker.ui.base.BasePresenter
 import javax.inject.Inject
 
@@ -17,8 +18,8 @@ class HomePresenter<V: Home.View> @Inject constructor() : BasePresenter<V>(), Ho
         view?.showAboutFragment()
     }
 
-    override fun openAddTransactionFragment(accountId: Int) {
-        view?.showAddTransactionFragment(accountId)
+    override fun openAddTransactionFragment(accountId: Int?, transaction: DetailedTransaction?) {
+        view?.showAddTransactionFragment(accountId, transaction)
     }
 
     override fun openAccountFragment(accountId: Int) {

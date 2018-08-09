@@ -21,6 +21,11 @@
     <string name="every">Повторять</string>
     <string name="amount">кол-во</string>
 
+    <string name="good_morning">Доброе утро!</string>
+    <string name="good_day">Добрый день!</string>
+    <string name="good_evening">Добрый вечер!</string>
+    <string name="good_night">Доброй ночи!</string>
+
     <string name="day">День</string>
     <string name="week">Неделя</string>
     <string name="month">Месяц</string>
@@ -38,9 +43,11 @@
     <string name="no_patterns_message">Нет шаблонов</string>
     <string name="phone">Телефон</string>
     <string name="bank">Банк</string>
-    <string name="add_account">Add account</string>
-    <string name="account_name">Account name</string>
-    <string name="select_icon">Select icon</string>
-    <string name="no_transactions">No transactions</string>
+    <string name="add_account">Новый аккаунт</string>
+    <string name="account_name">Название</string>
+    <string name="select_icon">Выберите иконку</string>
+    <string name="no_transactions">Нет транзакций</string>
+    <string name="total_incomes">Total Incomes</string>
+    <string name="edit">Edit</string>
 
 </resources>

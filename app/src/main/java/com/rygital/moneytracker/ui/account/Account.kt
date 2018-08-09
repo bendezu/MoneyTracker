@@ -9,11 +9,14 @@ interface Account {
 
     interface View: MvpView {
         fun showTransactions(transactions: List<DetailedTransaction>)
+
+        fun openEditTransactionScreen(transaction: DetailedTransaction)
     }
 
     @FragmentScope
     interface Presenter<in V: View>: MvpPresenter<V> {
         fun loadData(accountId: Int)
         fun deleteTransaction(transactionId: Long)
+        fun editTransaction(transaction: DetailedTransaction)
     }
 }

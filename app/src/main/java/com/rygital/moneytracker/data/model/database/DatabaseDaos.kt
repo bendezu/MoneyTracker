@@ -2,8 +2,10 @@ package com.rygital.moneytracker.data.model.database
 
 import android.arch.persistence.room.*
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
+import android.os.Parcelable
 import io.reactivex.Flowable
 import io.reactivex.Single
+import kotlinx.android.parcel.Parcelize
 import java.math.BigDecimal
 import java.util.*
 
@@ -80,6 +82,9 @@ interface TransactionDao {
     @Insert(onConflict = REPLACE)
     fun insertAll(transactions: Array<Transaction>)
 
+    @Update
+    fun update(transaction: Transaction)
+
     @Delete
     fun delete(transaction: Transaction)
 
@@ -109,9 +114,22 @@ interface TransactionDao {
         WHERE tr.account_id = :accountId
         ORDER BY tr.date DESC""")
     fun getDetailedTransactionsForAccount(accountId: Long): Flowable<List<DetailedTransaction>>
+
+    @Query("""
+        SELECT tr.id, tr.type, tr.amount, cu.id AS currencyId, cu.label AS currencyLabel,
+            cu.symbol AS currencySymbol, cu.rate_to_usd AS currencyRate,
+            ca.id AS categoryId, ca.label AS categoryLabel, ca.color AS categoryColor,
+            ac.id AS accountId, ac.label AS accountLabel, ac.icon AS accountIcon, tr.date
+        FROM `transaction` AS tr
+            JOIN currency AS cu ON tr.currency_id = cu.id
+            JOIN category AS ca ON tr.category_id = ca.id
+            JOIN account AS ac ON tr.account_id = ac.id
+        WHERE tr.date >= :fromDate""")
+    fun getDetailedTransactions(fromDate: Date): Flowable<List<DetailedTransaction>>
 }
 
-data class DetailedTransaction(
+@Parcelize
+data class DetailedTransaction (
         var id: Long,
         var type: Int,
         var amount: BigDecimal,
@@ -126,7 +144,7 @@ data class DetailedTransaction(
         var accountLabel: String,
         var accountIcon: Int,
         var date: Date
-)
+): Parcelable
 
 @Dao
 interface PatternDao {

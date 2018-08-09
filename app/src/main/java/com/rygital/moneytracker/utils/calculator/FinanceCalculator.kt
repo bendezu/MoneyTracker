@@ -49,8 +49,8 @@ private fun calculateSum(transactions: List<DetailedTransaction>): BigDecimal {
     return sum
 }
 
-fun getChartData(transactions: List<DetailedTransaction>, primaryCurrency: Currency): List<ChartItem> {
-     return transactions.filter { it.type == EXPENSE }.groupBy { it.categoryId }.map {
+fun getChartData(transactions: List<DetailedTransaction>, primaryCurrency: Currency, type: Int): List<ChartItem> {
+     return transactions.filter { it.type == type }.groupBy { it.categoryId }.map {
         buildChartData(it.value, primaryCurrency)
     }.sortedByDescending { it.amount }
 }

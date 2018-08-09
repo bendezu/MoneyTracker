@@ -1,6 +1,7 @@
 package com.rygital.moneytracker.ui.dashboard
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
@@ -9,19 +10,21 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import com.rygital.moneytracker.App
-import com.rygital.moneytracker.R
+import com.rygital.moneytracker.*
 import com.rygital.moneytracker.data.model.database.DetailedTransaction
 import com.rygital.moneytracker.injection.components.fragment.DashboardFragmentComponent
 import com.rygital.moneytracker.ui.account.SwipeToDeleteCallback
 import com.rygital.moneytracker.ui.base.BaseFragment
 import com.rygital.moneytracker.ui.home.OnMenuClickListener
-import com.rygital.moneytracker.utils.dpToPx
 import com.rygital.moneytracker.utils.formatMoney
+import com.rygital.moneytracker.utils.getWelcomeMessage
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -33,7 +36,8 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
     }
 
     @Inject @JvmSuppressWildcards lateinit var presenter: Dashboard.Presenter<Dashboard.View>
-    @Inject lateinit var categoriesAdapter: CategoriesAdapter
+    @Inject lateinit var expensesAdapter: CategoriesAdapter
+    @Inject lateinit var incomesAdapter: CategoriesAdapter
     @Inject lateinit var patternsAdapter: PatternsAdapter
     private lateinit var accountsAdapter: AccountPagerAdapter
     private var currentPage: Int = 0
@@ -64,18 +68,28 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        linear.requestFocus()
+        welcome.setText(getWelcomeMessage())
+
         addTransaction.setOnClickListener {
             val accountPosition = if (accountPager.currentItem != accountsAdapter.data.size) accountPager.currentItem else 0
             onMenuClickListener.openAddTransactionScreen(accountPosition)
         }
         settings.setOnClickListener { onMenuClickListener.openSettingsScreen() }
 
-        val llm = LinearLayoutManager(context)
-        rvCategories.layoutManager = llm
-        rvCategories.addItemDecoration(DividerItemDecoration(rvCategories.context, llm.orientation))
-        rvCategories.setHasFixedSize(true)
-        rvCategories.isNestedScrollingEnabled = false
-        rvCategories.adapter = categoriesAdapter
+        val expensesllm = LinearLayoutManager(context)
+        rvExpenseCategories.layoutManager = expensesllm
+        rvExpenseCategories.addItemDecoration(DividerItemDecoration(rvExpenseCategories.context, expensesllm.orientation))
+        rvExpenseCategories.setHasFixedSize(true)
+        rvExpenseCategories.isNestedScrollingEnabled = false
+        rvExpenseCategories.adapter = expensesAdapter
+
+        val incomesllm = LinearLayoutManager(context)
+        rvIncomeCategories.layoutManager = incomesllm
+        rvIncomeCategories.addItemDecoration(DividerItemDecoration(rvIncomeCategories.context, incomesllm.orientation))
+        rvIncomeCategories.setHasFixedSize(true)
+        rvIncomeCategories.isNestedScrollingEnabled = false
+        rvIncomeCategories.adapter = incomesAdapter
 
         rvPatterns.layoutManager = LinearLayoutManager(context)
         rvPatterns.setHasFixedSize(true)
@@ -89,10 +103,10 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
                 checkPatternsCount()
             }
         }).attachToRecyclerView(rvPatterns)
+
         accountsAdapter = AccountPagerAdapter(context, presenter)
         accountPager.adapter = accountsAdapter
         accountPager.clipToPadding = false
-        accountPager.pageMargin = dpToPx(context!!, 12f).toInt()
         tabDots.setupWithViewPager(accountPager, true)
         accountPager.addOnPageChangeListener(object: ViewPager.OnPageChangeListener{
             override fun onPageScrollStateChanged(state: Int) {}
@@ -102,7 +116,39 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
             }
         })
 
+        expensesPeriodSpinner.adapter = getAdapter(REPORT_INTERVALS.map { context?.getString(it) })
+        expensesPeriodSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                context?.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                        ?.edit()?.putInt(PREF_KEY_EXPENSES_PERIOD, position)?.apply()
+                presenter.updateExpensesChart(position)
+            }
+        }
+        val initialExpensePeriod = context?.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)?.getInt(PREF_KEY_EXPENSES_PERIOD, 2) ?: 2
+        expensesPeriodSpinner.setSelection(initialExpensePeriod)
+
+        incomePeriodSpinner.adapter = getAdapter(REPORT_INTERVALS.map { context?.getString(it) })
+        incomePeriodSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                context?.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                        ?.edit()?.putInt(PREF_KEY_INCOMES_PERIOD, position)?.apply()
+                presenter.updateIncomesChart(position)
+            }
+        }
+        val initialIncomePeriod = context?.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)?.getInt(PREF_KEY_INCOMES_PERIOD, 2) ?: 2
+        incomePeriodSpinner.setSelection(initialIncomePeriod)
+
         presenter.loadData()
+        presenter.updateExpensesChart(initialExpensePeriod)
+        presenter.updateIncomesChart(initialIncomePeriod)
+    }
+
+    private fun<T> getAdapter(list: List<T>): ArrayAdapter<T> {
+        val dataAdapterCategory = ArrayAdapter<T>(context, android.R.layout.simple_spinner_item, list)
+        dataAdapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        return dataAdapterCategory
     }
 
     override fun showPrimaryTotalBalance(value: BigDecimal, symbol: Char) {
@@ -133,12 +179,17 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
         }
     }
 
-    override fun showCategories(categoryList: List<ChartItem>, totalExpenses: BigDecimal, symbol: Char) {
-        categoriesAdapter.categoryList = categoryList
-        drawPieChart(categoryList, totalExpenses, symbol)
+    override fun showExpenseCategories(categoryList: List<ChartItem>, totalExpenses: BigDecimal, symbol: Char) {
+        expensesAdapter.categoryList = categoryList
+        drawPieChart(expensesChart, categoryList, totalExpenses, symbol)
     }
 
-    private fun drawPieChart(categoryList: List<ChartItem>, totalExpenses: BigDecimal, symbol: Char) {
+    override fun showIncomeCategories(categoryList: List<ChartItem>, totalExpenses: BigDecimal, symbol: Char) {
+        incomesAdapter.categoryList = categoryList
+        drawPieChart(incomesChart, categoryList, totalExpenses, symbol)
+    }
+
+    private fun drawPieChart(chart: PieChart, categoryList: List<ChartItem>, totalExpenses: BigDecimal, symbol: Char) {
 
         val entries: MutableList<PieEntry> = mutableListOf()
 
@@ -151,18 +202,23 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
         if (context != null)
             pieDataSet.colors = categoryList.map { it -> ContextCompat.getColor(context!!, it.colorRes) }
 
-        pieChart.data = PieData(pieDataSet)
-        pieChart.legend.isEnabled = false
-        pieChart.description = null
-        pieChart.animateY(1000, Easing.EasingOption.EaseInOutQuad)
-        pieChart.setDrawEntryLabels(false)
-        pieChart.setCenterTextSize(22f)
-        pieChart.holeRadius = 85f
-        pieChart.isRotationEnabled = false
-        pieChart.setEntryLabelTextSize(14f)
-        pieChart.centerText = "$symbol ${formatMoney(totalExpenses)}"
-        pieChart.notifyDataSetChanged()
-        pieChart.invalidate()
+        if (categoryList.isEmpty()) {
+            entries.add(PieEntry(1f))
+            pieDataSet.colors = listOf(Color.LTGRAY)
+        }
+
+        chart.data = PieData(pieDataSet)
+        chart.legend.isEnabled = false
+        chart.description = null
+        chart.animateY(1000, Easing.EasingOption.EaseInOutQuad)
+        chart.setDrawEntryLabels(false)
+        chart.setCenterTextSize(22f)
+        chart.holeRadius = 85f
+        chart.isRotationEnabled = false
+        chart.setEntryLabelTextSize(14f)
+        chart.centerText = "$symbol ${formatMoney(totalExpenses)}"
+        chart.notifyDataSetChanged()
+        chart.invalidate()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

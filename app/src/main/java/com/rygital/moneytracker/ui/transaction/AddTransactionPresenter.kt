@@ -118,4 +118,10 @@ class AddTransactionPresenter<V: AddTransaction.View> @Inject constructor(privat
 
         view?.close()
     }
+
+    override fun updateTransaction(transaction: Transaction) {
+        thread {
+            database.transactionDao().update(transaction)
+        }
+    }
 }

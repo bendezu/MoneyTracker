@@ -13,6 +13,8 @@ const val API_KEY = "ce9f17c314c840ef8b5d8fd6d472bc4c"
 const val PREF_NAME = "pref_currencies"
 const val PREF_KEY_PRIMARY_CURRENCY = "primary_currency"
 const val PREF_KEY_SECONDARY_CURRENCY = "secondary_currency"
+const val PREF_KEY_EXPENSES_PERIOD = "expenses_period"
+const val PREF_KEY_INCOMES_PERIOD = "incomes_period"
 
 const val EXPENSE = 0
 const val INCOME = 1

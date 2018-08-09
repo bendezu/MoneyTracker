@@ -9,6 +9,7 @@
     android:layout_marginEnd="@dimen/offset"
     android:layout_marginTop="@dimen/half_offset"
     android:layout_marginBottom="@dimen/half_offset"
+    android:foreground="@drawable/ripple_accent"
     android:elevation="4dp">
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -58,7 +59,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
             tools:text="Сегодня 15:34"
-            android:textSize="16sp"
+            android:textSize="@dimen/medium_text_size"
             android:fontFamily="sans-serif-thin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -3,6 +3,7 @@ package com.rygital.moneytracker.ui.home
 import android.os.Bundle
 import com.rygital.moneytracker.App
 import com.rygital.moneytracker.R
+import com.rygital.moneytracker.data.model.database.DetailedTransaction
 import com.rygital.moneytracker.injection.components.activity.HomeActivityComponent
 import com.rygital.moneytracker.ui.about.AboutFragment
 import com.rygital.moneytracker.ui.account.AccountFragment
@@ -68,9 +69,10 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
         changeFragment(AboutFragment(), AboutFragment.TAG, ABOUT_TRANSACTION)
     }
 
-    override fun showAddTransactionFragment(accountId: Int) {
+    override fun showAddTransactionFragment(accountId: Int?, transaction: DetailedTransaction?) {
         Timber.i("transaction fragment")
-        changeFragment(AddTransactionFragment.newInstance(accountId), AddTransactionFragment.TAG, ADD_TRANSACTION_TRANSACTION)
+        changeFragment(AddTransactionFragment.newInstance(accountId, transaction),
+                AddTransactionFragment.TAG, ADD_TRANSACTION_TRANSACTION)
     }
 
     override fun showAccountFragment(accountId: Int) {
@@ -97,8 +99,8 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
         presenter.openSettingsFragment()
     }
 
-    override fun openAddTransactionScreen(accountId: Int) {
-        presenter.openAddTransactionFragment(accountId)
+    override fun openAddTransactionScreen(accountId: Int?, transaction: DetailedTransaction?) {
+        presenter.openAddTransactionFragment(accountId, transaction)
     }
 
     override fun openAccountScreen(accountId: Int) {

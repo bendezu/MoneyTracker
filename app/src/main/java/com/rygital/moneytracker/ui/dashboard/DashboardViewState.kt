@@ -9,8 +9,6 @@ import java.math.BigDecimal
 class DashboardViewState(val totalPrimarySum: BigDecimal,
                          val totalSecondarySum: BigDecimal,
                          val accountPagerData: List<AccountPagerItem>,
-                         val totalExpenses: BigDecimal,
-                         val chartData: List<ChartItem>,
                          val primaryCurrency: Currency,
                          val secondaryCurrency: Currency)
 

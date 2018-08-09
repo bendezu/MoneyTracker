@@ -15,7 +15,8 @@ import kotlinx.android.synthetic.main.transaction_item.view.*
 import javax.inject.Inject
 
 @FragmentScope
-class TransactionsAdapter @Inject constructor() : RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
+class TransactionsAdapter @Inject constructor(private val presenter: Account.Presenter<Account.View>)
+    : RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
 
     var transactionList: List<DetailedTransaction> = ArrayList()
         set(value) {
@@ -32,6 +33,7 @@ class TransactionsAdapter @Inject constructor() : RecyclerView.Adapter<Transacti
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(transactionList[position])
+        holder.itemView.setOnClickListener { presenter.editTransaction(transactionList[position]) }
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
