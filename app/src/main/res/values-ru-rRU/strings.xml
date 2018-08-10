@@ -52,5 +52,10 @@
     <string name="no_transactions">Нет транзакций</string>
     <string name="total_incomes">Доходы</string>
     <string name="edit">Редактирование</string>
+    <string name="car">Машина</string>
+    <string name="food">Еда</string>
+    <string name="clothes">Одежда</string>
+    <string name="other">Другое</string>
+    <string name="salary">Зарплата</string>
 
 </resources>

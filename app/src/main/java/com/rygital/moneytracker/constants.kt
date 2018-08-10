@@ -52,9 +52,9 @@ val INITIAL_CATEGORIES = arrayOf(
 )
 
 val INITIAL_ACCOUNTS = arrayOf(
-        Account("Cash", R.drawable.ic_cash),
-        Account("Credit card", R.drawable.ic_credit_card),
-        Account("Bank", R.drawable.ic_bank)
+        Account("Cash", R.drawable.ic_cash, 1),
+        Account("Credit card", R.drawable.ic_credit_card, 2),
+        Account("Bank", R.drawable.ic_bank, 3)
 )
 
 val INITIAL_TRANSACTIONS = arrayOf(

@@ -8,7 +8,6 @@ import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.rule.ActivityTestRule
 import com.rygital.moneytracker.ui.home.HomeActivity
 import org.junit.After
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -27,7 +26,7 @@ class NavigationTest {
         Espresso.onView(ViewMatchers.withId(R.id.about)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.pressBack()
         Espresso.onView(ViewMatchers.withId(R.id.addTransaction)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.btnSave)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withId(R.id.action_add)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.pressBack()
         Espresso.onView(ViewMatchers.withId(R.id.addTransaction)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }

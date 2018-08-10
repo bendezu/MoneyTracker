@@ -1,9 +1,6 @@
 package com.rygital.moneytracker.data.model.database
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.ForeignKey
-import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.*
 import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
@@ -44,7 +41,7 @@ data class Account(
     ForeignKey(entity = Currency::class, parentColumns = arrayOf("id"), childColumns = arrayOf("currency_id")),
     ForeignKey(entity = Category::class, parentColumns = arrayOf("id"), childColumns = arrayOf("category_id")),
     ForeignKey(entity = Account::class, parentColumns = arrayOf("id"), childColumns = arrayOf("account_id"))
-))
+), indices = [Index("currency_id"), Index("category_id"), Index("account_id")])
 data class Transaction(
         @ColumnInfo(name = "type") var type: Int,
         @ColumnInfo(name = "amount") var amount: BigDecimal,
@@ -60,7 +57,7 @@ data class Transaction(
         ForeignKey(entity = Currency::class, parentColumns = arrayOf("id"), childColumns = arrayOf("currency_id")),
         ForeignKey(entity = Category::class, parentColumns = arrayOf("id"), childColumns = arrayOf("category_id")),
         ForeignKey(entity = Account::class, parentColumns = arrayOf("id"), childColumns = arrayOf("account_id"))
-))
+), indices = [Index("currency_id"), Index("category_id"), Index("account_id")])
 data class Pattern (
         @ColumnInfo(name = "type") var type: Int,
         @ColumnInfo(name = "amount") var amount: BigDecimal,
