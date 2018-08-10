@@ -1,6 +1,7 @@
 package com.rygital.moneytracker.ui.home
 
 import android.os.Bundle
+import android.support.v4.app.FragmentTransaction
 import com.rygital.moneytracker.App
 import com.rygital.moneytracker.R
 import com.rygital.moneytracker.data.model.database.DetailedTransaction
@@ -30,6 +31,7 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
     @Inject @JvmSuppressWildcards lateinit var presenter: Home.Presenter<Home.View>
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         (App.instance?.componentsHolder?.getComponent(javaClass) as HomeActivityComponent)
                 .inject(this)
@@ -57,35 +59,42 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
         supportFragmentManager
                 .beginTransaction()
                 .disallowAddToBackStack()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
                 .replace(R.id.container, DashboardFragment(), DashboardFragment.TAG)
                 .commit()
     }
 
     override fun showSettingsFragment() {
-        changeFragment(SettingsFragment(), SettingsFragment.TAG, SETTINGS_TRANSACTION)
+        changeFragment(SettingsFragment(), SettingsFragment.TAG, SETTINGS_TRANSACTION,
+                FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
     }
 
     override fun showAboutFragment() {
-        changeFragment(AboutFragment(), AboutFragment.TAG, ABOUT_TRANSACTION)
+        changeFragment(AboutFragment(), AboutFragment.TAG, ABOUT_TRANSACTION,
+                FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
     }
 
     override fun showAddTransactionFragment(accountId: Int?, transaction: DetailedTransaction?) {
         Timber.i("transaction fragment")
         changeFragment(AddTransactionFragment.newInstance(accountId, transaction),
-                AddTransactionFragment.TAG, ADD_TRANSACTION_TRANSACTION)
+                AddTransactionFragment.TAG, ADD_TRANSACTION_TRANSACTION,
+                FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
     }
 
     override fun showAccountFragment(accountId: Int) {
-        changeFragment(AccountFragment.newInstance(accountId), AccountFragment.TAG, ACCOUNT_TRANSACTION)
+        changeFragment(AccountFragment.newInstance(accountId), AccountFragment.TAG, ACCOUNT_TRANSACTION,
+                FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
     }
 
     override fun showAddAccountFragment() {
-        changeFragment(AddAccountFragment(), AddAccountFragment.TAG, ADD_ACCOUNT_TRANSACTION)
+        changeFragment(AddAccountFragment(), AddAccountFragment.TAG, ADD_ACCOUNT_TRANSACTION,
+                FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
     }
 
-    private fun changeFragment(fragment: BaseFragment, tag: String, transactionName: String) {
+    private fun changeFragment(fragment: BaseFragment, tag: String, transactionName: String, transition: Int) {
         supportFragmentManager
                 .beginTransaction()
+                .setTransition(transition)
                 .replace(R.id.container, fragment, tag)
                 .addToBackStack(transactionName)
                 .commit()

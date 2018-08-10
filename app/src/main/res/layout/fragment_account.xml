@@ -10,13 +10,8 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        app:title="Account"
-        app:titleTextColor="@color/white"
-        app:navigationIcon="@drawable/ic_arrow_back"
-        android:elevation="@dimen/toolbar_elevation"/>
+        style="@style/Toolbar.Back"
+        app:title="Account"/>
 
     <FrameLayout
         android:layout_width="match_parent"

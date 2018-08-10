@@ -36,7 +36,6 @@ class SettingsFragment: BaseFragment(), Settings.View {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater.inflate(R.layout.fragment_settings, container, false)
-
         (App.instance?.componentsHolder?.getComponent(javaClass) as SettingsFragmentComponent)
                 .inject(this)
 

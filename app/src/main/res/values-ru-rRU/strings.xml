@@ -21,6 +21,9 @@
     <string name="every">Повторять</string>
     <string name="amount">кол-во</string>
 
+    <string name="primary_currency">Главная валюта</string>
+    <string name="secondary_currency">Доп. валюта</string>
+
     <string name="good_morning">Доброе утро!</string>
     <string name="good_day">Добрый день!</string>
     <string name="good_evening">Добрый вечер!</string>
@@ -47,7 +50,7 @@
     <string name="account_name">Название</string>
     <string name="select_icon">Выберите иконку</string>
     <string name="no_transactions">Нет транзакций</string>
-    <string name="total_incomes">Total Incomes</string>
-    <string name="edit">Edit</string>
+    <string name="total_incomes">Доходы</string>
+    <string name="edit">Редактирование</string>
 
 </resources>

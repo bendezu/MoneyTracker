@@ -16,6 +16,8 @@ const val PREF_KEY_SECONDARY_CURRENCY = "secondary_currency"
 const val PREF_KEY_EXPENSES_PERIOD = "expenses_period"
 const val PREF_KEY_INCOMES_PERIOD = "incomes_period"
 
+const val EMO_REGEX = "([\\u20a0-\\u32ff\\ud83c\\udc00-\\ud83d\\udeff\\udbb9\\udce5-\\udbb9\\udcee])"
+
 const val EXPENSE = 0
 const val INCOME = 1
 

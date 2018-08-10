@@ -212,6 +212,7 @@ class DashboardFragment: BaseFragment(), Dashboard.View {
         chart.description = null
         chart.animateY(1000, Easing.EasingOption.EaseInOutQuad)
         chart.setDrawEntryLabels(false)
+        chart.isHighlightPerTapEnabled = false
         chart.setCenterTextSize(22f)
         chart.holeRadius = 85f
         chart.isRotationEnabled = false

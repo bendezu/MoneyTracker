@@ -9,9 +9,8 @@
     android:layout_marginEnd="@dimen/offset"
     android:layout_marginTop="@dimen/half_offset"
     android:layout_marginBottom="@dimen/half_offset"
-    android:foreground="@drawable/ripple_accent"
-    android:stateListAnimator="@animator/raise"
-    android:elevation="4dp">
+    style="@style/Clickable.Transaction">
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -20,8 +19,8 @@
             android:id="@+id/amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="@dimen/half_offset"
+            android:layout_marginEnd="@dimen/half_offset"
             android:fontFamily="sans-serif-medium"
             android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -30,11 +29,11 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/cvTag"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:cardCornerRadius="7dp"
+            android:layout_width="@dimen/category_circle_size"
+            android:layout_height="@dimen/category_circle_size"
+            android:layout_marginStart="@dimen/half_offset"
+            android:layout_marginTop="@dimen/half_offset"
+            app:cardCornerRadius="@dimen/category_circle_radius"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:cardBackgroundColor="@color/azure" />
@@ -43,9 +42,9 @@
             android:id="@+id/label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="@dimen/half_offset"
+            android:layout_marginStart="@dimen/half_offset"
+            android:layout_marginTop="@dimen/half_offset"
             android:textSize="20sp"
             android:fontFamily="sans-serif-medium"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -57,8 +56,8 @@
             android:id="@+id/icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginEnd="@dimen/offset"
+            android:layout_marginTop="@dimen/half_offset"
             app:layout_constraintEnd_toStartOf="@+id/account"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@android:drawable/btn_star" />
@@ -67,11 +66,10 @@
             android:id="@+id/account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginEnd="@dimen/half_offset"
+            android:layout_marginTop="@dimen/half_offset"
             tools:text="Credit card"
             android:textSize="@dimen/medium_text_size"
-            android:fontFamily="sans-serif-thin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
