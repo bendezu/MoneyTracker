@@ -42,6 +42,9 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
         init()
 
         if (savedInstanceState == null)
+            if(resources.getBoolean(R.bool.isTwoPaneMode)) {
+                presenter.openAccountFragment(0)
+            }
             presenter.openDashboardFragment()
     }
 
@@ -65,37 +68,45 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
     }
 
     override fun showSettingsFragment() {
-        changeFragment(SettingsFragment(), SettingsFragment.TAG, SETTINGS_TRANSACTION,
-                FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        changeFragment(SettingsFragment(), R.id.container, SettingsFragment.TAG,
+                SETTINGS_TRANSACTION, FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
     }
 
     override fun showAboutFragment() {
-        changeFragment(AboutFragment(), AboutFragment.TAG, ABOUT_TRANSACTION,
-                FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        changeFragment(AboutFragment(), R.id.container, AboutFragment.TAG,
+                ABOUT_TRANSACTION, FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
     }
 
     override fun showAddTransactionFragment(accountId: Int?, transaction: DetailedTransaction?) {
         Timber.i("transaction fragment")
-        changeFragment(AddTransactionFragment.newInstance(accountId, transaction),
-                AddTransactionFragment.TAG, ADD_TRANSACTION_TRANSACTION,
-                FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+        changeFragment(AddTransactionFragment.newInstance(accountId, transaction), R.id.container,
+                AddTransactionFragment.TAG, ADD_TRANSACTION_TRANSACTION, FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
     }
 
     override fun showAccountFragment(accountId: Int) {
-        changeFragment(AccountFragment.newInstance(accountId), AccountFragment.TAG, ACCOUNT_TRANSACTION,
-                FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        if (resources.getBoolean(R.bool.isTwoPaneMode)) {
+            supportFragmentManager
+                    .beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+                    .replace(R.id.container_right, AccountFragment.newInstance(accountId), AccountFragment.TAG)
+                    .commit()
+        } else {
+            changeFragment(AccountFragment.newInstance(accountId), R.id.container,
+                    AccountFragment.TAG, ACCOUNT_TRANSACTION, FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        }
     }
 
     override fun showAddAccountFragment() {
-        changeFragment(AddAccountFragment(), AddAccountFragment.TAG, ADD_ACCOUNT_TRANSACTION,
-                FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+        changeFragment(AddAccountFragment(), R.id.container, AddAccountFragment.TAG,
+                ADD_ACCOUNT_TRANSACTION, FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
     }
 
-    private fun changeFragment(fragment: BaseFragment, tag: String, transactionName: String, transition: Int) {
+    private fun changeFragment(fragment: BaseFragment, containerId: Int, tag: String,
+                               transactionName: String, transition: Int) {
         supportFragmentManager
                 .beginTransaction()
                 .setTransition(transition)
-                .replace(R.id.container, fragment, tag)
+                .replace(containerId, fragment, tag)
                 .addToBackStack(transactionName)
                 .commit()
     }

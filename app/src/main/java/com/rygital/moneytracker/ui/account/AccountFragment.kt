@@ -78,7 +78,11 @@ class AccountFragment : BaseFragment(), Account.View {
             }
         }).attachToRecyclerView(recycler)
 
-        toolbar.setNavigationOnClickListener { onMenuClickListener.navigateBack() }
+        if (resources.getBoolean(R.bool.isTwoPaneMode)) {
+            toolbar.navigationIcon = null
+        } else {
+            toolbar.setNavigationOnClickListener { onMenuClickListener.navigateBack() }
+        }
     }
 
     private fun checkTransactionsCount() {
