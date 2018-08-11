@@ -11,10 +11,10 @@ import java.math.BigDecimal
 import java.util.*
 
 val transactions = arrayOf(
-        Transaction(EXPENSE, BigDecimal(1), 1, 1, 0, Date(),1),
-        Transaction(INCOME, BigDecimal(2), 1, 3, 0, Date(),2),
-        Transaction(EXPENSE, BigDecimal(3), 1, 2, 1, Date(),3),
-        Transaction(EXPENSE, BigDecimal(1), 1, 1, 1, Date(),4)
+        Transaction(EXPENSE, BigDecimal(1), 1, 1, 1, Date(),1),
+        Transaction(INCOME, BigDecimal(2), 1, 3, 1, Date(),2),
+        Transaction(EXPENSE, BigDecimal(3), 1, 2, 2, Date(),3),
+        Transaction(EXPENSE, BigDecimal(1), 1, 1, 2, Date(),4)
 )
 
 class DatabaseDaosTest {

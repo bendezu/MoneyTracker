@@ -5,11 +5,10 @@ import com.rygital.moneytracker.data.model.database.FinanceDatabase
 import com.rygital.moneytracker.data.remote.CurrencyApi
 import com.rygital.moneytracker.injection.base.ComponentBuilder
 import com.rygital.moneytracker.injection.components.activity.HomeActivityComponent
-import com.rygital.moneytracker.injection.components.fragment.AboutFragmentComponent
-import com.rygital.moneytracker.injection.components.fragment.AddTransactionFragmentComponent
-import com.rygital.moneytracker.injection.components.fragment.DashboardFragmentComponent
-import com.rygital.moneytracker.injection.components.fragment.SettingsFragmentComponent
+import com.rygital.moneytracker.injection.components.fragment.*
 import com.rygital.moneytracker.ui.about.AboutFragment
+import com.rygital.moneytracker.ui.account.AccountFragment
+import com.rygital.moneytracker.ui.addAccount.AddAccountFragment
 import com.rygital.moneytracker.ui.dashboard.DashboardFragment
 import com.rygital.moneytracker.ui.home.HomeActivity
 import com.rygital.moneytracker.ui.settings.SettingsFragment
@@ -24,7 +23,9 @@ import java.io.File
 import javax.inject.Singleton
 
 @Module(subcomponents = [ HomeActivityComponent::class, AboutFragmentComponent::class,
-    DashboardFragmentComponent::class, SettingsFragmentComponent::class, AddTransactionFragmentComponent::class ])
+    DashboardFragmentComponent::class, SettingsFragmentComponent::class,
+    AddTransactionFragmentComponent::class, AccountFragmentComponent::class,
+    AddAccountFragmentComponent::class ])
 class ApplicationModule(private val context: Context,
                         private val cacheFile: File) {
 
@@ -71,5 +72,17 @@ class ApplicationModule(private val context: Context,
     @IntoMap
     @ClassKey(AddTransactionFragment::class)
     fun provideAddTransactionBuilder(builder: AddTransactionFragmentComponent.Builder)
+            : ComponentBuilder<*, *> = builder
+
+    @Provides
+    @IntoMap
+    @ClassKey(AccountFragment::class)
+    fun provideAccountFragmentBuilder(builder: AccountFragmentComponent.Builder)
+            : ComponentBuilder<*, *> = builder
+
+    @Provides
+    @IntoMap
+    @ClassKey(AddAccountFragment::class)
+    fun provideAddAccountFragmentBuilder(builder: AddAccountFragmentComponent.Builder)
             : ComponentBuilder<*, *> = builder
 }

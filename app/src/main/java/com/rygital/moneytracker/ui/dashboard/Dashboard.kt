@@ -1,5 +1,6 @@
 package com.rygital.moneytracker.ui.dashboard
 
+import com.rygital.moneytracker.data.model.database.DetailedTransaction
 import com.rygital.moneytracker.injection.scopes.FragmentScope
 import com.rygital.moneytracker.ui.base.MvpPresenter
 import com.rygital.moneytracker.ui.base.MvpView
@@ -12,12 +13,29 @@ interface Dashboard {
 
         fun showAccounts(data: List<AccountPagerItem>)
 
-        fun showCategories(categoryList: List<ChartItem>, totalExpenses: BigDecimal, symbol: Char)
+        fun showExpenseCategories(categoryList: List<ChartItem>, totalExpenses: BigDecimal, symbol: Char)
+        fun showIncomeCategories(categoryList: List<ChartItem>, totalExpenses: BigDecimal, symbol: Char)
 
+        fun showPatterns(data: List<DetailedTransaction>)
+
+        fun showAccountScreen(accountId: Int)
+
+        fun showAddAccountScreen()
     }
 
     @FragmentScope
     interface Presenter<in V: View>: MvpPresenter<V> {
         fun loadData()
+
+        fun addTransaction(pattern: DetailedTransaction)
+
+        fun openAccountScreen(position: Int)
+
+        fun openAddAccountScreen()
+
+        fun deletePattern(id: Long)
+
+        fun updateExpensesChart(selectedPosition : Int)
+        fun updateIncomesChart(selectedPosition : Int)
     }
 }

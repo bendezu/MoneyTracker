@@ -3,17 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        app:title="@string/settings"
-        app:titleTextColor="@color/white"
-        app:navigationIcon="@drawable/ic_arrow_back"
-        android:elevation="@dimen/toolbar_elevation"/>
+        style="@style/Toolbar.Back"
+        app:title="@string/settings"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -25,14 +21,14 @@
             android:text="@string/primary_currency"
             android:textSize="@dimen/medium_text_size"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"/>
+            android:layout_marginStart="@dimen/offset"/>
 
         <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/primaryCurrencySpinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/spinner_height"
             android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="@dimen/offset"
             android:buttonTint="@color/colorAccent"/>
 
     </FrameLayout>
@@ -47,22 +43,40 @@
             android:text="@string/secondary_currency"
             android:textSize="@dimen/medium_text_size"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"/>
+            android:layout_marginStart="@dimen/offset"/>
 
         <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/secondaryCurrencySpinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/spinner_height"
             android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="@dimen/offset"
             android:buttonTint="@color/colorAccent"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/stopPeriodic"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pref_item_height"
+        android:foreground="@drawable/ripple_accent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stop_periodic"
+            android:textColor="@color/red"
+            android:textSize="@dimen/medium_text_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/offset"/>
 
     </FrameLayout>
 
     <FrameLayout
         android:id="@+id/about"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/pref_item_height">
+        android:layout_height="@dimen/pref_item_height"
+        android:foreground="@drawable/ripple_accent">
 
         <TextView
             android:layout_width="wrap_content"
@@ -70,7 +84,7 @@
             android:text="@string/about"
             android:textSize="@dimen/medium_text_size"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"/>
+            android:layout_marginStart="@dimen/offset"/>
 
     </FrameLayout>
 

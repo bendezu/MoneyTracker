@@ -9,10 +9,9 @@ import android.content.Context
 import com.rygital.moneytracker.INITIAL_ACCOUNTS
 import com.rygital.moneytracker.INITIAL_CATEGORIES
 import com.rygital.moneytracker.INITIAL_CURRENCIES
-import com.rygital.moneytracker.INITIAL_TRANSACTIONS
 import java.util.concurrent.Executors
 
-@Database(entities = [(Currency::class), (Category::class), (Account::class), (Transaction::class)],
+@Database(entities = [(Currency::class), (Category::class), (Account::class), (Transaction::class), (Pattern::class)],
     version = 1)
 @TypeConverters(DateConverter::class, DecimalConverter::class)
 abstract class FinanceDatabase: RoomDatabase() {
@@ -21,6 +20,7 @@ abstract class FinanceDatabase: RoomDatabase() {
     abstract fun categoryDao(): CategoryDao
     abstract fun accountDao(): AccountDao
     abstract fun transactionDao(): TransactionDao
+    abstract fun patternDao(): PatternDao
 
     companion object {
         private var INSTANCE: FinanceDatabase? = null
@@ -48,7 +48,7 @@ abstract class FinanceDatabase: RoomDatabase() {
                                 database.accountDao().insertAll(INITIAL_ACCOUNTS)
 
                                 //Add transactions for testing
-                                database.transactionDao().insertAll(INITIAL_TRANSACTIONS)
+                                //database.transactionDao().insertAll(INITIAL_TRANSACTIONS)
                             }
                         }
                     })

@@ -4,9 +4,15 @@ import com.rygital.moneytracker.injection.base.MyModule
 import com.rygital.moneytracker.injection.scopes.FragmentScope
 import com.rygital.moneytracker.ui.about.About
 import com.rygital.moneytracker.ui.about.AboutPresenter
+import com.rygital.moneytracker.ui.account.Account
+import com.rygital.moneytracker.ui.account.AccountPresenter
+import com.rygital.moneytracker.ui.account.TransactionsAdapter
+import com.rygital.moneytracker.ui.addAccount.AddAccount
+import com.rygital.moneytracker.ui.addAccount.AddAccountPresenter
 import com.rygital.moneytracker.ui.dashboard.CategoriesAdapter
 import com.rygital.moneytracker.ui.dashboard.Dashboard
 import com.rygital.moneytracker.ui.dashboard.DashboardPresenter
+import com.rygital.moneytracker.ui.dashboard.PatternsAdapter
 import com.rygital.moneytracker.ui.settings.Settings
 import com.rygital.moneytracker.ui.settings.SettingsPresenter
 import com.rygital.moneytracker.ui.transaction.AddTransaction
@@ -18,8 +24,16 @@ import dagger.Provides
 class FragmentModule: MyModule {
 
     @Provides
-    @FragmentScope
+    //@FragmentScope
     fun provideCategoriesAdapter(): CategoriesAdapter = CategoriesAdapter()
+
+    @Provides
+    @FragmentScope
+    fun provideTransactionsAdapter(presenter: AccountPresenter<Account.View>): TransactionsAdapter = TransactionsAdapter(presenter)
+
+    @Provides
+    @FragmentScope
+    fun providesPatternsAdapter(presenter: DashboardPresenter<Dashboard.View>) : PatternsAdapter = PatternsAdapter(presenter)
 
     @Provides
     @FragmentScope
@@ -40,4 +54,14 @@ class FragmentModule: MyModule {
     @FragmentScope
     fun provideAddTransactionPresenter(presenter: AddTransactionPresenter<AddTransaction.View>)
             : AddTransaction.Presenter<AddTransaction.View> = presenter
+
+    @Provides
+    @FragmentScope
+    fun provideAccountPresenter(presenter: AccountPresenter<Account.View>)
+            : Account.Presenter<Account.View> = presenter
+
+    @Provides
+    @FragmentScope
+    fun provideAddAccountPresenter(presenter: AddAccountPresenter<AddAccount.View>)
+            : AddAccount.Presenter<AddAccount.View> = presenter
 }

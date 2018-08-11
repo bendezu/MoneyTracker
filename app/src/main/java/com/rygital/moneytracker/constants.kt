@@ -13,6 +13,10 @@ const val API_KEY = "ce9f17c314c840ef8b5d8fd6d472bc4c"
 const val PREF_NAME = "pref_currencies"
 const val PREF_KEY_PRIMARY_CURRENCY = "primary_currency"
 const val PREF_KEY_SECONDARY_CURRENCY = "secondary_currency"
+const val PREF_KEY_EXPENSES_PERIOD = "expenses_period"
+const val PREF_KEY_INCOMES_PERIOD = "incomes_period"
+
+const val EMO_REGEX = "([\\u20a0-\\u32ff\\ud83c\\udc00-\\ud83d\\udeff\\udbb9\\udce5-\\udbb9\\udcee])"
 
 const val EXPENSE = 0
 const val INCOME = 1
@@ -22,6 +26,14 @@ val INTERVALS = arrayOf(
         R.string.week,
         R.string.month,
         R.string.year
+)
+
+val REPORT_INTERVALS = arrayOf(
+        R.string.day,
+        R.string.week,
+        R.string.month,
+        R.string.year,
+        R.string.all_time
 )
 
 val INITIAL_CURRENCIES = arrayOf(
@@ -34,19 +46,23 @@ val INITIAL_CATEGORIES = arrayOf(
         Category(0, R.string.car, R.color.cyan),
         Category(1, R.string.food, R.color.green),
         Category(2, R.string.clothes, R.color.red),
-        Category(3, R.string.other, R.color.violet)
+        Category(3, R.string.phone, R.color.yellow),
+        Category(4, R.string.salary, R.color.violet),
+        Category(5, R.string.other, R.color.colorBlack)
 )
 
 val INITIAL_ACCOUNTS = arrayOf(
-        Account(0, R.string.cash, R.drawable.ic_monetization),
-        Account(1, R.string.bank_card, R.drawable.ic_credit_card)
+        Account("Cash", R.drawable.ic_cash, 1),
+        Account("Credit card", R.drawable.ic_credit_card, 2),
+        Account("Bank", R.drawable.ic_bank, 3)
 )
 
 val INITIAL_TRANSACTIONS = arrayOf(
-        Transaction(EXPENSE, BigDecimal(1), 1, 1, 0, Date()),
-        Transaction(INCOME, BigDecimal(2), 1, 3, 0, Date()),
-        Transaction(EXPENSE, BigDecimal(3), 1, 2, 1, Date()),
-        Transaction(EXPENSE, BigDecimal(1), 1, 1, 1, Date())
+        Transaction(EXPENSE, BigDecimal(10), 1, 1, 1, Date()),
+        Transaction(INCOME, BigDecimal(20), 1, 3, 1, Date()),
+        Transaction(EXPENSE, BigDecimal(13), 1, 2, 2, Date()),
+        Transaction(EXPENSE, BigDecimal(2), 1, 1, 2, Date()),
+        Transaction(INCOME, BigDecimal(300), 1, 4, 3, Date())
 )
 
 

@@ -2,29 +2,40 @@ package com.rygital.moneytracker.utils.calculator
 
 import com.rygital.moneytracker.EXPENSE
 import com.rygital.moneytracker.INCOME
-import com.rygital.moneytracker.data.model.database.*
+import com.rygital.moneytracker.data.model.database.Account
+import com.rygital.moneytracker.data.model.database.Currency
+import com.rygital.moneytracker.data.model.database.DetailedTransaction
 import com.rygital.moneytracker.ui.dashboard.AccountPagerItem
 import com.rygital.moneytracker.ui.dashboard.ChartItem
 import java.math.BigDecimal
 import java.math.MathContext
-import java.math.RoundingMode
 
-fun getAccountsData(transactions: List<DetailedTransaction>,
+fun getAccountsData(transactions: List<DetailedTransaction>, accounts: List<Account>,
                     primaryCurrency: Currency, secondaryCurrency: Currency): List<AccountPagerItem> {
-    return transactions.groupBy { it.accountId }.entries.sortedBy { it.key }.map { it.value }.map {
-        buildAccountData(it, primaryCurrency, secondaryCurrency)
+    val data: MutableList<AccountPagerItem> = mutableListOf()
+    for (account in accounts) {
+        val filtered = transactions.filter { it.accountId == account.id }
+        if (filtered.isEmpty()) {
+            data.add(AccountPagerItem(account.id, account.icon, account.label, BigDecimal.ZERO,
+                    primaryCurrency.symbol, BigDecimal.ZERO, secondaryCurrency.symbol))
+        } else {
+            data.add(buildAccountData(filtered, primaryCurrency, secondaryCurrency))
+        }
     }
+    return data
 }
 
 private fun buildAccountData(transactions: List<DetailedTransaction>,
                      primaryCurrency: Currency, secondaryCurrency: Currency): AccountPagerItem{
+
+    val id = transactions[0].accountId
     val icon: Int = transactions[0].accountIcon
-    val label: Int = transactions[0].accountLabel
+    val label: String = transactions[0].accountLabel
     val usdBalance = calculateSum(transactions)
     val primaryBalance = usdBalance.multiply(BigDecimal(primaryCurrency.rateToUsd))
     val secondaryBalance = usdBalance.multiply(BigDecimal(secondaryCurrency.rateToUsd))
 
-    return AccountPagerItem(icon, label, primaryBalance, primaryCurrency.symbol, secondaryBalance, secondaryCurrency.symbol)
+    return AccountPagerItem(id, icon, label, primaryBalance, primaryCurrency.symbol, secondaryBalance, secondaryCurrency.symbol)
 }
 
 private fun calculateSum(transactions: List<DetailedTransaction>): BigDecimal {
@@ -38,8 +49,8 @@ private fun calculateSum(transactions: List<DetailedTransaction>): BigDecimal {
     return sum
 }
 
-fun getChartData(transactions: List<DetailedTransaction>, primaryCurrency: Currency): List<ChartItem> {
-     return transactions.filter { it.type == EXPENSE }.groupBy { it.categoryId }.map {
+fun getChartData(transactions: List<DetailedTransaction>, primaryCurrency: Currency, type: Int): List<ChartItem> {
+     return transactions.filter { it.type == type }.groupBy { it.categoryId }.map {
         buildChartData(it.value, primaryCurrency)
     }.sortedByDescending { it.amount }
 }

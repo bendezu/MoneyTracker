@@ -5,6 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/Toolbar.Close"
+        app:title="@string/new_transaction"/>
+
     <EditText
         android:id="@+id/etSum"
         android:layout_width="0dp"
@@ -14,28 +19,16 @@
         android:layout_marginRight="@dimen/offset"
         android:layout_marginStart="@dimen/offset"
         android:layout_marginTop="@dimen/offset"
-        android:ems="10"
         android:hint="@string/enter_sum"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerCurrency" />
 
-    <Button
-        android:id="@+id/btnSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/offset"
-        android:layout_marginTop="16dp"
-        android:text="@string/save"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/intervalSpinner" />
-
     <Spinner
         android:id="@+id/spinnerAccount"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="@dimen/spinner_height"
         android:layout_marginEnd="@dimen/offset"
         android:layout_marginLeft="@dimen/offset"
         android:layout_marginRight="@dimen/offset"
@@ -43,12 +36,12 @@
         android:layout_marginTop="@dimen/offset"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <Spinner
         android:id="@+id/spinnerCategory"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="@dimen/spinner_height"
         android:layout_marginEnd="@dimen/offset"
         android:layout_marginLeft="@dimen/offset"
         android:layout_marginRight="@dimen/offset"
@@ -61,7 +54,7 @@
     <Spinner
         android:id="@+id/spinnerCurrency"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="@dimen/spinner_height"
         android:layout_marginEnd="@dimen/offset"
         android:layout_marginLeft="@dimen/offset"
         android:layout_marginRight="@dimen/offset"
@@ -75,9 +68,9 @@
         android:id="@+id/toggleButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginEnd="@dimen/offset"
+        android:layout_marginStart="@dimen/offset"
+        android:layout_marginTop="@dimen/offset"
         android:textColor="@color/white"
         android:textOff="@string/expense"
         android:textOn="@string/income"
@@ -89,14 +82,14 @@
         android:id="@+id/repeatSwitch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginEnd="@dimen/offset"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="@dimen/offset"
         android:text="@string/repeat_transaction"
-        android:textSize="20sp"
+        android:textSize="@dimen/medium_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toggleButton" />
+        app:layout_constraintTop_toBottomOf="@+id/patternCheckBox" />
 
     <android.support.constraint.Group
         android:id="@+id/repeatGroup"
@@ -112,7 +105,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="@string/every"
-        android:textSize="18sp"
+        android:textSize="@dimen/medium_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/intervalEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/intervalEditText" />
@@ -122,7 +115,6 @@
         android:layout_width="75dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:ems="10"
         android:maxLength="3"
         android:hint="@string/amount"
         android:inputType="number"
@@ -133,12 +125,25 @@
     <Spinner
         android:id="@+id/intervalSpinner"
         android:layout_width="0dp"
-        android:layout_height="36dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="@dimen/spinner_height"
+        android:layout_marginEnd="@dimen/offset"
+        android:layout_marginStart="@dimen/offset"
+        android:layout_marginTop="@dimen/offset"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/intervalEditText"
         app:layout_constraintTop_toBottomOf="@+id/repeatSwitch" />
+
+    <CheckBox
+        android:id="@+id/patternCheckBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/offset"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="@dimen/offset"
+        android:text="@string/save_as_pattern"
+        android:textSize="@dimen/medium_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toggleButton" />
 
 </android.support.constraint.ConstraintLayout>

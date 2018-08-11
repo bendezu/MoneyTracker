@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <item name="textHighEmphasis" format="float" type="dimen">0.87</item>
+    <item name="textMediumEmphasis" format="float" type="dimen">0.6</item>
+    <item name="textSecondary" format="float" type="dimen">0.8</item>
+    <item name="textDisabled" format="float" type="dimen">0.38</item>
+
+    <item name="offset" type="dimen">16dp</item>
+    <item name="half_offset" type="dimen">8dp</item>
+
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="toolbar_button_size">56dp</dimen>
     <dimen name="toolbar_button_padding">16dp</dimen>
@@ -7,4 +16,23 @@
     <dimen name="toolbar_elevation">4dp</dimen>
     <dimen name="pref_item_height">56dp</dimen>
     <dimen name="medium_text_size">18sp</dimen>
+    <dimen name="spinner_height">36dp</dimen>
+    <dimen name="account_container_height">132dp</dimen>
+    <dimen name="account_card_radius">20dp</dimen>
+    <dimen name="default_elevation">4dp</dimen>
+    <dimen name="account_icon_size">50dp</dimen>
+    <dimen name="account_label_size">20sp</dimen>
+    <dimen name="account_balance_margin">4dp</dimen>
+    <dimen name="account_primary_size">22sp</dimen>
+    <dimen name="account_secondary_size">16sp</dimen>
+    <dimen name="about_title_margin">48dp</dimen>
+    <dimen name="about_author_margin">64dp</dimen>
+    <dimen name="about_icon_margin">32dp</dimen>
+    <dimen name="about_icon_size">80dp</dimen>
+    <dimen name="dots_height">16dp</dimen>
+    <dimen name="chart_size">200dp</dimen>
+    <dimen name="category_circle_size">14dp</dimen>
+    <dimen name="category_circle_radius">7dp</dimen>
+    <dimen name="add_account_size">70dp</dimen>
+    <dimen name="transaction_card_radius">5dp</dimen>
 </resources>

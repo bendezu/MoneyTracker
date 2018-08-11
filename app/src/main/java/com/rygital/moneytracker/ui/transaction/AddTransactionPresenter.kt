@@ -1,10 +1,10 @@
 package com.rygital.moneytracker.ui.transaction
 
-import android.app.job.JobInfo
-import android.app.job.JobScheduler
-import android.content.ComponentName
 import android.content.Context
-import android.os.PersistableBundle
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.toWorkData
 import com.rygital.moneytracker.*
 import com.rygital.moneytracker.data.model.database.*
 import com.rygital.moneytracker.data.model.database.Currency
@@ -33,7 +33,7 @@ class AddTransactionPresenter<V: AddTransaction.View> @Inject constructor(privat
                 Function3 { currencies: List<Currency>, accounts: List<Account>, categories: List<Category> ->
                     val preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
                     val primaryCurrencyId = preferences.getInt(PREF_KEY_PRIMARY_CURRENCY, 0)
-                    AddTransactionViewState(accounts.map { context.getString(it.label) },
+                    AddTransactionViewState(accounts,
                         categories.map { context.getString(it.label) },
                         currencies.map { it.label }, primaryCurrencyId)
             })
@@ -53,7 +53,8 @@ class AddTransactionPresenter<V: AddTransaction.View> @Inject constructor(privat
 
     }
 
-    override fun addNewTransaction(isIncome: Boolean, amount: String, currencyId: Int, categoryId: Int, accountId: Int) {
+    override fun addNewTransaction(isIncome: Boolean, amount: String, currencyId: Int, categoryId: Int, accountId: Int,
+                                   saveAsPattern: Boolean) {
 
         val bigDecimalAmount: BigDecimal = try {
             if (BigDecimal(amount).compareTo(BigDecimal.ZERO) == 0) throw NumberFormatException()
@@ -69,6 +70,11 @@ class AddTransactionPresenter<V: AddTransaction.View> @Inject constructor(privat
                 currencyId.toLong(), categoryId.toLong(), accountId.toLong(), Date())
 
         thread {  database.transactionDao().insert(transaction) }
+        if (saveAsPattern) {
+            val pattern = Pattern(type, bigDecimalAmount,
+                    currencyId.toLong(), categoryId.toLong(), accountId.toLong(), Date())
+            thread { database.patternDao().insert(pattern) }
+        }
         view?.close()
 
     }
@@ -76,14 +82,6 @@ class AddTransactionPresenter<V: AddTransaction.View> @Inject constructor(privat
     override fun addPeriodicTransaction(isIncome: Boolean, amount: String, currencyId: Int, categoryId: Int, accountId: Int,
                                         interval: Int, intervalId: Int) {
         val type = if (isIncome) INCOME else EXPENSE
-
-        val intervalMillis = when (intervalId) {
-            0 -> { TimeUnit.DAYS.toMillis(interval.toLong()) } //Day
-            1 -> { 7*TimeUnit.DAYS.toMillis(interval.toLong()) } //Week
-            2 -> { 30*TimeUnit.DAYS.toMillis(interval.toLong()) } //Month
-            3 -> { 365*TimeUnit.DAYS.toMillis(interval.toLong()) } //Year
-            else -> throw IllegalArgumentException()
-        }
 
         try {
             if (BigDecimal(amount).compareTo(BigDecimal.ZERO) == 0) throw NumberFormatException()
@@ -93,20 +91,37 @@ class AddTransactionPresenter<V: AddTransaction.View> @Inject constructor(privat
             return
         }
 
-        val bundle = PersistableBundle()
-        bundle.putInt(ARG_TYPE, type)
-        bundle.putString(ARG_AMOUNT, amount)
-        bundle.putInt(ARG_CURRENCY_ID, currencyId)
-        bundle.putInt(ARG_CATEGORY_ID, categoryId)
-        bundle.putInt(ARG_ACCOUNT_ID, accountId)
+        val repeatInterval = interval * when (intervalId) {
+            0 -> { 1 } //Day
+            1 -> { 7 } //Week
+            2 -> { 30 } //Month
+            3 -> { 365 } //Year
+            else -> throw IllegalArgumentException()
+        }.toLong()
 
-        val jobScheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-        jobScheduler.schedule(JobInfo.Builder(ADD_TRANSACTION_JOB_ID,
-                ComponentName(context, AddTransactionJobService::class.java))
-                .setExtras(bundle)
-                .setPeriodic(intervalMillis)
-                .build())
+        val data = mapOf(
+                ARG_TYPE to type,
+                ARG_AMOUNT to amount,
+                ARG_CURRENCY_ID to currencyId,
+                ARG_CATEGORY_ID to categoryId,
+                ARG_ACCOUNT_ID to accountId
+        ).toWorkData()
+
+        val request = PeriodicWorkRequestBuilder<AddTransactionWorker>(repeatInterval, TimeUnit.DAYS)
+                .setInputData(data)
+                .build()
+
+        val uniqueName = System.currentTimeMillis()
+
+        WorkManager.getInstance().enqueueUniquePeriodicWork(uniqueName.toString(),
+                ExistingPeriodicWorkPolicy.REPLACE, request)
 
         view?.close()
+    }
+
+    override fun updateTransaction(transaction: Transaction) {
+        thread {
+            database.transactionDao().update(transaction)
+        }
     }
 }

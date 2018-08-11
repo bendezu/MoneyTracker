@@ -9,14 +9,13 @@ import java.math.BigDecimal
 class DashboardViewState(val totalPrimarySum: BigDecimal,
                          val totalSecondarySum: BigDecimal,
                          val accountPagerData: List<AccountPagerItem>,
-                         val totalExpenses: BigDecimal,
-                         val chartData: List<ChartItem>,
                          val primaryCurrency: Currency,
                          val secondaryCurrency: Currency)
 
 class AccountPagerItem(
+        val id: Long,
         @DrawableRes val icon: Int,
-        @StringRes val label: Int,
+        val label: String,
         val primaryBalance: BigDecimal,
         val primaryCurrencySymbol: Char,
         val secondaryBalance: BigDecimal,

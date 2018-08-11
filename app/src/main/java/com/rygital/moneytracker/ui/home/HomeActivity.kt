@@ -1,10 +1,14 @@
 package com.rygital.moneytracker.ui.home
 
 import android.os.Bundle
+import android.support.v4.app.FragmentTransaction
 import com.rygital.moneytracker.App
 import com.rygital.moneytracker.R
+import com.rygital.moneytracker.data.model.database.DetailedTransaction
 import com.rygital.moneytracker.injection.components.activity.HomeActivityComponent
 import com.rygital.moneytracker.ui.about.AboutFragment
+import com.rygital.moneytracker.ui.account.AccountFragment
+import com.rygital.moneytracker.ui.addAccount.AddAccountFragment
 import com.rygital.moneytracker.ui.base.BaseActivity
 import com.rygital.moneytracker.ui.base.BaseFragment
 import com.rygital.moneytracker.ui.dashboard.DashboardFragment
@@ -16,14 +20,18 @@ import javax.inject.Inject
 class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
 
     companion object {
-        const val SETTINGS_TRANSACTION: String = "settings_transaction"
-        const val ABOUT_TRANSACTION: String = "about_transaction"
-        const val ADD_TRANSACTION_TRANSACTION: String = "add_transaction_transaction"
+        const val SETTINGS_TRANSACTION = "settings_transaction"
+        const val ABOUT_TRANSACTION = "about_transaction"
+        const val ADD_TRANSACTION_TRANSACTION = "add_transaction_transaction"
+        const val ACCOUNT_TRANSACTION = "account_transaction"
+        const val ADD_ACCOUNT_TRANSACTION = "add_account_transaction"
+
     }
 
     @Inject @JvmSuppressWildcards lateinit var presenter: Home.Presenter<Home.View>
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         (App.instance?.componentsHolder?.getComponent(javaClass) as HomeActivityComponent)
                 .inject(this)
@@ -34,6 +42,9 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
         init()
 
         if (savedInstanceState == null)
+            if(resources.getBoolean(R.bool.isTwoPaneMode)) {
+                presenter.openAccountFragment(0)
+            }
             presenter.openDashboardFragment()
     }
 
@@ -51,27 +62,51 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
         supportFragmentManager
                 .beginTransaction()
                 .disallowAddToBackStack()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
                 .replace(R.id.container, DashboardFragment(), DashboardFragment.TAG)
                 .commit()
     }
 
     override fun showSettingsFragment() {
-        changeFragment(SettingsFragment(), SettingsFragment.TAG, SETTINGS_TRANSACTION)
+        changeFragment(SettingsFragment(), R.id.container, SettingsFragment.TAG,
+                SETTINGS_TRANSACTION, FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
     }
 
     override fun showAboutFragment() {
-        changeFragment(AboutFragment(), AboutFragment.TAG, ABOUT_TRANSACTION)
+        changeFragment(AboutFragment(), R.id.container, AboutFragment.TAG,
+                ABOUT_TRANSACTION, FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
     }
 
-    override fun showAddTransactionFragment(accountId: Int) {
+    override fun showAddTransactionFragment(accountId: Int?, transaction: DetailedTransaction?) {
         Timber.i("transaction fragment")
-        changeFragment(AddTransactionFragment.newInstance(accountId), AddTransactionFragment.TAG, ADD_TRANSACTION_TRANSACTION)
+        changeFragment(AddTransactionFragment.newInstance(accountId, transaction), R.id.container,
+                AddTransactionFragment.TAG, ADD_TRANSACTION_TRANSACTION, FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
     }
 
-    private fun changeFragment(fragment: BaseFragment, tag: String, transactionName: String) {
+    override fun showAccountFragment(accountId: Int) {
+        if (resources.getBoolean(R.bool.isTwoPaneMode)) {
+            supportFragmentManager
+                    .beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+                    .replace(R.id.container_right, AccountFragment.newInstance(accountId), AccountFragment.TAG)
+                    .commit()
+        } else {
+            changeFragment(AccountFragment.newInstance(accountId), R.id.container,
+                    AccountFragment.TAG, ACCOUNT_TRANSACTION, FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        }
+    }
+
+    override fun showAddAccountFragment() {
+        changeFragment(AddAccountFragment(), R.id.container, AddAccountFragment.TAG,
+                ADD_ACCOUNT_TRANSACTION, FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+    }
+
+    private fun changeFragment(fragment: BaseFragment, containerId: Int, tag: String,
+                               transactionName: String, transition: Int) {
         supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.container, fragment, tag)
+                .setTransition(transition)
+                .replace(containerId, fragment, tag)
                 .addToBackStack(transactionName)
                 .commit()
     }
@@ -84,8 +119,16 @@ class HomeActivity: BaseActivity(), Home.View, OnMenuClickListener {
         presenter.openSettingsFragment()
     }
 
-    override fun openAddTransactionScreen(accountId: Int) {
-        presenter.openAddTransactionFragment(accountId)
+    override fun openAddTransactionScreen(accountId: Int?, transaction: DetailedTransaction?) {
+        presenter.openAddTransactionFragment(accountId, transaction)
+    }
+
+    override fun openAccountScreen(accountId: Int) {
+        presenter.openAccountFragment(accountId)
+    }
+
+    override fun openAddAccountScreen() {
+        presenter.openAddAccountFragment()
     }
 
     override fun navigateBack() {
